@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <math.h>
 
 // user headers
 #include "Communication.h"
@@ -31,5 +32,9 @@
 //Absolute coordinates
 int x_pos;
 int y_pos;
+
+//Naive approach for creating a simple map of known nodes
+//offset of MAZE_WIDTH + 1 to make sure we have enough space for every start point
+int matrix[2*MAZE_WIDTH + 2][2*MAZE_HEIGHT + 2];
 
 #endif /* CONFIGURATION_H_ */

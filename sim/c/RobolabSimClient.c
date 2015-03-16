@@ -11,8 +11,24 @@ int main(void) {
 	printf("Intersection: %0x\n", Robot_GetIntersections());*/
 	x_pos = 0;
 	y_pos = 0;
+
 	init_sim_rnd();
-	printf("Intersection: %0x\n", Robot_GetIntersections());
-	printf("%0x\n", move_d(SOUTH));
+
+	//randomly searching for all nodes - highly wasteful
+	int i = 0;
+	while (i < 100000){
+		discover();
+		print_matrix();
+		srand(time(NULL) + rand()); //more random is more random
+		int r, d = 8;
+		for (r = rand() % 4; r >= 0; r--){
+			d = d * 2; //yields directions (16,32,64,128) - really!
+		}
+		if (direction_detect(Robot_GetIntersections(),d)){
+			move_d(d);
+		}
+		i++;
+	}
+
 	return EXIT_SUCCESS;
 }

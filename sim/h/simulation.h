@@ -10,5 +10,10 @@ void init_sim_rnd();
 
 int move_d(int direction);
 
+void discover();
+
+int direction_detect(int given_intersection, int wanted_direction);
+
+void print_matrix();
 
 #endif /* SIMULATION_H_ */
