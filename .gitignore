@@ -47,8 +47,10 @@ local.properties
 
 # Latex data
 *.aux
-*.dvi
 *.log
 *.gz
 *.toc
+*.snm
+*.out
+*.nav
 build/
