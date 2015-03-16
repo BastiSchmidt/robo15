@@ -28,4 +28,8 @@
 #define MAZE_WIDTH 6
 #define MAZE_HEIGHT 6
 
+//Absolute coordinates
+int x_pos;
+int y_pos;
+
 #endif /* CONFIGURATION_H_ */

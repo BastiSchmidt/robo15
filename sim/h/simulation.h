@@ -8,4 +8,7 @@
 
 void init_sim_rnd();
 
+int move_d(int direction);
+
+
 #endif /* SIMULATION_H_ */
