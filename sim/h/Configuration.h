@@ -12,6 +12,7 @@
 #include "Communication.h"
 #include "Urlcode.h"
 #include "RobotProxy.h"
+#include "simulation.h"
 
 // define server config here
 #define IP "localhost"
