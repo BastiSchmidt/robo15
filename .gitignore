@@ -4,6 +4,9 @@ sim/Debug
 sim/.project
 sim/.settings
 
+.idea
+CMakeLists.txt
+
 *.pydevproject
 .metadata
 .gradle
