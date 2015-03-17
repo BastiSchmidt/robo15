@@ -1,22 +1,28 @@
 #include "../h/algorithm.h"
 
 int dfs() {
+    int last_d;
+    int new_way_found = 0;
     int tokencount = 0;
+
     while (tokencount < TOKEN_AIM) {
         discover();
         matrix[y_pos + MAZE_HEIGHT][x_pos + MAZE_WIDTH][2] = true;
         int i, d = 8;
         for (i = 0; i < 4; i++) {
             d = d * 2;
-            if (direction_detect(matrix[y_pos + MAZE_HEIGHT][x_pos +
-                    MAZE_WIDTH][0], d) && (!node_visited(d))) {
+            if (direction_detect(scan(), d) && (!node_visited(d)) ) {
                 turn_d(d);
+                if (go_straight() == ROBOT_TOKENFOUND){
+                    tokencount += 1;
+                }
+                new_way_found = true;
                 break;
             }
+
+        last_d = d;
         }
-        if (go_straight() == ROBOT_TOKENFOUND){
-            tokencount += 1;
-        }
+        print_matrix(2);
     }
 }
 
@@ -87,14 +93,14 @@ int turn_d(int direction){
 }
 
 //outputs matrix to stdout, Attention: mirrored at y-axis!
-void print_matrix(){
+void print_matrix(int layer){
     int i, j;
     for(i = 2 * MAZE_WIDTH + 1; i >= 0 ; i--){
         for(j = 0; j < 2* MAZE_WIDTH + 2; j++) {
-            if (matrix[i][j][0] == 0) {
+            if (matrix[i][j][layer] == 0) {
                 printf("   ");
             } else {
-                printf("%02x ", matrix[i][j][0]);
+                printf("%02x ", matrix[i][j][layer]);
             }
         }
         printf("\n");

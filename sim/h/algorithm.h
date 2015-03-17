@@ -13,6 +13,6 @@ int node_visited(int direction);
 
 int turn_d(int direction);
 
-void print_matrix();
+void print_matrix(int layer);
 
 #endif //_ROBO15_ALGORITHM_H_
