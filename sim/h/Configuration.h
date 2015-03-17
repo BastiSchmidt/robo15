@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 
 // user headers
 #include "Communication.h"

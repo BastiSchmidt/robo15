@@ -1,6 +1,14 @@
 #include "../h/Configuration.h"
 
 int main(void) {
+	time_t rawtime;
+	struct tm * timeinfo;
+
+	time (&rawtime);
+	timeinfo = localtime (&rawtime);
+	printf("Version %02d%02d%02d\n", timeinfo->tm_mday, timeinfo->tm_hour,
+			timeinfo->tm_min);
+
 /*	//example code...
  	printf("Token: %d\n", Robot_Move(0, 0));
 	printf("Intersection: %d\n", Robot_GetIntersections());
