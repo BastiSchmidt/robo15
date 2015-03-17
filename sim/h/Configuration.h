@@ -15,7 +15,7 @@
 #include "Urlcode.h"
 #include "RobotProxy.h"
 #include "simulation.h"
-//#include "algorithm.h"
+#include "algorithm.h"
 
 // define server config here
 #define IP "localhost"

@@ -13,10 +13,6 @@ int go_straight();
 
 int move_d(int direction);
 
-void discover();
-
-int direction_detect(int given_intersection, int wanted_direction);
-
-void print_matrix();
+int scan();
 
 #endif /* SIMULATION_H_ */
