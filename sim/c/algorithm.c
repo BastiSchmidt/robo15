@@ -1,5 +1,25 @@
 #include "../h/algorithm.h"
 
+int dfs() {
+    int tokencount = 0;
+    while (tokencount < TOKEN_AIM) {
+        discover();
+        matrix[y_pos + MAZE_HEIGHT][x_pos + MAZE_WIDTH][2] = true;
+        int i, d = 8;
+        for (i = 0; i < 4; i++) {
+            d = d * 2;
+            if (direction_detect(matrix[y_pos + MAZE_HEIGHT][x_pos +
+                    MAZE_WIDTH][0], d) && (!node_visited(d))) {
+                turn_d(d);
+                break;
+            }
+        }
+        if (go_straight() == ROBOT_TOKENFOUND){
+            tokencount += 1;
+        }
+    }
+}
+
 
 //Discover surrounding connected nodes
 void discover(){
@@ -38,6 +58,32 @@ int direction_detect(int given_intersection, int wanted_direction) {
     }
 
     return 0;
+}
+
+int node_visited(int direction){
+    int x = x_pos;
+    int y = y_pos;
+
+    switch (direction){
+        case NORTH: y += 1;
+            break;
+        case EAST: x += 1;
+            break;
+        case SOUTH: y -= 1;
+            break;
+        case WEST: x -= 1;
+            break;
+    }
+
+    return matrix[y + MAZE_HEIGHT][x + MAZE_WIDTH][2];
+}
+
+//turn bot in a specific direction
+int turn_d(int direction){
+    while (orientation != direction){
+        turn_left();
+    }
+    return ROBOT_SUCCESS;
 }
 
 //outputs matrix to stdout, Attention: mirrored at y-axis!

@@ -31,6 +31,8 @@
 #define MAZE_WIDTH 6
 #define MAZE_HEIGHT 6
 
+#define TOKEN_AIM 3
+
 //Absolute coordinates
 int x_pos;
 int y_pos;

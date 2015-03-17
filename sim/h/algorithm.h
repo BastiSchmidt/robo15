@@ -3,9 +3,15 @@
 
 #include "Configuration.h"
 
+int dfs();
+
 void discover();
 
 int direction_detect(int given_intersection, int wanted_direction);
+
+int node_visited(int direction);
+
+int turn_d(int direction);
 
 void print_matrix();
 

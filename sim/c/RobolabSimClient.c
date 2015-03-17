@@ -23,9 +23,9 @@ int main(void) {
 	orientation = SOUTH;
 
 	init_sim_rnd();
-
+	dfs();
 	//randomly searching for all nodes - highly wasteful
-	int i = 0;
+	/*int i = 0;
 	while (i < 100000){
 		discover();
 		print_matrix();
@@ -36,14 +36,11 @@ int main(void) {
 			d = d * 2; //yields directions (16,32,64,128) - really!
 		}
 		if (direction_detect(Robot_GetIntersections(),d)){
-			while (orientation != d){
-				turn_left();
-			}
+			turn_d(d);
 			go_straight();
-			;
 		}
 		i++;
 	}
-
+*/
 	return EXIT_SUCCESS;
 }
