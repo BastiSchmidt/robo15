@@ -4,7 +4,7 @@
 //Discover surrounding connected nodes
 void discover(){
     //save readings in matrix
-    matrix[y_pos + MAZE_HEIGHT][x_pos + MAZE_WIDTH] =
+    matrix[y_pos + MAZE_HEIGHT][x_pos + MAZE_WIDTH][0] =
             scan();
 }
 
@@ -45,10 +45,10 @@ void print_matrix(){
     int i, j;
     for(i = 2 * MAZE_WIDTH + 1; i >= 0 ; i--){
         for(j = 0; j < 2* MAZE_WIDTH + 2; j++) {
-            if (matrix[i][j] == 0) {
+            if (matrix[i][j][0] == 0) {
                 printf("   ");
             } else {
-                printf("%02x ", matrix[i][j]);
+                printf("%02x ", matrix[i][j][0]);
             }
         }
         printf("\n");

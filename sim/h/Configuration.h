@@ -40,6 +40,8 @@ int orientation;
 
 //Naive approach for creating a simple map of known nodes
 //offset of MAZE_WIDTH + 1 to make sure we have enough space for every start point
-int matrix[2*MAZE_WIDTH + 2][2*MAZE_HEIGHT + 2];
+//4 layers to save available directions, visited directions and flags for dfs
+// and bfs
+int matrix[2*MAZE_WIDTH + 2][2*MAZE_HEIGHT + 2][4];
 
 #endif /* CONFIGURATION_H_ */
