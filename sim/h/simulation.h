@@ -3,8 +3,13 @@
 
 #include "Configuration.h"
 
-
 void init_sim_rnd();
+
+int turn_left();
+
+int turn_right();
+
+int go_straight();
 
 int move_d(int direction);
 

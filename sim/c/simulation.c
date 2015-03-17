@@ -17,8 +17,51 @@ void init_sim_rnd() {
     } else {
         x_pos = r; //Update position on successful placement
         y_pos = 0;
+
+        orientation = 8;
+        for (r = rand() % 4; r >= 0; r--){
+            orientation = orientation * 2; //yields random direction
+        }
     }
 }
+
+int turn_left(){
+    switch (orientation){
+        case NORTH: orientation = WEST;
+            break;
+        case EAST: orientation = NORTH;
+            break;
+        case SOUTH: orientation = EAST;
+            break;
+        case WEST: orientation = SOUTH;
+            break;
+        default:
+            return ROBOT_FAIL;
+    }
+    return ROBOT_SUCCESS;
+}
+
+int turn_right(){
+    switch (orientation){
+        case NORTH: orientation = EAST;
+            break;
+        case EAST: orientation = SOUTH;
+            break;
+        case SOUTH: orientation = WEST;
+            break;
+        case WEST: orientation = NORTH;
+            break;
+        default:
+            return ROBOT_FAIL;
+    }
+    return ROBOT_SUCCESS;
+}
+
+//go forward in current orientation, regardless of edge or no edge present
+int go_straight(){
+    return move_d(orientation);
+}
+
 
 //Move in a given direction, no detection/abort in case of missing edge!
 int move_d(int direction){

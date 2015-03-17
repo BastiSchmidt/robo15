@@ -15,6 +15,7 @@
 #include "Urlcode.h"
 #include "RobotProxy.h"
 #include "simulation.h"
+//#include "algorithm.h"
 
 // define server config here
 #define IP "localhost"
@@ -33,6 +34,9 @@
 //Absolute coordinates
 int x_pos;
 int y_pos;
+
+//Current orientation of bot
+int orientation;
 
 //Naive approach for creating a simple map of known nodes
 //offset of MAZE_WIDTH + 1 to make sure we have enough space for every start point

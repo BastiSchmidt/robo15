@@ -1,9 +1,10 @@
 #include "../h/Configuration.h"
 
 int main(void) {
+
+	//get current date to create new version number
 	time_t rawtime;
 	struct tm * timeinfo;
-
 	time (&rawtime);
 	timeinfo = localtime (&rawtime);
 	printf("Version %02d%02d%02d\n", timeinfo->tm_mday, timeinfo->tm_hour,
@@ -19,6 +20,7 @@ int main(void) {
 	printf("Intersection: %0x\n", Robot_GetIntersections());*/
 	x_pos = 0;
 	y_pos = 0;
+	orientation = SOUTH;
 
 	init_sim_rnd();
 
@@ -27,13 +29,18 @@ int main(void) {
 	while (i < 100000){
 		discover();
 		print_matrix();
+		printf("Current orientation: %0x\n", orientation);
 		srand(time(NULL) + rand()); //more random is more random
 		int r, d = 8;
 		for (r = rand() % 4; r >= 0; r--){
 			d = d * 2; //yields directions (16,32,64,128) - really!
 		}
 		if (direction_detect(Robot_GetIntersections(),d)){
-			move_d(d);
+			while (orientation != d){
+				turn_left();
+			}
+			go_straight();
+			;
 		}
 		i++;
 	}
