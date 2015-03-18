@@ -33,9 +33,7 @@
 
 #define TOKEN_AIM 3
 
-//Absolute coordinates
-int x_pos;
-int y_pos;
+struct coord current_position; //global current position of bot
 
 //Current orientation of bot
 int orientation;
@@ -45,5 +43,7 @@ int orientation;
 //4 layers to save available directions, visited directions and flags for dfs
 // and bfs
 int matrix[2*MAZE_WIDTH + 2][2*MAZE_HEIGHT + 2][4];
+
+
 
 #endif /* CONFIGURATION_H_ */

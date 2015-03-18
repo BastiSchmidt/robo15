@@ -7,7 +7,8 @@ int dfs() {
 
     while (tokencount < TOKEN_AIM) {
         discover();
-        matrix[y_pos + MAZE_HEIGHT][x_pos + MAZE_WIDTH][2] = true;
+        matrix[current_position.y + MAZE_HEIGHT][current_position.x +
+                MAZE_WIDTH][2] = true;
         int i, d = 8;
         for (i = 0; i < 4; i++) {
             d = d * 2;
@@ -30,7 +31,7 @@ int dfs() {
 //Discover surrounding connected nodes
 void discover(){
     //save readings in matrix
-    matrix[y_pos + MAZE_HEIGHT][x_pos + MAZE_WIDTH][0] =
+    matrix[current_position.y + MAZE_HEIGHT][current_position.x + MAZE_WIDTH][0] =
             scan();
 }
 
@@ -66,9 +67,11 @@ int direction_detect(int given_intersection, int wanted_direction) {
     return 0;
 }
 
+//returns if the node in a specific direction relative to the current position
+// has been visited already
 int node_visited(int direction){
-    int x = x_pos;
-    int y = y_pos;
+    int x = current_position.x;
+    int y = current_position.y;
 
     switch (direction){
         case NORTH: y += 1;

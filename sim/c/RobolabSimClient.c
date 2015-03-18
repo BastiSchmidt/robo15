@@ -18,17 +18,17 @@ int main(void) {
 	printf("Token: %d\n", Robot_Move(2, 0));
 	Robot_Move(3,-5);
 	printf("Intersection: %0x\n", Robot_GetIntersections());*/
-	x_pos = 0;
-	y_pos = 0;
+	current_position.x = 0;
+	current_position.y = 0;
 	orientation = SOUTH;
 
 	init_sim_rnd();
-	dfs();
+	//dfs();
 	//randomly searching for all nodes - highly wasteful
-	/*int i = 0;
-	while (i < 100000){
+	int i = 0;
+	while (i < 1){
 		discover();
-		print_matrix();
+		print_matrix(0);
 		printf("Current orientation: %0x\n", orientation);
 		srand(time(NULL) + rand()); //more random is more random
 		int r, d = 8;
@@ -41,6 +41,6 @@ int main(void) {
 		}
 		i++;
 	}
-*/
+
 	return EXIT_SUCCESS;
 }

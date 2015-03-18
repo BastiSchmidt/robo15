@@ -15,8 +15,8 @@ void init_sim_rnd() {
         init_sim_rnd(); //recursion is its own reward
         //TODO: abort conditions!
     } else {
-        x_pos = r; //Update position on successful placement
-        y_pos = 0;
+        current_position.x = r; //Update position on successful placement
+        current_position.y = 0;
 
         orientation = 8;
         for (r = rand() % 4; r >= 0; r--){
@@ -66,16 +66,16 @@ int go_straight(){
 //Move in a given direction, no detection/abort in case of missing edge!
 int move_d(int direction){
     switch (direction){
-        case NORTH: y_pos += 1;
+        case NORTH: current_position.y += 1;
             break;
-        case EAST: x_pos += 1;
+        case EAST: current_position.x += 1;
             break;
-        case SOUTH: y_pos -= 1;
+        case SOUTH: current_position.y -= 1;
             break;
-        case WEST: x_pos -= 1;
+        case WEST: current_position.x -= 1;
             break;
     }
-    return(Robot_Move(x_pos, y_pos));
+    return(Robot_Move(current_position.x, current_position.y));
 }
 
 //return intersection at current position
