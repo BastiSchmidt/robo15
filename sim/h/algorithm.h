@@ -11,9 +11,6 @@ typedef struct coord{
 
 struct coord current_position;
 
-//Current orientation of bot
-int orientation;
-
 typedef struct node *maze;
 typedef struct node{
     struct coord position;
@@ -24,10 +21,12 @@ typedef struct node{
     bool visited;
 } node;
 
-//Matrix of Pointers to nodes
-struct maze ptrmap[2*MAZE_HEIGHT + 2][2*MAZE_WIDTH + 2]
+struct node *current_node;
 
-int dfs();
+//Matrix of Pointers to nodes
+struct node *ptrmap[2 * 7 + 2][2 * 7 + 2]; //TODO: replace static size!
+
+void init();
 
 void discover();
 
@@ -37,6 +36,10 @@ int node_visited(int direction);
 
 int turn_d(int direction);
 
+struct node *create_node();
+
 void print_matrix(int layer);
+
+void print_ptrmap();
 
 #endif //_ROBO15_ALGORITHM_H_

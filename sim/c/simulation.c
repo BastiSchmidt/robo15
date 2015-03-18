@@ -59,6 +59,16 @@ int turn_right(){
 
 //go forward in current orientation, regardless of edge or no edge present
 int go_straight(){
+    switch (orientation){
+        case NORTH: current_node = current_node->north;
+            break;
+        case EAST: current_node = current_node->east;
+            break;
+        case SOUTH: current_node = current_node->south;
+            break;
+        case WEST: current_node = current_node->west;
+            break;
+    }
     return move_d(orientation);
 }
 

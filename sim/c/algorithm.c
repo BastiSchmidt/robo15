@@ -1,38 +1,72 @@
 #include "../h/algorithm.h"
 
-int dfs() {
-    int last_d;
-    int new_way_found = 0;
-    int tokencount = 0;
-
-    while (tokencount < TOKEN_AIM) {
-        discover();
-        matrix[current_position.y + MAZE_HEIGHT][current_position.x +
-                MAZE_WIDTH][2] = true;
-        int i, d = 8;
-        for (i = 0; i < 4; i++) {
-            d = d * 2;
-            if (direction_detect(scan(), d) && (!node_visited(d)) ) {
-                turn_d(d);
-                if (go_straight() == ROBOT_TOKENFOUND){
-                    tokencount += 1;
-                }
-                new_way_found = true;
-                break;
-            }
-
-        last_d = d;
+void init(){
+    int i, j;
+    for(i = 0; i < 2 * MAZE_HEIGHT + 2; i++){
+        for(j = 0; j < 2* MAZE_WIDTH + 2; j++) {
+            ptrmap[i][j] = NULL;
         }
-        print_matrix(2);
     }
+    current_node = create_node();
+    ptrmap[current_position.x + MAZE_WIDTH][current_position.y + MAZE_HEIGHT] =
+            current_node;
 }
-
 
 //Discover surrounding connected nodes
 void discover(){
     //save readings in matrix
     matrix[current_position.y + MAZE_HEIGHT][current_position.x + MAZE_WIDTH][0] =
             scan();
+
+    if (!current_node->visited){
+        int new_intersection = 0;
+        new_intersection = scan();
+
+        if (direction_detect(new_intersection,NORTH)
+                && (ptrmap[current_position.x + MAZE_WIDTH]
+                [current_position.y + 1 + MAZE_HEIGHT] == NULL) ){
+            maze northern_node = create_node();
+            printf("Adding northern node...\n");
+            current_node->north = northern_node;
+            northern_node->south = current_node;
+            ptrmap[current_position.x + MAZE_WIDTH]
+                    [current_position.y + 1 + MAZE_HEIGHT] = northern_node;
+        }
+
+        if (direction_detect(new_intersection,EAST)
+                && (ptrmap[current_position.x + 1 + MAZE_WIDTH]
+                [current_position.y + MAZE_HEIGHT] == NULL)){
+            maze eastern_node = create_node();
+            printf("Adding eastern node...\n");
+            current_node->east = eastern_node;
+            eastern_node->west = current_node;
+            ptrmap[current_position.x + 1 + MAZE_WIDTH]
+                    [current_position.y + MAZE_HEIGHT] = eastern_node;
+        }
+
+        if (direction_detect(new_intersection,SOUTH)
+                && (ptrmap[current_position.x + MAZE_WIDTH]
+                [current_position.y - 1 + MAZE_HEIGHT] == NULL)){
+            maze southern_node = create_node();
+            printf("Adding southern node...\n");
+            current_node->south = southern_node;
+            southern_node->north = current_node;
+            ptrmap[current_position.x + MAZE_WIDTH]
+                    [current_position.y - 1 + MAZE_HEIGHT] = southern_node;
+        }
+
+        if (direction_detect(new_intersection,WEST)
+                && (ptrmap[current_position.x - 1 + MAZE_WIDTH]
+                [current_position.y + MAZE_HEIGHT] == NULL)){
+            maze western_node = create_node();
+            printf("Adding western node...\n");
+            current_node->west = western_node;
+            western_node->east = current_node;
+            ptrmap[current_position.x - 1 + MAZE_WIDTH]
+                    [current_position.y + MAZE_HEIGHT] = western_node;
+        }
+    }
+    current_node->visited = true;
 }
 
 //Returns 1 if the wanted cardinal direction is available at a intersection,
@@ -95,6 +129,21 @@ int turn_d(int direction){
     return ROBOT_SUCCESS;
 }
 
+struct node *create_node(){
+    printf("Adding new node...\n");
+    struct node *new_node;
+    new_node = malloc(sizeof(struct node));
+    printf("Added new node!\n");
+    new_node->visited = 0;
+    new_node->north = NULL;
+    new_node->east = NULL;
+    new_node->west = NULL;
+    new_node->south = NULL;
+    new_node->position.x = 0;
+    new_node->position.y = 0;
+    return new_node;
+}
+
 //outputs matrix to stdout, Attention: mirrored at y-axis!
 void print_matrix(int layer){
     int i, j;
@@ -104,6 +153,20 @@ void print_matrix(int layer){
                 printf("   ");
             } else {
                 printf("%02x ", matrix[i][j][layer]);
+            }
+        }
+        printf("\n");
+    }
+}
+
+void print_ptrmap(){
+    int i, j;
+    for(i = 0; i < 2 * MAZE_HEIGHT + 2; i++){
+        for(j = 0; j < 2* MAZE_WIDTH + 2; j++) {
+            if (ptrmap[i][j] != NULL) {
+                printf(" 1");
+            } else {
+                printf(" 0");
             }
         }
         printf("\n");
