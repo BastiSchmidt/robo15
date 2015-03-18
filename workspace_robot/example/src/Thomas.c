@@ -213,6 +213,9 @@ int steps_right(int steps, int steplenght)
 
 
 void checkline(int SCHWARZ)
+
+/// TODO Schleifen entfernen, damit Knoten erkannt werden können
+/// erst jedoch sensor weiter nach vorne sezten
 {
 	int i,j;
 	int waittime = 5;

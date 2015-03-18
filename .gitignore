@@ -4,6 +4,9 @@ sim/Debug
 sim/.project
 sim/.settings
 
+workspace_robot/example/kernel_cfg.c
+workspace_robot/example/kernel_id.h
+
 .idea
 CMakeLists.txt
 
