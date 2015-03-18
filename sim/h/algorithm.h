@@ -14,10 +14,7 @@ struct coord current_position;
 typedef struct node *maze;
 typedef struct node{
     struct coord position;
-    maze north;
-    maze south;
-    maze east;
-    maze west;
+    maze compass[4];
     bool visited;
 } node;
 
@@ -28,8 +25,8 @@ struct node *current_node;
 typedef struct element *list;
 typedef struct element{
     struct coord node_position;
-    struct element *next;
-};
+    list next;
+} element;
 
 void list_append(struct element **start, struct coord discovered);
 
@@ -52,6 +49,8 @@ int turn_d(int direction);
 struct node *create_node();
 
 struct coord bfs_closest_unvisited_node();
+
+struct coord shift_coordinates(struct coord old, int direction);
 
 void print_matrix(int layer);
 
