@@ -7,6 +7,12 @@ sim/.settings
 .idea
 CMakeLists.txt
 
+workspace_robot/simulation
+*.oil
+*.sh
+*Makefile
+*kernel*
+
 *.pydevproject
 .metadata
 .gradle

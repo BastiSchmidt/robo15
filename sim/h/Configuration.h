@@ -33,7 +33,8 @@
 
 #define TOKEN_AIM 3
 
-
+//Current orientation of bot
+int orientation;
 
 //Naive approach for creating a simple map of known nodes
 //offset of MAZE_WIDTH + 1 to make sure we have enough space for every start point
