@@ -166,41 +166,149 @@ void step_right(int time)
 	nxt_motor_set_speed(NXT_PORT_C,0,0);
 	nxt_motor_set_speed(NXT_PORT_B,0,0);
 }
+int FindLine(int old_Light);
 int steps_left(int steps, int steplenght)
 {
-	int i;
+	int i,a,Light;
 	for (i=0;i<steps;i++)
 	{
-		int Light = ecrobot_get_light_sensor(NXT_PORT_S3);
-		if (Light>500)
-		{
-			return 1;  /// Roboter hat eine Schwarze Linie gefunden ---> brich drehen ab!!
-		}
+		Light = ecrobot_get_light_sensor(NXT_PORT_S3);
 		drehen_grad_l(steplenght);
+		a = FindLine(Light);
+		if (a==1)
+		{
+			return 1; /// Roboter hat die Schwarze Linie gefunden
+		}
+		if (FindLine(Light)==1)
+		{
+			/// genauere Suche??? Später TODO
+		}
 
 
 	}
 	return 0;  /// Roboter hat keine Schwarze Linie gefunden
 }
-void checkline()
+
+int steps_right(int steps, int steplenght)
 {
-	int Line = 0;
-	while (Line!=1)  /// Wiederhole, solange Schwarze Linie nicht gefunden
+	int i,a,Light;
+	for (i=0;i<steps;i++)
 	{
-		Line = steps_left(5,5); /// Drehe links
+		Light = ecrobot_get_light_sensor(NXT_PORT_S3);
+		drehen_grad_r(steplenght);
+		a = FindLine(Light);
+		if (a==1)
+		{
+			return 1; /// Roboter hat die Schwarze Linie gefunden
+		}
+		if (FindLine(Light)==1)
+				{
+					/// genauere Suche??? Später TODO
+				}
+
+
+	}
+	return 0;  /// Roboter hat keine Schwarze Linie gefunden
+}
+
+
+void checkline(int SCHWARZ)
+{
+	int i,j;
+	int waittime = 5;
+	int drehung = 10;
+	int Anzahl = 3;
+	i=0;
+	j=1;
+	while (1)
+	{
+
+		for (i=0;i<Anzahl*j;i++)
+				{
+					if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
+					{
+//						ecrobot_sound_tone(1000, 500, 10);
+						return;
+					}
+					drehen_grad_r(drehung);
+					systick_wait_ms(waittime);
+				}
+		for (i=0;i<Anzahl*j;i++)
+		{
+
+			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
+			{
+//				ecrobot_sound_tone(1000, 500, 10);
+				return;
+			}
+			drehen_grad_l(drehung);
+			systick_wait_ms(waittime);
+		}
+		for (i=0;i<Anzahl*j;i++)
+		{
+			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
+			{
+//				ecrobot_sound_tone(1000, 500, 10);
+				return;
+			}
+			drehen_grad_l(drehung);
+			systick_wait_ms(waittime);
+		}
+		for (i=0;i<Anzahl*j;i++)
+		{
+			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
+			{
+//				ecrobot_sound_tone(1000, 500, 10);
+				return;
+			}
+			drehen_grad_r(drehung);
+			systick_wait_ms(waittime);
+		}
+		j++;
 	}
 }
 
-<<<<<<< HEAD
-=======
-//void drive()
-//{
-//	nxt_motor_set_speed(NXT_PORT_B,100,0);
-//	nxt_motor_set_speed(NXT_PORT_C,100,0);
-//	systick_wait_ms(50);
-//	nxt_motor_set_speed(NXT_PORT_B,0,0);
-//	nxt_motor_set_speed(NXT_PORT_C,0,0);
-//}
+int FindLine(int old_Light)  /// returns 0 if nothing happens -1, if black-->white, 1 if white -> black
+{
+//	ecrobot_sound_tone(1000, 2000, 10);
+	systick_wait_ms(500);
+	int new_Light = ecrobot_get_light_sensor(NXT_PORT_S3);
+	int Diff = new_Light - old_Light;
+	if (abs(Diff) > 50)
+	{
+
+		if (Diff>0)  /// Dunkel auf Hell
+		{
+//			systick_wait_ms(1050);
+//			ecrobot_sound_tone(1000, 1000, 10);
+//			systick_wait_ms(1050);
+			return -1;
+
+		}
+		else  /// Hell auf Dunkel
+		{
+
+//			systick_wait_ms(1050);
+//			ecrobot_sound_tone(1000, 1000, 10);
+//			systick_wait_ms(1050);
+//			ecrobot_sound_tone(1000, 1000, 10);
+//			systick_wait_ms(1050);
+			return 1;
+
+		}
+
+
+	}
+//	systick_wait_ms(1050);
+//	ecrobot_sound_tone(1000, 1000, 10);
+//	systick_wait_ms(1050);
+//	ecrobot_sound_tone(1000, 1000, 10);
+//	systick_wait_ms(1050);
+//	ecrobot_sound_tone(1000, 1000, 10);
+//	systick_wait_ms(1050);
+	return 0;
+}
+
 int sgn(float x)
 {
 	if(x>=0)
@@ -251,31 +359,31 @@ void drive_cm(float cm)
 }
 
 
-void scanNode(int orientation)
-{
+//void scanNode(int orientation)
+//{
+//
+//
+//				 // erstens: finden des der gegenüberliegenden Linie.
+//	             // dann 1cm weiterfahren, um weitere abgehende Linien zu finden
+//	drive_cm(1);
+//	drehen_grad_l(10);//erst mal 10 grad drehen für anfang
+//	// jetzt drehen und linien suchen:
+//	// drehen um 80 grad, 15 grad gucken, etc.
+//	//drehen_grad_l(90);
+//	for(int i =1; i<4;i++)
+//	{
+//		int Winkel = 0; //Zählt winkel mit
+//		drehen_grad_l(70);
+//		while(Winkel < 20) //winkel
+//		{
+//			drehen_grad_l(2);
+//			Winkel +=2;
+//			if(ecrobot_get_light_sensor(NXT_PORT_S3)<500)
+//		}
+//	}
+//
+//	int light = ecrobot_get_light_sensor(NXT_PORT_S3);
 
 
-				 // erstens: finden des der gegenüberliegenden Linie.
-	             // dann 1cm weiterfahren, um weitere abgehende Linien zu finden
-	drive_cm(1);
-	drehen_grad_l(10);//erst mal 10 grad drehen für anfang
-	// jetzt drehen und linien suchen:
-	// drehen um 80 grad, 15 grad gucken, etc.
-	//drehen_grad_l(90);
-	for(int i =1; i<4;i++)
-	{
-		int Winkel = 0; //Zählt winkel mit
-		drehen_grad_l(70)
-		while(Winkel < 20) //winkel
-		{
-			drehen_grad_l(2);
-			Winkel +=2;
-			if(ecrobot_get_light_sensor(NXT_PORT_S3)<500)
-		}
-	}
-
-	int light = ecrobot_get_light_sensor(NXT_PORT_S3);
 
 
-}
->>>>>>> origin/master
