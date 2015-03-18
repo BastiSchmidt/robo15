@@ -3,6 +3,16 @@
 
 #include "Configuration.h"
 
+typedef struct node *maze;
+typedef struct node{
+    struct coord position;
+    maze north;
+    maze south;
+    maze east;
+    maze west;
+    bool visited;
+} node;
+
 int dfs();
 
 void discover();

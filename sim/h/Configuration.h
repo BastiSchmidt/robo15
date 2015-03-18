@@ -46,4 +46,7 @@ int orientation;
 // and bfs
 int matrix[2*MAZE_WIDTH + 2][2*MAZE_HEIGHT + 2][4];
 
+//Matrix of pointers to nodes
+
+
 #endif /* CONFIGURATION_H_ */
