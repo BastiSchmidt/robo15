@@ -25,24 +25,26 @@ int main(void) {
 	init_sim_rnd();
 
 	init();
-	//dfs();
+
 	//randomly searching for all nodes - highly wasteful
-	int i = 0;
+	int i = 0, r, d;
 	while (i < 1000){
 		discover();
 		//print_matrix(0);
 		print_ptrmap();
 		printf("%d\n", i);
 		printf("Current orientation: %0x\n", orientation);
-		srand(time(NULL) + rand()); //more random is more random
-		int r, d = 8;
-		for (r = rand() % 4; r >= 0; r--){
-			d = d * 2; //yields directions (16,32,64,128) - really!
-		}
-		if (direction_detect(scan(),d)){
-			turn_d(d);
-			go_straight();
-		}
+
+		do {
+			d = 8;
+			srand(time(NULL) + rand()); //more random is more random
+			for (r = rand() % 4; r >= 0; r--){
+				d = d * 2; //yields directions (16,32,64,128) - really!
+			}
+		} while (!direction_detect(scan(), d));
+
+		turn_d(d);
+		go_straight();
 		i++;
 	}
 

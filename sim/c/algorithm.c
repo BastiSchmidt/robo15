@@ -12,23 +12,32 @@ void init(){
             current_node;
 }
 
-//Discover surrounding connected nodes
+//Discover surrounding connected nodes and create them in map
 void discover(){
-    //save readings in matrix
-    matrix[current_position.y + MAZE_HEIGHT][current_position.x + MAZE_WIDTH][0] =
-            scan();
 
     if (!current_node->visited){
         int new_intersection = 0;
         new_intersection = scan();
 
+        //legacy map
+        matrix[current_position.y + MAZE_HEIGHT][current_position.x + MAZE_WIDTH][0] =
+                new_intersection;
+
+        //go through all possible directions, look if there are undiscovered
+        // nodes nearby
         if (direction_detect(new_intersection,NORTH)
                 && (ptrmap[current_position.x + MAZE_WIDTH]
                 [current_position.y + 1 + MAZE_HEIGHT] == NULL) ){
             maze northern_node = create_node();
             printf("Adding northern node...\n");
+
+            //set up pointers of current and new node, fill in new nodes position
             current_node->north = northern_node;
             northern_node->south = current_node;
+            northern_node->position.x = current_position.x;
+            northern_node->position.y = current_position.y + 1;
+
+            //update ptrmap with new node
             ptrmap[current_position.x + MAZE_WIDTH]
                     [current_position.y + 1 + MAZE_HEIGHT] = northern_node;
         }
@@ -38,8 +47,12 @@ void discover(){
                 [current_position.y + MAZE_HEIGHT] == NULL)){
             maze eastern_node = create_node();
             printf("Adding eastern node...\n");
+
             current_node->east = eastern_node;
             eastern_node->west = current_node;
+            eastern_node->position.x = current_position.x + 1;
+            eastern_node->position.y = current_position.y;
+
             ptrmap[current_position.x + 1 + MAZE_WIDTH]
                     [current_position.y + MAZE_HEIGHT] = eastern_node;
         }
@@ -49,8 +62,12 @@ void discover(){
                 [current_position.y - 1 + MAZE_HEIGHT] == NULL)){
             maze southern_node = create_node();
             printf("Adding southern node...\n");
+
             current_node->south = southern_node;
             southern_node->north = current_node;
+            southern_node->position.x = current_position.x;
+            southern_node->position.y = current_position.y - 1;
+
             ptrmap[current_position.x + MAZE_WIDTH]
                     [current_position.y - 1 + MAZE_HEIGHT] = southern_node;
         }
@@ -60,13 +77,17 @@ void discover(){
                 [current_position.y + MAZE_HEIGHT] == NULL)){
             maze western_node = create_node();
             printf("Adding western node...\n");
+
             current_node->west = western_node;
             western_node->east = current_node;
+            western_node->position.x = current_position.x - 1;
+            western_node->position.y = current_position.y;
+
             ptrmap[current_position.x - 1 + MAZE_WIDTH]
                     [current_position.y + MAZE_HEIGHT] = western_node;
         }
+        current_node->visited = 1; //current node is explored
     }
-    current_node->visited = true;
 }
 
 //Returns 1 if the wanted cardinal direction is available at a intersection,
@@ -97,7 +118,6 @@ int direction_detect(int given_intersection, int wanted_direction) {
             ){
         return 1;
     }
-
     return 0;
 }
 
@@ -129,6 +149,7 @@ int turn_d(int direction){
     return ROBOT_SUCCESS;
 }
 
+//return pointer to new, empty node
 struct node *create_node(){
     printf("Adding new node...\n");
     struct node *new_node;
@@ -159,6 +180,7 @@ void print_matrix(int layer){
     }
 }
 
+//outputs ptrmap to stdout, 1's show present pointers
 void print_ptrmap(){
     int i, j;
     for(i = 0; i < 2 * MAZE_HEIGHT + 2; i++){
