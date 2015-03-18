@@ -46,7 +46,7 @@ void drehen_grad_r(int grad){
 void drehen_grad_l(int grad)
 {
 
-	float umdr = (grad * 8/3) - 5;// 1°drehen entspricht 2.66° Raddrehen, 10 grad weniger wg. Trägheit
+	float umdr = (grad * 8/3) ;// 1°drehen entspricht 2.66° Raddrehen, 10 grad weniger wg. Trägheit
 	int power = 75; //Prozentzahl für Motoren
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
@@ -54,7 +54,7 @@ void drehen_grad_l(int grad)
 	{
 		nxt_motor_set_speed(NXT_PORT_C , -power , 0);
 		nxt_motor_set_speed(NXT_PORT_B , power , 0);
-		wait_ms(60);
+		wait_ms(100);
 		nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 		nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 //		if(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat
@@ -113,26 +113,6 @@ void drehen()
 	}
 	wait_ms(6000);
 }
-/*erst: mitttig auf Knoten, dann:
- *
- * orientieren:???
- * dreht sich und gibt dann die knotenzahl für den Knoten aus.
- */
-void scanNode(int orientation)
-{
-
-}
-
-
-/* bisschen vorwärts fahren: DAS MIT DEM WARTEN MUSS ÜBERARBEITET WERDN!
-* Zu Tun:
-* Drehen, bis Umdrehungszahl erreicht ist.
-*
-* Fehlerbehandlung:
-* - wenn der nach soundso lange nicht dreht, prozentzahl höherstellen.
-* - Motoren sollen gleiche Umdrrehungen gemacht haben
-*/
-
 
 void drive(int umdr)
 {
@@ -219,3 +199,80 @@ void checkline()
 //	nxt_motor_set_speed(NXT_PORT_B,0,0);
 //	nxt_motor_set_speed(NXT_PORT_C,0,0);
 //}
+int sgn(float x)
+{
+	if(x>=0)
+	{
+		return 1;
+	}
+	else
+	{
+		return -1;
+	}
+
+}
+
+void drive_cm(float cm)
+{
+
+	float umdr =sgn(cm) *cm * 2000/97;
+	int power = sgn(cm)* 95; //Prozentzahl für Motoren
+	nxt_motor_set_count(NXT_PORT_B, 0);
+	nxt_motor_set_count(NXT_PORT_C, 0);
+	while(nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)//bis einer die Umdrehungen erreicht hat
+	{
+		nxt_motor_set_speed(NXT_PORT_C , power , 0);
+		nxt_motor_set_speed(NXT_PORT_B , power , 0);
+		wait_ms(100);
+		nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+		nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+//		if(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat
+//			                                                                 // und dann entsprehend angleichen
+//		{
+//			while(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
+//			{
+//				nxt_motor_set_speed(NXT_PORT_C , power , 0);
+//				wait_ms(20);
+//				nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+//			}
+//		}
+//		else
+//		{
+//			while(nxt_motor_get_count(NXT_PORT_C) > nxt_motor_get_count(NXT_PORT_B))
+//			{
+//				nxt_motor_set_speed(NXT_PORT_B , power , 0);
+//				wait_ms(100);
+//				nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+//			}
+//		}
+	}
+}
+
+
+void scanNode(int orientation)
+{
+
+
+				 // erstens: finden des der gegenüberliegenden Linie.
+	             // dann 1cm weiterfahren, um weitere abgehende Linien zu finden
+	drive_cm(1);
+	drehen_grad_l(10);//erst mal 10 grad drehen für anfang
+	// jetzt drehen und linien suchen:
+	// drehen um 80 grad, 15 grad gucken, etc.
+	//drehen_grad_l(90);
+	for(int i =1; i<4;i++)
+	{
+		int Winkel = 0; //Zählt winkel mit
+		drehen_grad_l(70)
+		while(Winkel < 20) //winkel
+		{
+			drehen_grad_l(2);
+			Winkel +=2;
+			if(ecrobot_get_light_sensor(NXT_PORT_S3)<500)
+		}
+	}
+
+	int light = ecrobot_get_light_sensor(NXT_PORT_S3);
+
+
+}
