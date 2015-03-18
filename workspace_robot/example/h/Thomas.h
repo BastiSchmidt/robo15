@@ -21,12 +21,14 @@ void drehen_grad_r(int grad);
 void drehen_grad_l(int grad);
 void drehen();
 void scanNode(int orientation);
+void drive_cm(float cm);
 void drive(int umdr);
 void step_left(int time);
 void step_right(int time);
 int steps_left(int steps, int steplenght);
 void checkline();
-
+int sgn(float x);
+void scanNode(int orientation);
 
 
 #endif /* H_THOMAS_H_ */
