@@ -33,8 +33,6 @@
 
 #define TOKEN_AIM 3
 
-struct coord current_position; //global current position of bot
-
 //Current orientation of bot
 int orientation;
 
