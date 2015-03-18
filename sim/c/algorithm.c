@@ -1,31 +1,5 @@
 #include "../h/algorithm.h"
 
-int dfs() {
-    int last_d;
-    int new_way_found = 0;
-    int tokencount = 0;
-
-    while (tokencount < TOKEN_AIM) {
-        discover();
-        matrix[current_position.y + MAZE_HEIGHT][current_position.x +
-                MAZE_WIDTH][2] = true;
-        int i, d = 8;
-        for (i = 0; i < 4; i++) {
-            d = d * 2;
-            if (direction_detect(scan(), d) && (!node_visited(d)) ) {
-                turn_d(d);
-                if (go_straight() == ROBOT_TOKENFOUND){
-                    tokencount += 1;
-                }
-                new_way_found = true;
-                break;
-            }
-
-        last_d = d;
-        }
-        print_matrix(2);
-    }
-}
 
 
 //Discover surrounding connected nodes
@@ -107,5 +81,58 @@ void print_matrix(int layer){
             }
         }
         printf("\n");
+    }
+}
+
+
+struct coord bfs_closest_unvisited_node() {
+    struct element *init;
+    init = NULL;
+    struct coord wanted;
+    int i = current_position.x;
+    int j = current_position.y;
+    while (true) {
+        if (ptrmap[i + MAZE_WIDTH][j + MAZE_HEIGHT]-> east != NULL && ptrmap[i + MAZE_WIDTH][j + MAZE_HEIGHT] -> east -> visited == 0) {
+            wanted.x = i + 1;
+            wanted.y = j;
+            return wanted; //dann returne die Koordinaten auf der ptrmap davon
+        }
+        if (ptrmap[i + MAZE_WIDTH][j + MAZE_HEIGHT]->south != NULL && ptrmap[i + MAZE_WIDTH][j + MAZE_HEIGHT]-> south -> visited == 0) {
+            wanted.x = i;
+            wanted.y = j -1;
+            return wanted;
+        }
+        if (ptrmap[i + MAZE_WIDTH][j + MAZE_HEIGHT]-> west != NULL && ptrmap[i + MAZE_WIDTH][j + MAZE_HEIGHT]-> west -> visited == 0) {
+            wanted.x = i - 1;
+            wanted.y = j;
+            return wanted;
+        }
+        if (ptrmap[i + MAZE_WIDTH][j + MAZE_HEIGHT]-> north != NULL && ptrmap[i + MAZE_WIDTH][j + MAZE_HEIGHT]-> north -> visited == 0) {
+            wanted.x = i;
+            wanted.y = j + 1;
+            return wanted;
+        }
+    }
+}
+
+
+void append(struct element **start, struct coord discovered) {
+
+    struct element *iter = *start;
+
+    if (*start == NULL) {
+        *start = malloc(sizeof(struct element));
+        *start->node_position = discovered;
+        *start->next = NULL;
+        return;
+    }
+    else {
+        while (iter->next != NULL) {
+            iter = iter->next;
+        }
+        iter->next = malloc(sizeof(struct element));
+        iter->next->node_position = discovered;
+        iter->next->next = NULL;
+        return;
     }
 }

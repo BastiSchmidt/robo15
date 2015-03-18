@@ -25,9 +25,16 @@ typedef struct node{
 } node;
 
 //Matrix of Pointers to nodes
-struct maze ptrmap[2*MAZE_HEIGHT + 2][2*MAZE_WIDTH + 2]
+struct maze ptrmap[2*MAZE_HEIGHT + 2][2*MAZE_WIDTH + 2];
 
-int dfs();
+//einfach verkette Liste als Warteschlange im bfs
+typedef struct element *next;
+typedef struct element{
+    struct coord node_position;
+};
+
+void queue_append();
+void queue_remove_first();
 
 void discover();
 
@@ -39,4 +46,5 @@ int turn_d(int direction);
 
 void print_matrix(int layer);
 
+struct coord bfs_closest_unvisited_node();
 #endif //_ROBO15_ALGORITHM_H_
