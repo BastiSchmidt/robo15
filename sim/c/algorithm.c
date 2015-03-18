@@ -215,7 +215,7 @@ struct coord bfs_closest_unvisited_node() {
 }
 
 
-void append(struct element **start, struct coord discovered) {
+void list_append(struct element **start, struct coord discovered) {
 
     struct element *iter = *start;
 
@@ -234,6 +234,18 @@ void append(struct element **start, struct coord discovered) {
         iter->next->next = NULL;
         return;
     }
+}
+
+void list_remove_first(struct element **start){
+
+    struct element *temp;
+
+    if (*start == NULL){
+        return;
+    }
+    temp = *start;
+    *start = *start->next;
+    free(temp);
 }
 
 //outputs ptrmap to stdout, 1's show present pointers

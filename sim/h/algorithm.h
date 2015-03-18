@@ -30,8 +30,8 @@ typedef struct element{
     struct coord node_position;
 };
 
-void queue_append();
-void queue_remove_first();
+void list_append();
+void list_remove_first();
 
 struct node *ptrmap[2 * 7 + 2][2 * 7 + 2]; //TODO: replace static size!
 
