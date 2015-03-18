@@ -3,6 +3,17 @@
 
 #include "Configuration.h"
 
+//Absolute coordinates
+typedef struct coord{
+    int x;
+    int y;
+} coord;
+
+struct coord current_position;
+
+//Current orientation of bot
+int orientation;
+
 typedef struct node *maze;
 typedef struct node{
     struct coord position;
@@ -12,6 +23,9 @@ typedef struct node{
     maze west;
     bool visited;
 } node;
+
+//Matrix of Pointers to nodes
+struct maze ptrmap[2*MAZE_HEIGHT + 2][2*MAZE_WIDTH + 2]
 
 int dfs();
 

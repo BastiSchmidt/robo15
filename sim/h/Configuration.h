@@ -33,16 +33,7 @@
 
 #define TOKEN_AIM 3
 
-//Absolute coordinates
-typedef struct coord{
-    int x;
-    int y;
-} coord;
 
-struct coord current_position;
-
-//Current orientation of bot
-int orientation;
 
 //Naive approach for creating a simple map of known nodes
 //offset of MAZE_WIDTH + 1 to make sure we have enough space for every start point
@@ -50,7 +41,6 @@ int orientation;
 // and bfs
 int matrix[2*MAZE_WIDTH + 2][2*MAZE_HEIGHT + 2][4];
 
-//Matrix of pointers to nodes
 
 
 #endif /* CONFIGURATION_H_ */
