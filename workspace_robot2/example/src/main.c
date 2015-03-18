@@ -1,5 +1,5 @@
 #include "../h/main.h"
-
+#include "../h/Thomas.h"
 
 /// DO NOT DELETE THIS METHOD
 /// It is called every 1ms and e.g. can be used for implementing a
@@ -13,25 +13,22 @@ void ecrobot_device_initialize(void) {
 void ecrobot_device_terminate(void) {
 }
 
-/* void hello_world() {
-	ecrobot_status_monitor("Hello, World");
+void hello_world() {
+	ecrobot_status_monitor("Hello, World!");
+
+
+
 }
-*/
 
 
 
-TASK(OSEK_Main_Task)
-{
-	while (1)
-	{
 
-		ecrobot_set_light_sensor_active(NXT_PORT_S3);
-		ecrobot_status_monitor("Hello, ");
-		checkline();
-		drive(90);
-		/* 2000msec wait */
+TASK(OSEK_Main_Task) {
+	while (1) {
+		hello_world();
+		/* 500msec wait */
 		systick_wait_ms(1000);
+		checkline();
+		drive();
 	}
-
 }
-
