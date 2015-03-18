@@ -196,18 +196,26 @@ int steps_left(int steps, int steplenght)
 		{
 			return 1;  /// Roboter hat eine Schwarze Linie gefunden ---> brich drehen ab!!
 		}
-		drehen_grad_l(steplenght);
-
+		drehen_grad_l(i);
 
 	}
 	return 0;  /// Roboter hat keine Schwarze Linie gefunden
 }
 void checkline()
 {
-	int Line = 0;
-	while (Line!=1)  /// Wiederhole, solange Schwarze Linie nicht gefunden
+	int f,Line = 0;
+	int j = 1;
+	while (Line!=1)
 	{
-		Line = steps_left(5,5); /// Drehe links
+		Line = steps_left(1,25);
 	}
 }
 
+//void drive()
+//{
+//	nxt_motor_set_speed(NXT_PORT_B,100,0);
+//	nxt_motor_set_speed(NXT_PORT_C,100,0);
+//	systick_wait_ms(50);
+//	nxt_motor_set_speed(NXT_PORT_B,0,0);
+//	nxt_motor_set_speed(NXT_PORT_C,0,0);
+//}
