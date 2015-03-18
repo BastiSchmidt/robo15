@@ -34,8 +34,12 @@
 #define TOKEN_AIM 3
 
 //Absolute coordinates
-int x_pos;
-int y_pos;
+typedef struct coord{
+    int x;
+    int y;
+} coord;
+
+struct coord current_position;
 
 //Current orientation of bot
 int orientation;

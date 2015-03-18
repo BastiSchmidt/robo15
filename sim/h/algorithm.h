@@ -3,7 +3,7 @@
 
 #include "Configuration.h"
 
-int dfs();
+int goto_closest_unknown_node();
 
 void discover();
 
