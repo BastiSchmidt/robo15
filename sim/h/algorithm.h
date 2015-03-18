@@ -25,13 +25,17 @@ struct node *current_node;
 
 
 //einfach verkette Liste als Warteschlange im bfs
-typedef struct element *next;
+typedef struct element *list;
 typedef struct element{
     struct coord node_position;
+    struct element *next;
 };
 
-void list_append();
-void list_remove_first();
+void list_append(struct element **start, struct coord discovered);
+
+void list_remove_first(struct element **start);
+
+void destroy_list(struct element **start);
 
 struct node *ptrmap[2 * 7 + 2][2 * 7 + 2]; //TODO: replace static size!
 

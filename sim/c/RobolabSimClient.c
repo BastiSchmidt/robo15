@@ -28,7 +28,7 @@ int main(void) {
 
 	//randomly searching for all nodes - highly wasteful
 	int i = 0, r, d;
-	while (i < 1000){
+	while (i < 00){
 		discover();
 		//print_matrix(0);
 		print_ptrmap();

@@ -214,15 +214,15 @@ struct coord bfs_closest_unvisited_node() {
     }
 }
 
-
+//appends the list the given pointer is pointing to with the given coord
 void list_append(struct element **start, struct coord discovered) {
 
     struct element *iter = *start;
 
-    if (*start == NULL) {
-        *start = malloc(sizeof(struct element));
-        *start->node_position = discovered;
-        *start->next = NULL;
+    if (iter == NULL) {
+        iter = malloc(sizeof(struct element));
+        iter->node_position = discovered;
+        iter->next = NULL;
         return;
     }
     else {
@@ -236,16 +236,28 @@ void list_append(struct element **start, struct coord discovered) {
     }
 }
 
-void list_remove_first(struct element **start){
+//remove the first entry of a list and update the pointer the dp is pointing to
+void list_remove_first(struct element **start) {
 
     struct element *temp;
 
-    if (*start == NULL){
+    if (*start == NULL) {
         return;
     }
     temp = *start;
-    *start = *start->next;
+    *start = temp->next;
     free(temp);
+}
+
+
+//completely free the list the given dp is pointing to
+void destroy_list(struct element **start){
+    if (start == NULL) return;
+    if (*start == NULL) return;
+    struct element *current = *start;
+    struct element *iter = current->next;
+    free(current);
+    destroy_list(&(iter));
 }
 
 //outputs ptrmap to stdout, 1's show present pointers
