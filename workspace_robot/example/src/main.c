@@ -22,14 +22,16 @@ void ecrobot_device_terminate(void) {
 
 TASK(OSEK_Main_Task)
 {
-	int SCHWARZ = ecrobot_get_light_sensor(NXT_PORT_S3)-300;
+
+	ecrobot_set_light_sensor_active(NXT_PORT_S3);
 	Get_Black_White();
+	systick_wait_ms(1000);
 	kalibrieren_drehen();
 	while (1)
 	{
-		ecrobot_set_light_sensor_active(NXT_PORT_S3);
 
-		checkline(black);
+
+		int a = checkline(black,2);
 		drive_cm(5);
 		systick_wait_ms(1000);
 
