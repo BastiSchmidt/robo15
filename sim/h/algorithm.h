@@ -11,23 +11,34 @@ typedef struct coord{
 
 struct coord current_position;
 
-//Current orientation of bot
-int orientation;
-
 typedef struct node *maze;
 typedef struct node{
     struct coord position;
-    maze north;
-    maze south;
-    maze east;
-    maze west;
+    maze compass[4];
     bool visited;
 } node;
 
-//Matrix of Pointers to nodes
-struct maze ptrmap[2*MAZE_HEIGHT + 2][2*MAZE_WIDTH + 2]
+struct node *current_node;
 
-int dfs();
+
+//einfach verkette Liste als Warteschlange im bfs
+typedef struct element *list;
+typedef struct element{
+    struct coord node_position;
+    list next;
+} element;
+
+void list_append(struct element **start, struct coord discovered);
+
+void list_remove_first(struct element **start);
+
+void destroy_list(struct element **start);
+
+int list_search(struct element **start, struct element *tofind);
+
+struct node *ptrmap[2 * 7 + 2][2 * 7 + 2]; //TODO: replace static size!
+
+void init();
 
 void discover();
 
@@ -37,6 +48,14 @@ int node_visited(int direction);
 
 int turn_d(int direction);
 
+struct node *create_node();
+
+struct coord bfs_closest_unvisited_node();
+
+struct coord shift_coordinates(struct coord old, int direction);
+
 void print_matrix(int layer);
+
+void print_ptrmap();
 
 #endif //_ROBO15_ALGORITHM_H_

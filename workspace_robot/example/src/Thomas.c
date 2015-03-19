@@ -175,39 +175,152 @@ void step_right(int time)
 	nxt_motor_set_speed(NXT_PORT_C,0,0);
 	nxt_motor_set_speed(NXT_PORT_B,0,0);
 }
+int FindLine(int old_Light);
 int steps_left(int steps, int steplenght)
 {
-	int i;
+	int i,a,Light;
 	for (i=0;i<steps;i++)
 	{
-		int Light = ecrobot_get_light_sensor(NXT_PORT_S3);
-		if (Light>500)
+		Light = ecrobot_get_light_sensor(NXT_PORT_S3);
+		drehen_grad_l(steplenght);
+		a = FindLine(Light);
+		if (a==1)
 		{
-			return 1;  /// Roboter hat eine Schwarze Linie gefunden ---> brich drehen ab!!
+			return 1; /// Roboter hat die Schwarze Linie gefunden
 		}
-		drehen_grad_l(i);
+		if (FindLine(Light)==1)
+		{
+			/// genauere Suche??? Später TODO
+		}
+
 
 	}
 	return 0;  /// Roboter hat keine Schwarze Linie gefunden
 }
-void checkline()
+
+int steps_right(int steps, int steplenght)
 {
-	int f,Line = 0;
-	int j = 1;
-	while (Line!=1)
+	int i,a,Light;
+	for (i=0;i<steps;i++)
 	{
-		Line = steps_left(1,25);
+		Light = ecrobot_get_light_sensor(NXT_PORT_S3);
+		drehen_grad_r(steplenght);
+		a = FindLine(Light);
+		if (a==1)
+		{
+			return 1; /// Roboter hat die Schwarze Linie gefunden
+		}
+		if (FindLine(Light)==1)
+				{
+					/// genauere Suche??? Später TODO
+				}
+
+
+	}
+	return 0;  /// Roboter hat keine Schwarze Linie gefunden
+}
+
+
+void checkline(int SCHWARZ)
+
+/// TODO Schleifen entfernen, damit Knoten erkannt werden können
+/// erst jedoch sensor weiter nach vorne sezten
+{
+	int i,j;
+	int waittime = 5;
+	int drehung = 10;
+	int Anzahl = 3;
+	i=0;
+	j=1;
+	while (1)
+	{
+
+		for (i=0;i<Anzahl*j;i++)
+				{
+					if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
+					{
+//						ecrobot_sound_tone(1000, 500, 10);
+						return;
+					}
+					drehen_grad_r(drehung);
+					systick_wait_ms(waittime);
+				}
+		for (i=0;i<Anzahl*j;i++)
+		{
+
+			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
+			{
+//				ecrobot_sound_tone(1000, 500, 10);
+				return;
+			}
+			drehen_grad_l(drehung);
+			systick_wait_ms(waittime);
+		}
+		for (i=0;i<Anzahl*j;i++)
+		{
+			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
+			{
+//				ecrobot_sound_tone(1000, 500, 10);
+				return;
+			}
+			drehen_grad_l(drehung);
+			systick_wait_ms(waittime);
+		}
+		for (i=0;i<Anzahl*j;i++)
+		{
+			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
+			{
+//				ecrobot_sound_tone(1000, 500, 10);
+				return;
+			}
+			drehen_grad_r(drehung);
+			systick_wait_ms(waittime);
+		}
+		j++;
 	}
 }
 
-//void drive()
-//{
-//	nxt_motor_set_speed(NXT_PORT_B,100,0);
-//	nxt_motor_set_speed(NXT_PORT_C,100,0);
-//	systick_wait_ms(50);
-//	nxt_motor_set_speed(NXT_PORT_B,0,0);
-//	nxt_motor_set_speed(NXT_PORT_C,0,0);
-//}
+int FindLine(int old_Light)  /// returns 0 if nothing happens -1, if black-->white, 1 if white -> black
+{
+//	ecrobot_sound_tone(1000, 2000, 10);
+	systick_wait_ms(500);
+	int new_Light = ecrobot_get_light_sensor(NXT_PORT_S3);
+	int Diff = new_Light - old_Light;
+	if (abs(Diff) > 50)
+	{
+
+		if (Diff>0)  /// Dunkel auf Hell
+		{
+//			systick_wait_ms(1050);
+//			ecrobot_sound_tone(1000, 1000, 10);
+//			systick_wait_ms(1050);
+			return -1;
+
+		}
+		else  /// Hell auf Dunkel
+		{
+
+//			systick_wait_ms(1050);
+//			ecrobot_sound_tone(1000, 1000, 10);
+//			systick_wait_ms(1050);
+//			ecrobot_sound_tone(1000, 1000, 10);
+//			systick_wait_ms(1050);
+			return 1;
+
+		}
+
+
+	}
+//	systick_wait_ms(1050);
+//	ecrobot_sound_tone(1000, 1000, 10);
+//	systick_wait_ms(1050);
+//	ecrobot_sound_tone(1000, 1000, 10);
+//	systick_wait_ms(1050);
+//	ecrobot_sound_tone(1000, 1000, 10);
+//	systick_wait_ms(1050);
+	return 0;
+}
+
 int sgn(float x)
 {
 	if(x>=0)
@@ -402,10 +515,6 @@ void kalibrieren_drehen()
 		display_goto_xy(1,2);
 		display_string(str3);
 		if(b<c)
-		{
-
-		}
-		else
 		{
 
 		}

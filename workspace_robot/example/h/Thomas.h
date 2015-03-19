@@ -17,18 +17,27 @@ int dreh;
 #include "../src/Thomas.c"
 
 void wait_ms(int ms);
+int sgn(float x);
+
+void kalibrieren();
+
 void drehen_grad_r(int grad);
 void drehen_grad_l(int grad);
 void drehen();
+
 void scanNode(int orientation);
+
 void drive_cm(float cm);
 void drive(int umdr);
+
 void step_left(int time);
-void step_right(int time);
+void step_left(int time);
+
 int steps_left(int steps, int steplenght);
-void checkline();
-int sgn(float x);
-void scanNode(int orientation);
-void kalibrieren();
+int steps_right(int steps, int steplenght);
+
+int FindLine(int old_Light);
+
+void checkline(int SCHWARZ);
 
 #endif /* H_THOMAS_H_ */

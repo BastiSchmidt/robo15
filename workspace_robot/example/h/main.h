@@ -8,6 +8,7 @@
 #include "ecrobot_interface.h"
 /* add user headers here: */
 #include "Thomas.h"
+int SCHWARZ;
 /* void hello_world(); */
 
 #endif /* MAIN_H_ */

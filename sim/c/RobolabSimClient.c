@@ -23,22 +23,28 @@ int main(void) {
 	orientation = SOUTH;
 
 	init_sim_rnd();
-	//dfs();
+
+	init();
+
 	//randomly searching for all nodes - highly wasteful
-	int i = 0;
-	while (i < 1){
+	int i = 0, r, d;
+	while (i < 1000){
 		discover();
-		print_matrix(0);
-		printf("Current orientation: %0x\n", orientation);
-		srand(time(NULL) + rand()); //more random is more random
-		int r, d = 8;
-		for (r = rand() % 4; r >= 0; r--){
-			d = d * 2; //yields directions (16,32,64,128) - really!
-		}
-		if (direction_detect(Robot_GetIntersections(),d)){
-			turn_d(d);
-			go_straight();
-		}
+		print_ptrmap();
+		struct coord optimum;
+		optimum = bfs_closest_unvisited_node();
+		//print_matrix(0);
+		printf("X:%d Y: %d I:%d\n",optimum.x, optimum.y, i);
+		do {
+			d = 8;
+			srand(time(NULL) + rand()); //more random is more random
+			for (r = rand() % 4; r >= 0; r--){
+				d = d * 2; //yields directions (16,32,64,128) - really!
+			}
+		} while (!direction_detect(scan(), d));
+
+		turn_d(d);
+		go_straight();
 		i++;
 	}
 
