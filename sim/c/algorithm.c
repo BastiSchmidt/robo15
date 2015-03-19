@@ -196,6 +196,55 @@ struct coord bfs_closest_unvisited_node() {
     return home;
 }
 
+//look for shortest path to given coordinates
+struct instructions bfs_path_to_node(struct coord goal) {
+    int i;
+    struct element  *queue;
+    queue = NULL;
+    struct element *seen;
+    seen = NULL;
+    struct instructions path_to_goal;
+    struct coord cur_position;
+    cur_position.x = current_position.x;
+    cur_position.y = current_position.y;
+    current_node->bfs_reached_from = 0;
+    do {
+        list_append(&seen, cur_position);
+        for (i = 3; i >= 0; i--) {
+            printf("1\n");
+            if ((ptrmap[cur_position.x + MAZE_WIDTH][cur_position.y +
+                    MAZE_HEIGHT])->compass[i] != NULL) {
+                printf("2\n");
+                if (ptrmap[cur_position.x + MAZE_WIDTH][cur_position.y + MAZE_HEIGHT]
+                        ->position.x == goal.x && ptrmap[cur_position.x + MAZE_WIDTH]
+                        [cur_position.y + MAZE_HEIGHT]
+                        ->position.y == goal.y){
+                    printf("3\n");
+                    path_to_goal = create_path(goal);
+                    reset_nodes_bfs();
+                    destroy_list(queue);
+                    destroy_list(seen);
+                    return path_to_goal;
+                }
+
+                if (!list_search(&seen,shift_coordinates(cur_position,i))){
+                    printf("4\n");
+                    list_append(&queue, shift_coordinates(cur_position,i));
+                    ptrmap[shift_coordinates(cur_position,i).x + MAZE_WIDTH]
+                            [shift_coordinates(cur_position,i).y + MAZE_HEIGHT]
+                            ->bfs_reached_from = i;
+                }
+            }
+            printf("5\n");
+        }
+        cur_position = queue->node_position;
+        printf("6\n");
+        list_remove_first(&queue);
+        printf("7\n");
+    } while (queue != NULL);
+    path_to_goal.path[0] = 0;
+    return path_to_goal;
+}
 
 //appends the list the given pointer is pointing to with the given coord
 void list_append(struct element **start, struct coord discovered) {
@@ -244,6 +293,10 @@ int list_search(struct element **start, struct coord tofind){
     list_search(&(*start),tofind);
 }
 
+void reset_nodes_bfs(){
+
+}
+
 //translates iterable and pre-defined directions and returns the respective
 // coords
 struct coord shift_coordinates(struct coord old, int direction){
@@ -285,6 +338,27 @@ int follow_instructions(struct instructions instr){
     return ROBOT_SUCCESS;
 }
 
+struct instructions create_path(struct coord goal_position){
+    struct instructions temp;
+    struct instructions path_to_goal;
+    int i;
+    for (i=0;ptrmap[goal_position.x][goal_position.y]->bfs_reached_from != 0;i++){
+
+        temp.path[i] = ptrmap[goal_position.x][goal_position.y]->bfs_reached_from;
+
+        goal_position = ptrmap
+                        [shift_coordinates(goal_position, temp.path[i] + 2 % 4).x]
+                        [shift_coordinates(goal_position, temp.path[i] + 2 % 4).y]
+                        ->position;
+    }
+    int j;
+    for (j = 0;i >= 0; i--){
+        path_to_goal.path[j] = temp.path[i];
+        j++;
+    }
+    path_to_goal.path[j] = 0;
+    return path_to_goal;
+}
 
 
 //outputs ptrmap to stdout, 1's show present pointers
