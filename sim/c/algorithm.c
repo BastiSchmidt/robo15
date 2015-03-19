@@ -183,7 +183,7 @@ void print_matrix(int layer){
 }
 
 
-
+//look for graph-wise closest unvisited node and return its coord
 struct coord bfs_closest_unvisited_node() {
     int i;
     struct element  *queue;
@@ -194,27 +194,35 @@ struct coord bfs_closest_unvisited_node() {
     struct coord position;
     position.x = current_position.x;
     position.y = current_position.y;
+
     do {
         list_append(&seen, position);
         for (i = 3; i >= 0; i--) {
             printf("1\n");
-            if (ptrmap[position.x + MAZE_WIDTH][position.y +
-                    MAZE_HEIGHT]->compass[i] != NULL) {
+
+            if ((ptrmap[position.x + MAZE_WIDTH][position.y +
+                    MAZE_HEIGHT])->compass[i] != NULL) {
                 printf("2\n");
                 if (ptrmap[position.x + MAZE_WIDTH][position.y + MAZE_HEIGHT]
                         ->compass[i]->visited == 0) {
                     printf("3\n");
                     wanted = shift_coordinates(position, i);
-                    destroy_list(&queue);
-                    destroy_list(&seen);
+                    destroy_list(queue);
+                    destroy_list(seen);
                     return wanted; //dann returne die Koordinaten davon
-                } else {
+                }
+
+                if (!list_search(&seen,shift_coordinates(position,i))){
+                    printf("4\n");
                     list_append(&queue, shift_coordinates(position,i));
                 }
             }
+            printf("5\n");
         }
         position = queue->node_position;
+        printf("6\n");
         list_remove_first(&queue);
+        printf("7\n");
     } while (queue != NULL);
     struct coord home;
     home.x = 0;
@@ -222,27 +230,19 @@ struct coord bfs_closest_unvisited_node() {
     return home;
 }
 
-
 //appends the list the given pointer is pointing to with the given coord
 void list_append(struct element **start, struct coord discovered) {
 
-    struct element *iter = *start;
-
-    if (iter == NULL) {
-        iter = malloc(sizeof(struct element));
-        iter->node_position = discovered;
-        iter->next = NULL;
-        return;
+    struct element **previous = start;
+    struct element *current = *start;
+    while (current != NULL) {
+        previous = &(current->next);
+        current = current->next;
     }
-    else {
-        while (iter->next != NULL) {
-            iter = iter->next;
-        }
-        iter->next = malloc(sizeof(struct element));
-        iter->next->node_position = discovered;
-        iter->next->next = NULL;
-        return;
-    }
+    struct element *new_element = malloc(sizeof(struct element));
+    new_element->node_position = discovered;
+    new_element->next = current;
+    *previous = new_element;
 }
 
 //remove the first entry of a list and update the pointer the dp is pointing to
@@ -258,15 +258,18 @@ void list_remove_first(struct element **start) {
     free(temp);
 }
 
-//überprüft, ob tofind in der Liste *start zu finden ist
+//ï¿½berprï¿½ft, ob tofind in der Liste *start zu finden ist
 int list_search(struct element **start, struct coord tofind){
     if (*start == NULL) return 0;
-    if (*start->node_position == tofind) return 1;
-    else *start = *start -> next;
+    if ((*start)->node_position.x == tofind.x && (*start)->node_position.y ==
+            tofind.y)
+        return 1;
+    else *start = (*start) -> next;
         list_search(&(*start),tofind);
 }
 
-
+//translates iterable and pre-defined directions and returns the respective
+// coords
 struct coord shift_coordinates(struct coord old, int direction){
     switch (direction) {
         case 0:
@@ -297,14 +300,13 @@ struct coord shift_coordinates(struct coord old, int direction){
     }
 }
 
-//completely free the list the given dp is pointing to
-void destroy_list(struct element **start){
-    if (start == NULL) return;
-    if (*start == NULL) return;
-    struct element *current = *start;
-    struct element *iter = current->next;
-    free(current);
-    destroy_list(&(iter));
+//completely free the list given at start
+void destroy_list (struct element *start) {
+    while(start != NULL) {
+        struct element *next = start->next;
+        free(start);
+        start = next;
+    }
 }
 
 //outputs ptrmap to stdout, 1's show present pointers

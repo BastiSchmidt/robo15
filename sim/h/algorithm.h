@@ -32,9 +32,9 @@ void list_append(struct element **start, struct coord discovered);
 
 void list_remove_first(struct element **start);
 
-void destroy_list(struct element **start);
+void destroy_list(struct element *start);
 
-int list_search(struct element **start, struct element *tofind);
+int list_search(struct element **start, struct coord tofind);
 
 struct node *ptrmap[2 * 7 + 2][2 * 7 + 2]; //TODO: replace static size!
 
