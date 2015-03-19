@@ -39,5 +39,6 @@ int steps_right(int steps, int steplenght);
 int FindLine(int old_Light);
 
 void checkline(int SCHWARZ);
+void Get_Black_White();
 
 #endif /* H_THOMAS_H_ */

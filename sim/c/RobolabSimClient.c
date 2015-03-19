@@ -28,13 +28,13 @@ int main(void) {
 
 	//randomly searching for all nodes - highly wasteful
 	int i = 0, r, d;
-	while (i < 1000){
+	while (i < 100){
 		discover();
-		print_ptrmap();
-		struct coord optimum;
-		optimum = bfs_closest_unvisited_node();
 		//print_matrix(0);
-		printf("X:%d Y: %d I:%d\n",optimum.x, optimum.y, i);
+		print_ptrmap();
+		printf("%d\n", i);
+		printf("Current orientation: %0x\n", orientation);
+
 		do {
 			d = 8;
 			srand(time(NULL) + rand()); //more random is more random

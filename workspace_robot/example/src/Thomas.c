@@ -1,9 +1,13 @@
 #include "../h/Thomas.h"
 
 
-int black = 500;
-int dreh = 1000;
-void wait_ms(int ms){
+int black;  /// MAXIMALES SCHWARZ minus Toleranz siehe: Get_Black_White
+int white;  /// MININMALES WEIß plus Toleranz
+int Toleranz = 100;
+int dreh = 1030;
+
+void wait_ms(int ms)
+{
 	 int time =systick_get_ms();
 	 while( systick_get_ms()> time + ms)
 	 {
@@ -52,6 +56,7 @@ void drehen_grad_r(int grad)
 void drehen_grad_l(int grad)
 {
 	// Drehung wird unabhängig von richtung gezählt!!
+
 
 	float umdr = (grad * dreh/360) ;// 1°drehen entspricht 2.66° Raddrehen, 10 grad weniger wg. Trägheit
 	int power = 80; //Prozentzahl für Motoren
@@ -161,6 +166,7 @@ void drive(int umdr)
 
 void step_left(int time)
 {
+
 	nxt_motor_set_speed(NXT_PORT_B,100,0);
 	nxt_motor_set_speed(NXT_PORT_C,-100,0);
 	systick_wait_ms(time);
@@ -332,6 +338,34 @@ int sgn(float x)
 		return -1;
 	}
 
+}
+
+void Get_Black_White()
+{
+	int i,Light;
+	int MAX_BLACK = 0;
+	int MIN_WHITE = 1023;
+
+
+	for (i=0;i<=360;i+=5) /// Muss sich ~ 360° Drehen
+		{
+			Light = ecrobot_get_light_sensor(NXT_PORT_S3);
+			if (Light>MAX_BLACK)
+			{
+				MAX_BLACK = Light;
+			}
+			if (Light<MIN_WHITE)
+					{
+				MIN_WHITE = Light;
+					}
+			drehen_grad_l(5);
+			wait_ms(20);
+
+
+		}
+	white = MIN_WHITE + Toleranz;
+	black = MAX_BLACK - Toleranz;
+	checkline(black-300);
 }
 
 void drive_cm(float cm)
@@ -528,3 +562,26 @@ void kalibrieren_drehen()
 //		}
 	}
 }
+
+
+void TEST ()
+{
+	ecrobot_sound_tone(1000, 1000, 10);
+		systick_wait_ms(5000);
+		ecrobot_sound_tone(1000, 1000, 10);
+		display_clear(1);
+		display_goto_xy(1,0);
+		display_int(white,5);
+		systick_wait_ms(5000);
+		ecrobot_sound_tone(1000, 1000, 10);
+		systick_wait_ms(5000);
+		ecrobot_sound_tone(1000, 1000, 10);
+		display_clear(1);
+		display_goto_xy(1,0);
+		display_int(black,5);
+		while (1)
+		{
+
+		}
+}
+

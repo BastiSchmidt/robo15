@@ -26,6 +26,7 @@ TASK(OSEK_Main_Task)
 	while (1)
 	{
 		ecrobot_set_light_sensor_active(NXT_PORT_S3);
+
 		ecrobot_status_monitor("Hello, World");
 		display_clear(0);
 		char str3[12] = "teest";
@@ -35,6 +36,7 @@ TASK(OSEK_Main_Task)
 		systick_wait_ms(2000);
 
 		kalibrieren_drehen();
+
 
 		/* 2000msec wait */
 		systick_wait_ms(2000);
