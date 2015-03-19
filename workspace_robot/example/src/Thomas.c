@@ -131,7 +131,7 @@ void drehen()
 
 void drive(int umdr)
 {
-	int power = 60; //Prozentzahl für Motoren
+	int power = 95; //Prozentzahl für Motoren
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
 	while(nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)//bis einer die Umdrehungen erreicht hat
@@ -228,18 +228,20 @@ int steps_right(int steps, int steplenght)
 }
 
 
-void checkline(int SCHWARZ)
+int checkline(int SCHWARZ,int Iterationen)
 
-/// TODO Schleifen entfernen, damit Knoten erkannt werden können
-/// erst jedoch sensor weiter nach vorne sezten
 {
+	if (ecrobot_get_light_sensor(NXT_PORT_S3)>white) /// brich ab wenn immer noch auf Schwarz
+	{
+		return 1;
+	}
 	int i,j;
 	int waittime = 5;
 	int drehung = 5;
 	int Anzahl = 3;
 	i=0;
 	j=1;
-	while (1)
+	while (j<Iterationen+1) // 2 Iterationen
 	{
 
 		for (i=0;i<Anzahl*j;i++)
@@ -247,7 +249,7 @@ void checkline(int SCHWARZ)
 					if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
 					{
 //						ecrobot_sound_tone(1000, 500, 10);
-						return;
+						return 1;
 					}
 					drehen_grad_r(drehung);
 					systick_wait_ms(waittime);
@@ -258,7 +260,18 @@ void checkline(int SCHWARZ)
 			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
 			{
 //				ecrobot_sound_tone(1000, 500, 10);
-				return;
+				return 1;
+			}
+			drehen_grad_l(drehung);
+			systick_wait_ms(waittime);
+		}
+		systick_wait_ms(1000);
+		for (i=0;i<Anzahl*j;i++)
+		{
+			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
+			{
+//				ecrobot_sound_tone(1000, 500, 10);
+				return 1;
 			}
 			drehen_grad_l(drehung);
 			systick_wait_ms(waittime);
@@ -268,23 +281,15 @@ void checkline(int SCHWARZ)
 			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
 			{
 //				ecrobot_sound_tone(1000, 500, 10);
-				return;
-			}
-			drehen_grad_l(drehung);
-			systick_wait_ms(waittime);
-		}
-		for (i=0;i<Anzahl*j;i++)
-		{
-			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
-			{
-//				ecrobot_sound_tone(1000, 500, 10);
-				return;
+				return 1;
 			}
 			drehen_grad_r(drehung);
 			systick_wait_ms(waittime);
 		}
 		j++;
 	}
+	ecrobot_sound_tone(1000, 5000, 10);
+	return 0;
 }
 
 int FindLine(int old_Light)  /// returns 0 if nothing happens -1, if black-->white, 1 if white -> black
@@ -344,6 +349,7 @@ int sgn(float x)
 void Get_Black_White()
 {
 	int i,Light;
+	int No_Line_Found=0;
 	int MAX_BLACK = 0;
 	int MIN_WHITE = 1023;
 
@@ -359,14 +365,45 @@ void Get_Black_White()
 					{
 				MIN_WHITE = Light;
 					}
-			drehen_grad_l(5);
+			drehen_grad_r(5);
 			wait_ms(20);
 
 
 		}
-	white = MIN_WHITE + Toleranz;
+
+	white = MIN_WHITE + Toleranz;  /// DEFINIERE GLOBALE VARIABLEN UM
 	black = MAX_BLACK - Toleranz;
-	checkline(black-300);
+
+	ecrobot_sound_tone(500, 1000, 10);
+	systick_wait_ms(1050);				/// Akustische Ausgabe
+	ecrobot_sound_tone(1000, 1000, 10);
+	systick_wait_ms(1050);
+
+	display_clear(1);
+	char str3[12] = "Kalibriert";
+	display_goto_xy(5, 2);				/// Display Ausgabe
+	display_string(str3);
+
+
+
+	No_Line_Found = checkline(black,4); /// Zurück zur Linie
+
+	if (No_Line_Found == 0)
+	{
+		ecrobot_sound_tone(1000, 1000, 10);
+		display_clear(1);
+		char str3[14] = "LINIE VERLOREN";
+		display_goto_xy(5, 2);				/// Display Ausgabe
+		display_string(str3);
+		while (1)
+		{
+			/// ABBRUCH
+		}
+
+	}
+
+
+
 }
 
 void drive_cm(float cm)
@@ -512,7 +549,7 @@ void scanNode(int orientation)
  */
 void kalibrieren_drehen()
 {
-	black = ecrobot_get_light_sensor(NXT_PORT_S3)-50; //falls noch nicht kalibriert
+	/// black = ecrobot_get_light_sensor(NXT_PORT_S3)-300; //falls noch nicht kalibriert
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
 	int umdr = 900;
@@ -591,7 +628,7 @@ void kalibrieren_drehen()
 		display_goto_xy(1,3);
 		display_int(-b-c, 6);
 		wait_ms(500);
-		dreh = b;
+		dreh = -b;
 
 	}
 	else
