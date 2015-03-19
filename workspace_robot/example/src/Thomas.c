@@ -1,7 +1,9 @@
 #include "../h/Thomas.h"
 
 
-int black = 500;
+int black;  /// MAXIMALES SCHWARZ minus Toleranz siehe: Get_Black_White
+int white;  /// MININMALES WEIß plus Toleranz
+int Toleranz = 100;
 int dreh = 1030;
 void wait_ms(int ms){
 	 int time =systick_get_ms();
@@ -162,6 +164,7 @@ void drive(int umdr)
 
 void step_left(int time)
 {
+
 	nxt_motor_set_speed(NXT_PORT_B,100,0);
 	nxt_motor_set_speed(NXT_PORT_C,-100,0);
 	systick_wait_ms(time);
@@ -338,47 +341,29 @@ int sgn(float x)
 void Get_Black_White()
 {
 	int i,Light;
-	int black = 0;
-	int white = 1023;
+	int MAX_BLACK = 0;
+	int MIN_WHITE = 1023;
 
 
-	for (i=0;i<=360;i+=5)
+	for (i=0;i<=360;i+=5) /// Muss sich ~ 360° Drehen
 		{
 			Light = ecrobot_get_light_sensor(NXT_PORT_S3);
-			if (Light>black)
+			if (Light>MAX_BLACK)
 			{
-				black = Light;
+				MAX_BLACK = Light;
 			}
-			if (Light<white)
+			if (Light<MIN_WHITE)
 					{
-						white = Light;
+				MIN_WHITE = Light;
 					}
 			drehen_grad_l(5);
 			wait_ms(20);
 
 
 		}
-	ecrobot_sound_tone(1000, 1000, 10);
-	systick_wait_ms(5000);
-	ecrobot_sound_tone(1000, 1000, 10);
-	display_clear(1);
-	display_goto_xy(1,0);
-	display_int(black, 5);
-	systick_wait_ms(5000);
-	ecrobot_sound_tone(1000, 1000, 10);
-	display_clear(12);
-	systick_wait_ms(5000);
-	ecrobot_sound_tone(1000, 1000, 10);
-	display_clear(12);
-	display_goto_xy(1,0);
-	display_int(white, 5);
-
-
-	while(1)
-		{
-
-		}
-
+	white = MIN_WHITE + Toleranz;
+	black = MAX_BLACK - Toleranz;
+	checkline(black-300);
 }
 
 void drive_cm(float cm)
@@ -567,3 +552,26 @@ void kalibrieren_drehen()
 		}
 	}
 }
+
+
+void TEST ()
+{
+	ecrobot_sound_tone(1000, 1000, 10);
+		systick_wait_ms(5000);
+		ecrobot_sound_tone(1000, 1000, 10);
+		display_clear(1);
+		display_goto_xy(1,0);
+		display_int(white,5);
+		systick_wait_ms(5000);
+		ecrobot_sound_tone(1000, 1000, 10);
+		systick_wait_ms(5000);
+		ecrobot_sound_tone(1000, 1000, 10);
+		display_clear(1);
+		display_goto_xy(1,0);
+		display_int(black,5);
+		while (1)
+		{
+
+		}
+}
+
