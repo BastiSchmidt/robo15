@@ -47,16 +47,14 @@ void drehen_grad_l(int grad)
 {
 
 	float umdr = (grad * 8/3) ;// 1°drehen entspricht 2.66° Raddrehen, 10 grad weniger wg. Trägheit
-	int power = 75; //Prozentzahl für Motoren
+	int power = 80; //Prozentzahl für Motoren
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
 	while(nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)//bis einer die Umdrehungen erreicht hat
 	{
 		nxt_motor_set_speed(NXT_PORT_C , -power , 0);
 		nxt_motor_set_speed(NXT_PORT_B , power , 0);
-		wait_ms(100);
-		nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-		nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+		wait_ms(10);
 //		if(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat
 //			                                                                 // und dann entsprehend angleichen
 //		{
@@ -77,6 +75,8 @@ void drehen_grad_l(int grad)
 //			}
 //		}
 	}
+	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 }
 void drehen()
 {
@@ -322,6 +322,52 @@ int sgn(float x)
 	{
 		return -1;
 	}
+
+}
+
+void Get_Black_White()
+{
+	int i,Light;
+	int black = 0;
+	int white = 1023;
+
+
+	for (i=0;i<=360;i+=5)
+		{
+			Light = ecrobot_get_light_sensor(NXT_PORT_S3);
+			if (Light>black)
+			{
+				black = Light;
+			}
+			if (Light<white)
+					{
+						white = Light;
+					}
+			drehen_grad_l(5);
+			wait_ms(20);
+
+
+		}
+	ecrobot_sound_tone(1000, 1000, 10);
+	systick_wait_ms(5000);
+	ecrobot_sound_tone(1000, 1000, 10);
+	display_clear(1);
+	display_goto_xy(1,0);
+	display_int(black, 5);
+	systick_wait_ms(5000);
+	ecrobot_sound_tone(1000, 1000, 10);
+	display_clear(12);
+	systick_wait_ms(5000);
+	ecrobot_sound_tone(1000, 1000, 10);
+	display_clear(12);
+	display_goto_xy(1,0);
+	display_int(white, 5);
+
+
+	while(1)
+		{
+
+		}
 
 }
 

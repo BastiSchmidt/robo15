@@ -28,7 +28,8 @@ TASK(OSEK_Main_Task)
 
 
 		ecrobot_set_light_sensor_active(NXT_PORT_S3);
-		ecrobot_status_monitor("Hello, thomas512345 ");
+		ecrobot_status_monitor("Hello, thomas12 ");
+		Get_Black_White();
 		checkline(SCHWARZ);
 		drive_cm(5);
 		systick_wait_ms(1000);
