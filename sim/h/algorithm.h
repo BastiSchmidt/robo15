@@ -27,6 +27,10 @@ typedef struct element{
     struct element *next;
 };
 
+typedef struct instructions{
+    int path[50];
+};
+
 void list_append(struct element **start, struct coord discovered);
 
 void list_remove_first(struct element **start);
@@ -53,7 +57,7 @@ struct coord bfs_closest_unvisited_node();
 
 struct coord shift_coordinates(struct coord old, int direction);
 
-//int follow_instructions(struct instructions instr);
+int follow_instructions(struct instructions instr);
 
 void print_matrix(int layer);
 

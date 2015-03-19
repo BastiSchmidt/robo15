@@ -311,9 +311,13 @@ struct coord shift_coordinates(struct coord old, int direction){
     }
 }
 
-/*int follow_instructions(struct instructions instr){
-
-}*/
+int follow_instructions(struct instructions instr){
+    int i;
+    for (i = 0; instr.path[i] != 0; i++){
+        turn_d(instr.path[i]);
+        return go_straight();
+    }
+}
 
 
 
