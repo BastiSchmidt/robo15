@@ -315,8 +315,9 @@ int follow_instructions(struct instructions instr){
     int i;
     for (i = 0; instr.path[i] != 0; i++){
         turn_d(instr.path[i]);
-        return go_straight();
+        go_straight();
     }
+    return ROBOT_SUCCESS;
 }
 
 
