@@ -33,8 +33,8 @@ int main(void) {
 		print_ptrmap();
 		struct coord optimum;
 		optimum = bfs_closest_unvisited_node();
-		follow_instructions(bfs_path_to_node(optimum));
 		printf("X:%d Y: %d I:%d\n",optimum.x, optimum.y, i);
+		follow_instructions(bfs_path_to_node(optimum));
 		/*do {
 			d = 8;
 			srand(time(NULL) + rand()); //more random is more random
