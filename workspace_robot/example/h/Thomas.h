@@ -7,14 +7,14 @@
 
 #ifndef H_THOMAS_H_
 #define H_THOMAS_H_
-
+int black;
+int dreh;
 #include <stdlib.h>
 #include "kernel.h"
 /* Will be generated: */
 #include "kernel_id.h"
 #include "ecrobot_interface.h"
 #include "../src/Thomas.c"
-
 
 void wait_ms(int ms);
 void drehen_grad_r(int grad);
@@ -29,6 +29,6 @@ int steps_left(int steps, int steplenght);
 void checkline();
 int sgn(float x);
 void scanNode(int orientation);
-
+void kalibrieren();
 
 #endif /* H_THOMAS_H_ */
