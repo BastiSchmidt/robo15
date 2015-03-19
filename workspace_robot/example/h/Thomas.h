@@ -16,31 +16,34 @@ int dreh;
 #include "ecrobot_interface.h"
 #include "../src/Thomas.c"
 
-void wait_ms(int ms);
+void wait_ms(int ms);   /// Hilfsfunktionen
 int sgn(float x);
 
-void kalibrieren_drehen();
+void kalibrieren_drehen();  /// Kalibrierungsfunktionen
+void kalibrieren_farbe();
 
 void drehen_grad_r(int grad);
-void drehen_grad_l(int grad);
-void drehen();
-
-void scanNode(int orientation);
-
+void drehen_grad_l(int grad);			/// Grundlegende Bewegungsfunktionen
 void drive_cm(float cm);
+
+
+
 void drive(int umdr);
-
+void drehen();
 void step_left(int time);
 void step_left(int time);
-
-int steps_left(int steps, int steplenght);
+int steps_left(int steps, int steplenght);  /// veraltete / nicht gebrauchte Funktionen
 int steps_right(int steps, int steplenght);
-
 int FindLine(int old_Light);
 
-int checkline(int SCHWARZ,int Iterationen);
-void Get_Black_White();
 
-void TEST();
+int checkline(int Iterationen);
+int forward();						/// erweiterte Bewegungsfunktionen
+void goto_Node_center();
+
+void scanNode(int orientation);		/// in entwicklung
+
+void TEST();				/// Testfunktionen
+void Linienfolgen_und_Knoten_finden();
 
 #endif /* H_THOMAS_H_ */

@@ -3,7 +3,8 @@
 
 int black;  /// MAXIMALES SCHWARZ minus Toleranz siehe: Get_Black_White
 int white;  /// MININMALES WEIß plus Toleranz
-int Toleranz = 300;
+float Toleranz_black = 0.6;
+float Toleranz_white = 0.25;
 int dreh = 1030;
 
 void wait_ms(int ms)
@@ -51,6 +52,13 @@ void drehen_grad_r(int grad)
 		}
 	}
 
+	/// Korrektur von Thomas
+	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+	// das hier ist wichtig, denn falls im letzten Schritt
+	///der While Schleife beide nxt_motor_get_count den EXAKT selben Wert ausgeben wird keine der
+	///beiden if bedingungen erfüllt und die Motoren werden nicht ausgeschaltet!!!
+	///
 }
 
 void drehen_grad_l(int grad)
@@ -89,6 +97,14 @@ void drehen_grad_l(int grad)
 			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 		}
 	}
+
+	/// Korrektur von Thomas
+	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+	// das hier ist wichtig, denn falls im letzten Schritt
+	///der While Schleife beide nxt_motor_get_count den EXAKT selben Wert ausgeben wird keine der
+	///beiden if bedingungen erfüllt und die Motoren werden nicht ausgeschaltet!!!
+	///
 
 }
 void drehen()
@@ -228,13 +244,12 @@ int steps_right(int steps, int steplenght)
 }
 
 
-int checkline(int SCHWARZ,int Iterationen)
-
+int checkline(int Iterationen)
 {
-	if (ecrobot_get_light_sensor(NXT_PORT_S3)>white) /// brich ab wenn immer noch auf Schwarz
-	{
-		return 1;
-	}
+
+	/// CHECKLINE GEHT DAVON AUS, DASS MAN SICH AUF WEIß BEFINDET
+	/// IST MAN AUF SCHWARZ, KANN ES SEIN DASS ER SCHWARZ FÄLSCHLICHERWEISE ALS WEIß ERKENNT
+
 	int i,j;
 	int waittime = 5;
 	int drehung = 5;
@@ -245,40 +260,8 @@ int checkline(int SCHWARZ,int Iterationen)
 	{
 
 		for (i=0;i<Anzahl*j;i++)
-				{
-					if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
-					{
-//						ecrobot_sound_tone(1000, 500, 10);
-						return 1;
-					}
-					drehen_grad_r(drehung);
-					systick_wait_ms(waittime);
-				}
-		for (i=0;i<Anzahl*j;i++)
 		{
-
-			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
-			{
-//				ecrobot_sound_tone(1000, 500, 10);
-				return 1;
-			}
-			drehen_grad_l(drehung);
-			systick_wait_ms(waittime);
-		}
-		systick_wait_ms(1000);
-		for (i=0;i<Anzahl*j;i++)
-		{
-			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
-			{
-//				ecrobot_sound_tone(1000, 500, 10);
-				return 1;
-			}
-			drehen_grad_l(drehung);
-			systick_wait_ms(waittime);
-		}
-		for (i=0;i<Anzahl*j;i++)
-		{
-			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
+			if (ecrobot_get_light_sensor(NXT_PORT_S3)>black)
 			{
 //				ecrobot_sound_tone(1000, 500, 10);
 				return 1;
@@ -286,10 +269,84 @@ int checkline(int SCHWARZ,int Iterationen)
 			drehen_grad_r(drehung);
 			systick_wait_ms(waittime);
 		}
+		for (i=0;i<Anzahl*j;i++)
+		{
+
+			if (ecrobot_get_light_sensor(NXT_PORT_S3)>black)
+			{
+//				ecrobot_sound_tone(500, 500, 10);
+				return 1;
+			}
+			drehen_grad_l(drehung);
+			systick_wait_ms(waittime);
+		}
+		/// systick_wait_ms(1000);
+		for (i=0;i<Anzahl*j;i++)
+		{
+			if (ecrobot_get_light_sensor(NXT_PORT_S3)>black)
+			{
+//				ecrobot_sound_tone(500, 500, 10);
+				return 1;
+			}
+			drehen_grad_l(drehung);
+			systick_wait_ms(waittime);
+		}
+		for (i=0;i<Anzahl*j;i++)
+		{
+			if (ecrobot_get_light_sensor(NXT_PORT_S3)>black)
+			{
+//				ecrobot_sound_tone(500, 500, 10);
+				return 1;
+			}
+			drehen_grad_r(drehung);
+			systick_wait_ms(waittime);
+		}
 		j++;
 	}
-	ecrobot_sound_tone(1000, 5000, 10);
+	ecrobot_sound_tone(100, 2000, 10);
 	return 0;
+}
+void drive_cm(float cm);
+int forward() /// returns 1 if still on Black returns 0 if it left black and is on white
+
+/// FORWARD GEHT DAVON AUS, DASS MAN SICH AUF SCHWARZ BEFINDET
+/// IST MAN AUF WEIß, KANN ES SEIN DASS ER WEIß FÄLSCHLICHERWEISE ALS SCHWARZ ERKENNT UND WEITERFÄHRT
+
+{
+	int i;
+	int waittime = 20;
+	float Strecke = 2;
+	for (i=0;i<10;i++)
+	{
+		if (ecrobot_get_light_sensor(NXT_PORT_S3)<white) /// ist es sehr weiß hier?
+		{
+			return 0;
+		}
+		drive_cm(Strecke);
+		systick_wait_ms(waittime);
+
+	}
+	return 1;
+
+}
+
+void follow_line() /// follow_line fährt bis zum nächsten Knoten
+{
+	/// FOLLOW-LINE GEHT DAVON AUS, DASS MAN AUF SCHWARZ IST
+	int Light = 1; /// 1 bedeutet Schwarz
+	while(Light == 1)
+	{
+		while(Light == 1)
+		{
+			Light = forward();
+		}
+		Light = checkline(3);
+	}
+}
+void goto_Node_center()
+{
+	drive_cm(12);
+	drehen_grad_l(360);
 }
 
 int FindLine(int old_Light)  /// returns 0 if nothing happens -1, if black-->white, 1 if white -> black
@@ -346,7 +403,7 @@ int sgn(float x)
 
 }
 
-void Get_Black_White()
+void kalibrieren_farbe()
 {
 	int i,Light;
 	int No_Line_Found=0;
@@ -354,47 +411,76 @@ void Get_Black_White()
 	int MIN_WHITE = 1023;
 
 
-	for (i=0;i<=360;i+=5) /// Muss sich ~ 360° Drehen
+	for (i=0;i<=360;i+=5)
 		{
 			Light = ecrobot_get_light_sensor(NXT_PORT_S3);
 			if (Light>MAX_BLACK)
 			{
-				MAX_BLACK = Light;
+				MAX_BLACK = Light; /// Aktualisiere höchsten Black wert
 			}
 			if (Light<MIN_WHITE)
 					{
-				MIN_WHITE = Light;
+				MIN_WHITE = Light; /// Aktualisiere niedrigsten White wert
 					}
-			drehen_grad_r(5);
+
+			drehen_grad_r(5); /// Dreh dich! ~360°
 			wait_ms(20);
 
 
 		}
 
-	white = MIN_WHITE + Toleranz;  /// DEFINIERE GLOBALE VARIABLEN UM
-	black = MAX_BLACK - Toleranz;
+	white = MIN_WHITE + (MAX_BLACK - MIN_WHITE)*Toleranz_white;  /// DEFINIERE GLOBALE VARIABLEN UM
+	black = MAX_BLACK - (MAX_BLACK - MIN_WHITE)*Toleranz_black;
 
-	ecrobot_sound_tone(500, 1000, 10);
-	systick_wait_ms(1050);				/// Akustische Ausgabe
-	ecrobot_sound_tone(1000, 1000, 10);
+//	display_clear(1);
+//	char str1[12] = "whitexxxxxx";
+//	display_goto_xy(5, 2);				/// Display Ausgabe
+//	display_string(str1);
+//
+//	systick_wait_ms(3000);
+//
+//	display_clear(1);
+//	display_goto_xy(1,0);
+//	display_int(white,5);
+//
+//	systick_wait_ms(3000);
+//
+//	display_clear(1);
+//	char str2[12] = "blackxxxxxx";
+//	display_goto_xy(5, 2);				/// Display Ausgabe
+//	display_string(str2);
+//
+//	systick_wait_ms(3000);
+//
+//	display_clear(1);
+//	display_goto_xy(1,0);
+//	display_int(black,5);
+//
+//	systick_wait_ms(3000);
+//	ecrobot_sound_tone(500, 1000, 10);
+//	systick_wait_ms(1050);				/// Akustische Ausgabe
+//
+//
+//	display_clear(1);
+//	char str3[12] = "Kalibriert";
+//	display_goto_xy(5, 2);				/// Display Ausgabe
+//	display_string(str3);
+
+
+
+	No_Line_Found = checkline(4); /// Zurück zur Linie
+
 	systick_wait_ms(1050);
-
-	display_clear(1);
-	char str3[12] = "Kalibriert";
-	display_goto_xy(5, 2);				/// Display Ausgabe
-	display_string(str3);
-
-
-
-	No_Line_Found = checkline(black,4); /// Zurück zur Linie
+	ecrobot_sound_tone(300, 1000, 10);
+	systick_wait_ms(1050);
 
 	if (No_Line_Found == 0)
 	{
 		ecrobot_sound_tone(1000, 1000, 10);
 		display_clear(1);
-		char str3[14] = "LINIE VERLOREN";
+		char str4[14] = "LINIE VERLOREN";
 		display_goto_xy(5, 2);				/// Display Ausgabe
-		display_string(str3);
+		display_string(str4);
 		while (1)
 		{
 			/// ABBRUCH
@@ -549,6 +635,7 @@ void scanNode(int orientation)
  */
 void kalibrieren_drehen()
 {
+	/// Änderung von Thomas : hab das unten mal auskommentiert, da sonst die erzeugte black variable überschrieben wird
 	/// black = ecrobot_get_light_sensor(NXT_PORT_S3)-300; //falls noch nicht kalibriert
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
@@ -628,7 +715,7 @@ void kalibrieren_drehen()
 		display_goto_xy(1,3);
 		display_int(-b-c, 6);
 		wait_ms(500);
-		dreh = -b;
+		dreh = -b; /// Korrektur von Thomas: hab aus b -b gemacht, weil dreh sonst negativ war.
 
 	}
 	else
@@ -668,3 +755,22 @@ void TEST ()
 		}
 }
 
+void Linienfolgen_und_Knoten_finden()
+{
+	int i = 0;
+	int On_the_Line = 1; /// 1 bedeutet Schwarz, d.h wir befinden uns zu beginn auf schwarz
+	while (On_the_Line == 1)  /// Fahre solange, bis schwarz verlassen
+	{
+		On_the_Line = forward();
+	}
+
+	if (checkline(2)== 0)  /// versuche Schwarz wieder zu finden
+	{
+		while (i<5)
+		{
+			wait_ms(1000);
+			i++;
+			/// Roboter hat Knoten gefunden und bricht ab
+		}
+	}
+}
