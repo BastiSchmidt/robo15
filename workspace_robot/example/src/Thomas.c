@@ -3,7 +3,7 @@
 
 int black;  /// MAXIMALES SCHWARZ minus Toleranz siehe: Get_Black_White
 int white;  /// MININMALES WEIß plus Toleranz
-int Toleranz = 100;
+int Toleranz = 300;
 int dreh = 1030;
 void wait_ms(int ms){
 	 int time =systick_get_ms();
@@ -232,7 +232,7 @@ void checkline(int SCHWARZ)
 {
 	int i,j;
 	int waittime = 5;
-	int drehung = 10;
+	int drehung = 5;
 	int Anzahl = 3;
 	i=0;
 	j=1;
