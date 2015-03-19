@@ -26,11 +26,11 @@ typedef struct element *list;
 typedef struct element{
     struct coord node_position;
     struct element *next;
-};
+} element;
 
 typedef struct instructions{
     int path[50];
-};
+} instructions;
 
 void list_append(struct element **start, struct coord discovered);
 

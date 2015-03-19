@@ -31,7 +31,8 @@ void discover(){
         for (i = 0; i <= 3; i++) {
             if (direction_detect(new_intersection, i)) {
                 if (ptrmap[shift_coordinates(current_position,i).x + MAZE_WIDTH]
-                        [shift_coordinates(current_position,i).y + MAZE_WIDTH] == NULL) {
+                        [shift_coordinates(current_position,i).y + MAZE_WIDTH]
+                        == NULL) {
                     maze northern_node = create_node();
                     printf("Adding dir #%d node...\n",i);
                     //update ptrmap with new node
@@ -39,9 +40,9 @@ void discover(){
                         [shift_coordinates(current_position,i).y + MAZE_HEIGHT] =
                             northern_node;
                 }
-                maze northern_node = ptrmap[shift_coordinates(current_position,
-                        i).x + MAZE_WIDTH]
-                    [shift_coordinates(current_position,i).y + MAZE_WIDTH];
+                maze northern_node = ptrmap
+                            [shift_coordinates(current_position, i).x + MAZE_WIDTH]
+                            [shift_coordinates(current_position,i).y + MAZE_WIDTH];
 
                 //set up pointers of current and new node, fill in new nodes position
                 current_node->compass[i] = northern_node;
@@ -158,6 +159,7 @@ struct coord bfs_closest_unvisited_node() {
     seen = NULL;
     struct coord wanted;
     struct coord position;
+    list_append(&queue,current_position);
     position.x = current_position.x;
     position.y = current_position.y;
 
@@ -207,41 +209,49 @@ struct instructions bfs_path_to_node(struct coord goal) {
     struct coord cur_position;
     cur_position.x = current_position.x;
     cur_position.y = current_position.y;
-    current_node->bfs_reached_from = 0;
+    current_node->bfs_reached_from = 255;
+    list_append(&queue,current_position);
     do {
         list_append(&seen, cur_position);
         for (i = 3; i >= 0; i--) {
-            printf("1\n");
+            printf("11\n");
             if ((ptrmap[cur_position.x + MAZE_WIDTH][cur_position.y +
                     MAZE_HEIGHT])->compass[i] != NULL) {
-                printf("2\n");
+                printf("12\n");
                 if (ptrmap[cur_position.x + MAZE_WIDTH][cur_position.y + MAZE_HEIGHT]
                         ->position.x == goal.x && ptrmap[cur_position.x + MAZE_WIDTH]
                         [cur_position.y + MAZE_HEIGHT]
                         ->position.y == goal.y){
-                    printf("3\n");
+                    printf("131\n");
+                    ptrmap[shift_coordinates(cur_position,i).x + MAZE_WIDTH]
+                            [shift_coordinates(cur_position,i).y + MAZE_HEIGHT]
+                            ->bfs_reached_from = i;
+                    printf("132\n");
                     path_to_goal = create_path(goal);
+                    printf("133\n");
                     reset_nodes_bfs();
+                    printf("134\n");
                     destroy_list(queue);
                     destroy_list(seen);
                     return path_to_goal;
                 }
 
                 if (!list_search(&seen,shift_coordinates(cur_position,i))){
-                    printf("4\n");
+                    printf("14\n");
                     list_append(&queue, shift_coordinates(cur_position,i));
                     ptrmap[shift_coordinates(cur_position,i).x + MAZE_WIDTH]
                             [shift_coordinates(cur_position,i).y + MAZE_HEIGHT]
                             ->bfs_reached_from = i;
                 }
             }
-            printf("5\n");
+            printf("15\n");
         }
         cur_position = queue->node_position;
-        printf("6\n");
+        printf("16\n");
         list_remove_first(&queue);
-        printf("7\n");
+        printf("17\n");
     } while (queue != NULL);
+    printf("18\n");
     path_to_goal.path[0] = 0;
     return path_to_goal;
 }
@@ -334,6 +344,7 @@ int follow_instructions(struct instructions instr){
     for (i = 0; instr.path[i] != 0; i++){
         turn_d(instr.path[i]);
         go_straight();
+        printf("Followed one instruction\n");
     }
     return ROBOT_SUCCESS;
 }
@@ -342,18 +353,21 @@ struct instructions create_path(struct coord goal_position){
     struct instructions temp;
     struct instructions path_to_goal;
     int i;
-    for (i=0;ptrmap[goal_position.x][goal_position.y]->bfs_reached_from != 0;i++){
-
-        temp.path[i] = ptrmap[goal_position.x][goal_position.y]->bfs_reached_from;
-
-        goal_position = ptrmap
-                        [shift_coordinates(goal_position, temp.path[i] + 2 % 4).x]
-                        [shift_coordinates(goal_position, temp.path[i] + 2 % 4).y]
-                        ->position;
+    printf("1321\n");
+    for (i=0; ptrmap[goal_position.x + MAZE_WIDTH][goal_position.y + MAZE_HEIGHT]
+             ->bfs_reached_from != 255; i++){
+        printf("1322\n");
+        temp.path[i] = ptrmap[goal_position.x + MAZE_WIDTH]
+                        [goal_position.y + MAZE_HEIGHT]->bfs_reached_from;
+        printf("1323\n");
+        goal_position = shift_coordinates(goal_position, (temp.path[i] + 2) % 4);
+        printf("1324\n");
     }
+    printf("1325\n");
     int j;
     for (j = 0;i >= 0; i--){
         path_to_goal.path[j] = temp.path[i];
+        printf("Instruction: %d", path_to_goal.path[j]);
         j++;
     }
     path_to_goal.path[j] = 0;
