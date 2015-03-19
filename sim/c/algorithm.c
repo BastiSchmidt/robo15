@@ -258,6 +258,15 @@ void list_remove_first(struct element **start) {
     free(temp);
 }
 
+//überprüft, ob tofind in der Liste *start zu finden ist
+int list_search(struct element **start, struct coord tofind){
+    if (*start == NULL) return 0;
+    if (*start->node_position == tofind) return 1;
+    else *start = *start -> next;
+        list_search(&(*start),tofind);
+}
+
+
 struct coord shift_coordinates(struct coord old, int direction){
     switch (direction) {
         case 0:

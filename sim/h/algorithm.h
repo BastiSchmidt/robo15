@@ -34,6 +34,8 @@ void list_remove_first(struct element **start);
 
 void destroy_list(struct element **start);
 
+int list_search(struct element **start, struct element *tofind);
+
 struct node *ptrmap[2 * 7 + 2][2 * 7 + 2]; //TODO: replace static size!
 
 void init();
