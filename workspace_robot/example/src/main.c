@@ -27,11 +27,15 @@ TASK(OSEK_Main_Task)
 	{
 		ecrobot_set_light_sensor_active(NXT_PORT_S3);
 		ecrobot_status_monitor("Hello, World");
-//		display_clear(0);
-//		char str3[12] = "GRADEAUS";
-//		display_goto_xy(5,2);
-//		display_string(str3);
+		display_clear(0);
+		char str3[12] = "teest";
+		display_goto_xy(5,2);
+		display_string(str3);
+		/* 2000msec wait */
+		systick_wait_ms(2000);
+
 		kalibrieren_drehen();
+
 		/* 2000msec wait */
 		systick_wait_ms(2000);
 

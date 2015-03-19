@@ -2,7 +2,7 @@
 
 
 int black = 500;
-int dreh = 1030;
+int dreh = 1000;
 void wait_ms(int ms){
 	 int time =systick_get_ms();
 	 while( systick_get_ms()> time + ms)
@@ -479,7 +479,7 @@ void kalibrieren_drehen()
 {
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
-	int umdr = 900;
+	int umdr = dreh;
 	while(nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)
 	{
 		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
@@ -490,7 +490,7 @@ void kalibrieren_drehen()
 	{
 		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
 		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
-		wait_ms(40);
+		wait_ms(20);
 	}// jetzt issa auf schwarz. Motoren aus
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
@@ -498,25 +498,33 @@ void kalibrieren_drehen()
 	//jetzt drehungen vergleichen und dreh berechnen
 	int b = nxt_motor_get_count(NXT_PORT_B);
 	int c = nxt_motor_get_count(NXT_PORT_C);
-	if(b<c+30 && c<b+30)
+	ecrobot_sound_tone(200, 500, 30);// für test
+	ecrobot_status_monitor("Hello, wuff");
+	if(b==c || (b<c+10 && c<b+100) )
 	{
 		display_clear(0);
-		char str3[12] = "Wunderbar";
-		display_goto_xy(1,2);
+		char str3[12] = "Wuff kal";
+		display_goto_xy(5, 2);
 		display_string(str3);
-		char str4[12] = "Kalibriert";
-		display_goto_xy(1,4);
-		display_string(str4);
+		display_goto_xy(1,3);
+		display_int(b-c, 6);
+		systick_wait_ms(2000);
+		dreh = b;
+		ecrobot_sound_tone(400, 500, 30);// für test
 	}
 	else
 	{
 		display_clear(0);
-		char str3[12] = "err";
-		display_goto_xy(1,2);
+		char str3[12] = "Wuff Error";
+		display_goto_xy(5, 2);
 		display_string(str3);
-		if(b<c)
-		{
-
-		}
+		display_goto_xy(1,3);
+		display_int(b-c, 6);
+		systick_wait_ms(2000);
+		ecrobot_sound_tone(800, 500, 30);// für test
+//		if(b<c)
+//		{
+//
+//		}
 	}
 }
