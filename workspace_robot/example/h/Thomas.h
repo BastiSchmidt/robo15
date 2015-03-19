@@ -7,7 +7,8 @@
 
 #ifndef H_THOMAS_H_
 #define H_THOMAS_H_
-
+int black;
+int dreh;
 #include <stdlib.h>
 #include "kernel.h"
 /* Will be generated: */
@@ -15,10 +16,10 @@
 #include "ecrobot_interface.h"
 #include "../src/Thomas.c"
 
-
-
 void wait_ms(int ms);
 int sgn(float x);
+
+void kalibrieren();
 
 void drehen_grad_r(int grad);
 void drehen_grad_l(int grad);
@@ -39,6 +40,5 @@ int FindLine(int old_Light);
 
 void checkline(int SCHWARZ);
 void Get_Black_White();
-
 
 #endif /* H_THOMAS_H_ */
