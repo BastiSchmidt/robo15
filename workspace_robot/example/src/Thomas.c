@@ -16,80 +16,79 @@ void wait_ms(int ms)
 
 void drehen_grad_r(int grad)
 {
-	// Drehung wird unabhängig von richtung gezählt!!
 
 	float umdr = (grad * dreh/360) ;// 1°drehen entspricht 2.66° Raddrehen, 10 grad weniger wg. Trägheit
 	int power = 90; //Prozentzahl für Motoren
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
-	while(nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)//bis einer die Umdrehungen erreicht hat
-	{
-		nxt_motor_set_speed(NXT_PORT_C ,  power , 0);
-		nxt_motor_set_speed(NXT_PORT_B , -power , 0);
-		wait_ms(10);
 
+	while(nxt_motor_get_count(NXT_PORT_B)< umdr && -nxt_motor_get_count(NXT_PORT_C)< umdr)
+	{
+		nxt_motor_set_speed(NXT_PORT_C , -80 , 0);
+		nxt_motor_set_speed(NXT_PORT_B , 80 , 0);
+		wait_ms(50);
+		if(nxt_motor_get_count(NXT_PORT_B) > -nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+		{
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+			while(nxt_motor_get_count(NXT_PORT_B) > -nxt_motor_get_count(NXT_PORT_C))
+			{
+				nxt_motor_set_speed(NXT_PORT_C ,-80 , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+		}
+		if(nxt_motor_get_count(NXT_PORT_B) < -nxt_motor_get_count(NXT_PORT_C))
+		{
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			while(-nxt_motor_get_count(NXT_PORT_C) > nxt_motor_get_count(NXT_PORT_B))
+			{
+				nxt_motor_set_speed(NXT_PORT_B , 80 , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+		}
 	}
-	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-//	if(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat
-//		                                                                 // und dann entsprehend angleichen
-//	{
-//		while(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
-//		{
-//			nxt_motor_set_speed(NXT_PORT_C , -power , 0);
-//			wait_ms(50);
-//			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-//		}
-//	}
-//	else
-//	{
-//		while(nxt_motor_get_count(NXT_PORT_C) > nxt_motor_get_count(NXT_PORT_B))
-//		{
-//			nxt_motor_set_speed(NXT_PORT_B , power , 0);
-//			wait_ms(50);
-//			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-//		}
-//	}
 
 }
 
 void drehen_grad_l(int grad)
 {
-	// Drehung wird unabhängig von richtung gezählt!!
-
 
 	float umdr = (grad * dreh/360) ;// 1°drehen entspricht 2.66° Raddrehen, 10 grad weniger wg. Trägheit
 	int power = 80; //Prozentzahl für Motoren
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
-	while(nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)//bis einer die Umdrehungen erreicht hat
-	{
-		nxt_motor_set_speed(NXT_PORT_C ,-power , 0);
-		nxt_motor_set_speed(NXT_PORT_B , power , 0);
-		wait_ms(10);
 
+	while(-nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)
+	{
+		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+		wait_ms(50);
+		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+		{
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
+			{
+				nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+		}
+		if(-nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
+		{
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
+			{
+				nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+		}
 	}
-	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-//	if(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat
-//		                                                                 // und dann entsprehend angleichen
-//	{
-//		while(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
-//		{
-//			nxt_motor_set_speed(NXT_PORT_C , -power , 0);
-//			wait_ms(50);
-//			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-//		}
-//	}
-//	else
-//	{
-//		while(nxt_motor_get_count(NXT_PORT_C) > nxt_motor_get_count(NXT_PORT_B))
-//		{
-//			nxt_motor_set_speed(NXT_PORT_B , power , 0);
-//			wait_ms(50);
-//			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-//		}
-//	}
 
 }
 void drehen()
@@ -98,32 +97,34 @@ void drehen()
 	int power = 75; //Prozentzahl für Motoren
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
-	while(nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)//bis einer die Umdrehungen erreicht hat
+
+	while(-nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)
 	{
-		nxt_motor_set_speed(NXT_PORT_C , power , 0);
-		nxt_motor_set_speed(NXT_PORT_B , -power , 0);
+		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
 		wait_ms(50);
-		nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-		nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-//		if(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat
-//			                                                                 // und dann entsprehend angleichen
-//		{
-//			while(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
-//			{
-//				nxt_motor_set_speed(NXT_PORT_C , power , 0);
-//				wait_ms(20);
-//				nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-//			}
-//		}
-//		else
-//		{
-//			while(nxt_motor_get_count(NXT_PORT_C) > nxt_motor_get_count(NXT_PORT_B))
-//			{
-//				nxt_motor_set_speed(NXT_PORT_B , power , 0);
-//				wait_ms(100);
-//				nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-//			}
-//		}
+		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+		{
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
+			{
+				nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+		}
+		if(-nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
+		{
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
+			{
+				nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+		}
 	}
 	wait_ms(6000);
 }
@@ -517,20 +518,66 @@ void scanNode(int orientation)
  */
 void kalibrieren_drehen()
 {
+	black = ecrobot_get_light_sensor(NXT_PORT_S3)-50; //falls noch nicht kalibriert
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
-	int umdr = dreh;
-	while(nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)
+	int umdr = 900;
+
+	while(-nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)
 	{
 		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
 		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
 		wait_ms(50);
+		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+		{
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
+			{
+				nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+		}
+		if(-nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
+		{
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
+			{
+				nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+		}
 	}// bissel gedreht, jetzt Schwarz suchen
-	while(ecrobot_get_light_sensor(NXT_PORT_S3)<black)
+	while(ecrobot_get_light_sensor(NXT_PORT_S3)<=black)
 	{
 		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
 		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
 		wait_ms(20);
+		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+		{
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
+			{
+				nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+		}
+		if(-nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
+		{
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
+			{
+				nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+		}
 	}// jetzt issa auf schwarz. Motoren aus
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
@@ -539,18 +586,19 @@ void kalibrieren_drehen()
 	int b = nxt_motor_get_count(NXT_PORT_B);
 	int c = nxt_motor_get_count(NXT_PORT_C);
 	ecrobot_sound_tone(200, 500, 30);// für test
+	wait_ms(100);
 	ecrobot_status_monitor("Hello, wuff");
-	if(b==c || (b<c+10 && c<b+100) )
+	if(-b==c || (b<c+10 && c<b+10) )
 	{
 		display_clear(0);
-		char str3[12] = "Wuff kal";
+		char str3[12] = "Kalibriert";
 		display_goto_xy(5, 2);
 		display_string(str3);
 		display_goto_xy(1,3);
-		display_int(b-c, 6);
-		systick_wait_ms(2000);
+		display_int(-b-c, 6);
+		wait_ms(500);
 		dreh = b;
-		ecrobot_sound_tone(400, 500, 30);// für test
+
 	}
 	else
 	{
@@ -559,13 +607,11 @@ void kalibrieren_drehen()
 		display_goto_xy(5, 2);
 		display_string(str3);
 		display_goto_xy(1,3);
-		display_int(b-c, 6);
+		display_int(b, 6);
+		display_goto_xy(1,4);
+		display_int(c, 6);
 		systick_wait_ms(2000);
 		ecrobot_sound_tone(800, 500, 30);// für test
-//		if(b<c)
-//		{
-//
-//		}
 	}
 }
 

@@ -33,9 +33,9 @@ int main(void) {
 		print_ptrmap();
 		struct coord optimum;
 		optimum = bfs_closest_unvisited_node();
-		//print_matrix(0);
+		follow_instructions(bfs_path_to_node(optimum));
 		printf("X:%d Y: %d I:%d\n",optimum.x, optimum.y, i);
-		do {
+		/*do {
 			d = 8;
 			srand(time(NULL) + rand()); //more random is more random
 			for (r = rand() % 4; r >= 0; r--){
@@ -44,7 +44,7 @@ int main(void) {
 		} while (!direction_detect(scan(), d));
 
 		turn_d(d);
-		go_straight();
+		go_straight();*/
 		i++;
 	}
 

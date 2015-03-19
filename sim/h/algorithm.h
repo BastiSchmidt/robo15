@@ -16,6 +16,7 @@ typedef struct node{
     struct coord position;
     maze compass[4];
     bool visited;
+    int bfs_reached_from;
 } node;
 struct node *current_node;
 
@@ -39,6 +40,8 @@ void destroy_list(struct element *start);
 
 int list_search(struct element **start, struct coord tofind);
 
+void reset_nodes_bfs();
+
 struct node *ptrmap[2 * 7 + 2][2 * 7 + 2]; //TODO: replace static size!
 
 void init();
@@ -55,7 +58,11 @@ struct node *create_node();
 
 struct coord bfs_closest_unvisited_node();
 
+struct instructions bfs_path_to_node(struct coord goal);
+
 struct coord shift_coordinates(struct coord old, int direction);
+
+struct instructions create_path(struct coord goal_position);
 
 int follow_instructions(struct instructions instr);
 

@@ -19,7 +19,7 @@ int dreh;
 void wait_ms(int ms);
 int sgn(float x);
 
-void kalibrieren();
+void kalibrieren_drehen();
 
 void drehen_grad_r(int grad);
 void drehen_grad_l(int grad);
