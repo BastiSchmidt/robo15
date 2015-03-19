@@ -130,7 +130,7 @@ void drehen()
 
 void drive(int umdr)
 {
-	int power = 60; //Prozentzahl für Motoren
+	int power = 95; //Prozentzahl für Motoren
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
 	while(nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)//bis einer die Umdrehungen erreicht hat
@@ -232,13 +232,17 @@ void checkline(int SCHWARZ)
 /// TODO Schleifen entfernen, damit Knoten erkannt werden können
 /// erst jedoch sensor weiter nach vorne sezten
 {
+	if (ecrobot_get_light_sensor(NXT_PORT_S3)>white) /// brich ab wenn immer noch auf Schwarz
+	{
+		return;
+	}
 	int i,j;
 	int waittime = 5;
 	int drehung = 5;
 	int Anzahl = 3;
 	i=0;
 	j=1;
-	while (1)
+	while (j<3) // 2 Iterationen
 	{
 
 		for (i=0;i<Anzahl*j;i++)
@@ -262,6 +266,7 @@ void checkline(int SCHWARZ)
 			drehen_grad_l(drehung);
 			systick_wait_ms(waittime);
 		}
+		systick_wait_ms(1000);
 		for (i=0;i<Anzahl*j;i++)
 		{
 			if (ecrobot_get_light_sensor(NXT_PORT_S3)>SCHWARZ)
@@ -284,6 +289,7 @@ void checkline(int SCHWARZ)
 		}
 		j++;
 	}
+	ecrobot_sound_tone(1000, 500, 10);
 }
 
 int FindLine(int old_Light)  /// returns 0 if nothing happens -1, if black-->white, 1 if white -> black
