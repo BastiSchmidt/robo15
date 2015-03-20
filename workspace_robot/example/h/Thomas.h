@@ -44,7 +44,9 @@ int checkline_left (int steps, int drehung, int waittime);
 int checkline(int Winkel,int Iterationen);
 
 int forward();						/// erweiterte Bewegungsfunktionen
-void goto_Node_center();
+int goto_Node_center();
+void Node_center_case1();
+void Node_center_case2();
 
 int get_Hits(int MAX_grad,int Position);
 void scan_Node();
