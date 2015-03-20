@@ -15,29 +15,17 @@ int main(void) {
 	Robot_Move(current_position.x, current_position.y);
 	orientation = 2;
 
-	//init_sim_rnd();
-
+	init_sim_rnd();
 	init();
 
-	//randomly searching for all nodes - highly wasteful
-	int i = 0, r, d;
+	//main loop
+	int i = 0;
 	struct coord optimum;
 	while (!(tokencount >= TOKEN_AIM || discovered_everything)){
 		discover();
-		print_ptrmap();
 		optimum = bfs_closest_unvisited_node();
 		printf("X:%d Y: %d I:%d\n",optimum.x, optimum.y, i);
 		follow_instructions(bfs_path_to_node(optimum));
-		/*do {
-			d = 8;
-			srand(time(NULL) + rand()); //more random is more random
-			for (r = rand() % 4; r >= 0; r--){
-				d = d * 2; //yields directions (16,32,64,128) - really!
-			}
-		} while (!direction_detect(scan(), d));
-
-		turn_d(d);
-		go_straight();*/
 		i++;
 	}
 	if (discovered_everything) {
