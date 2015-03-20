@@ -15,7 +15,7 @@ typedef struct node *maze;
 typedef struct node{
     struct coord position;
     maze compass[4];
-    bool visited;
+    int visited;
     int bfs_reached_from;
 } node;
 struct node *current_node;
@@ -48,8 +48,6 @@ void discover();
 
 int direction_detect(int given_intersection, int wanted_direction);
 
-int node_visited(int direction);
-
 int turn_d(int direction);
 
 struct node *create_node();
@@ -63,8 +61,6 @@ struct coord shift_coordinates(struct coord old, int direction);
 struct instructions create_path(struct coord goal_position);
 
 int follow_instructions(struct instructions instr);
-
-void print_matrix(int layer);
 
 void print_ptrmap();
 

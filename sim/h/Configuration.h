@@ -28,19 +28,13 @@
 #define URL "http://" IP ":" PORT "/query?id=" GROUPID "&values="
 
 // define maze size here
-#define MAZE_WIDTH 6
-#define MAZE_HEIGHT 6
+#define MAZE_WIDTH 24
+#define MAZE_HEIGHT 24
 
-#define TOKEN_AIM 5
+#define TOKEN_AIM 9999
 
 //Current orientation of bot
 int orientation;
-
-//Naive approach for creating a simple map of known nodes
-//offset of MAZE_WIDTH + 1 to make sure we have enough space for every start point
-//4 layers to save available directions, visited directions and flags for dfs
-// and bfs
-int matrix[2*MAZE_WIDTH + 2][2*MAZE_HEIGHT + 2][4];
 
 //map of pointers to node objects
 struct node *ptrmap[2 * MAZE_WIDTH + 3][2 * MAZE_HEIGHT + 3];
