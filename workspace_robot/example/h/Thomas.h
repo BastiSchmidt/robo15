@@ -36,7 +36,8 @@ int steps_left(int steps, int steplenght);  /// veraltete / nicht gebrauchte Fun
 int steps_right(int steps, int steplenght);
 int FindLine(int old_Light);
 
-
+int checkline_right (int steps, int drehung, int waittime);
+int checkline_left (int steps, int drehung, int waittime);
 int checkline(int Iterationen);
 int forward();						/// erweiterte Bewegungsfunktionen
 void goto_Node_center();
