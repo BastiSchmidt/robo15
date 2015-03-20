@@ -34,6 +34,15 @@ TASK(OSEK_Main_Task)
 		goto_Node_center();
 		scan_Node();
 
+		drehen_grad_r(90);
+
+		follow_line();
+		systick_wait_ms(3000);
+		goto_Node_center();
+		scan_Node();
+
+		drehen_grad_l(90);
+
 	}
 }
 

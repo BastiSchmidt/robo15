@@ -3,8 +3,8 @@
 
 int black;  /// MAXIMALES SCHWARZ minus Toleranz siehe: Get_Black_White
 int white;  /// MININMALES WEIß plus Toleranz
-float Toleranz_black = 0.6;
-float Toleranz_white = 0.25;
+float Toleranz_black = 0.5;
+float Toleranz_white = 0.3;
 int dreh = 1030;
 
 void wait_ms(int ms)
@@ -18,11 +18,11 @@ void wait_ms(int ms)
 void Token_found()
 {
 	/// TODO erhöhe Token Variable um 1
-	ecrobot_sound_tone(3000, 2000, 10);
+	ecrobot_sound_tone(500, 2000, 10);
 	systick_wait_ms(10000);
 }
 
-void drehen_grad_r(int grad)
+void drehen_grad_l(int grad)
 {
 
 	float umdr = (grad * dreh/360) ;// 1°drehen entspricht 2.66° Raddrehen, 10 grad weniger wg. Trägheit
@@ -71,7 +71,7 @@ void drehen_grad_r(int grad)
 
 }
 
-void drehen_grad_l(int grad)
+void drehen_grad_r(int grad)
 {
 
 	float umdr = (grad * dreh/360) ;// 1°drehen entspricht 2.66° Raddrehen, 10 grad weniger wg. Trägheit
@@ -154,33 +154,34 @@ int checkline_right (int steps, int drehung, int waittime)
 	/// systick_wait_ms(1000);
 }
 
-int checkline(int Iterationen)
+int checkline(int Winkel,int Iterationen)
 {
 
 	/// CHECKLINE GEHT DAVON AUS, DASS MAN SICH AUF WEIß BEFINDET
 	/// IST MAN AUF SCHWARZ, KANN ES SEIN DASS ER SCHWARZ FÄLSCHLICHERWEISE ALS WEIß ERKENNT
 
-	int j;
+	int j =0;
 	int waittime = 5;
 	int drehung = 5;
-	int Anzahl = 3;
-	j=1;
-	while (j<Iterationen+1) // 2 Iterationen
+
+	int step = (Winkel)/(Iterationen-1)/drehung; /// damit sollte er sich in der Letzten Iteration um Winkel drehen
+
+	while (j<Iterationen)
 	{
 
-		if (checkline_right(j*Anzahl,drehung,waittime)==1)
+		if (checkline_right(j*step,drehung,waittime)==1)
 		{
 			return 1;
 		}
-		if (checkline_left(j*Anzahl,drehung,waittime)==1)
+		if (checkline_left(j*step,drehung,waittime)==1)
 		{
 			return 1;
 		}
-		if (checkline_left(j*Anzahl,drehung,waittime)==1)
+		if (checkline_left(j*step,drehung,waittime)==1)
 		{
 			return 1;
 		}
-		if (checkline_right(j*Anzahl,drehung,waittime)==1)
+		if (checkline_right(j*step,drehung,waittime)==1)
 		{
 			return 1;
 		}
@@ -235,7 +236,7 @@ void follow_line() /// follow_line fährt bis zum nächsten Knoten
 		{
 			Light = forward();
 		}
-		Light = checkline(3);
+		Light = checkline(40,2);
 	}
 }
 
@@ -365,7 +366,7 @@ void kalibrieren_farbe()
 
 
 
-	No_Line_Found = checkline(4); /// Zurück zur Linie
+	No_Line_Found = checkline(180,5); /// Zurück zur Linie
 
 	systick_wait_ms(1050);
 	ecrobot_sound_tone(300, 1000, 10);
@@ -427,6 +428,8 @@ void drive_cm(float cm)
 		}
 		if (check_Token() == 1)
 		{
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 			Token_found();
 		}
 	}
@@ -511,7 +514,7 @@ void scan_Node()
 	int drehung = 5;
 	int waittime = 20;
 
-	straigth = checkline(3); /// Roboter sucht vor sich nach einer Linie, findet er was richtet er sich aus und setzt variable 1
+	straigth = checkline(40,2); /// Roboter sucht vor sich nach einer Linie, findet er was richtet er sich aus und setzt variable 1
 
 		systick_wait_ms(1000);
 
@@ -567,7 +570,7 @@ void scan_Node()
 
 	drehen_grad_l(180);   /// drehe dich zurück zur Ausgangsstellung
 
-		ecrobot_sound_tone(1000,1000,20);
+		ecrobot_sound_tone(1000,500,10);
 		systick_wait_ms(1050);
 
 
@@ -822,46 +825,5 @@ void kalibrieren_drehen()
 		display_int(c, 6);
 		systick_wait_ms(2000);
 		ecrobot_sound_tone(800, 500, 30);// für test
-	}
-}
-
-void TEST ()
-{
-	ecrobot_sound_tone(1000, 1000, 10);
-		systick_wait_ms(5000);
-		ecrobot_sound_tone(1000, 1000, 10);
-		display_clear(1);
-		display_goto_xy(1,0);
-		display_int(white,5);
-		systick_wait_ms(5000);
-		ecrobot_sound_tone(1000, 1000, 10);
-		systick_wait_ms(5000);
-		ecrobot_sound_tone(1000, 1000, 10);
-		display_clear(1);
-		display_goto_xy(1,0);
-		display_int(black,5);
-		while (1)
-		{
-
-		}
-}
-
-void Linienfolgen_und_Knoten_finden()
-{
-	int i = 0;
-	int On_the_Line = 1; /// 1 bedeutet Schwarz, d.h wir befinden uns zu beginn auf schwarz
-	while (On_the_Line == 1)  /// Fahre solange, bis schwarz verlassen
-	{
-		On_the_Line = forward();
-	}
-
-	if (checkline(2)== 0)  /// versuche Schwarz wieder zu finden
-	{
-		while (i<5)
-		{
-			wait_ms(1000);
-			i++;
-			/// Roboter hat Knoten gefunden und bricht ab
-		}
 	}
 }
