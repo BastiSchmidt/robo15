@@ -6,6 +6,7 @@ sim/.settings
 
 workspace_robot/example/kernel_cfg.c
 workspace_robot/example/kernel_id.h
+workspace_robot/.gitignore
 
 .idea
 CMakeLists.txt
