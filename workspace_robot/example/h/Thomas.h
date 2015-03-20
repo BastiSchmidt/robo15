@@ -27,9 +27,6 @@ void drehen_grad_l(int grad);			/// Grundlegende Bewegungsfunktionen
 void drive_cm(float cm);
 
 
-
-void drive(int umdr);
-void drehen();
 void step_left(int time);
 void step_left(int time);
 int steps_left(int steps, int steplenght);  /// veraltete / nicht gebrauchte Funktionen
