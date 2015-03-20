@@ -25,15 +25,15 @@ void drehen_grad_r(int grad)
 
 	while(nxt_motor_get_count(NXT_PORT_B)< umdr && -nxt_motor_get_count(NXT_PORT_C)< umdr)
 	{
-		nxt_motor_set_speed(NXT_PORT_C , -80 , 0);
-		nxt_motor_set_speed(NXT_PORT_B , 80 , 0);
+		nxt_motor_set_speed(NXT_PORT_C , -power , 0);
+		nxt_motor_set_speed(NXT_PORT_B , power , 0);
 		wait_ms(50);
 		if(nxt_motor_get_count(NXT_PORT_B) > -nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
 		{
 			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 			while(nxt_motor_get_count(NXT_PORT_B) > -nxt_motor_get_count(NXT_PORT_C))
 			{
-				nxt_motor_set_speed(NXT_PORT_C ,-80 , 0);
+				nxt_motor_set_speed(NXT_PORT_C ,-power , 0);
 				wait_ms(10);
 
 			}
@@ -44,7 +44,7 @@ void drehen_grad_r(int grad)
 			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 			while(-nxt_motor_get_count(NXT_PORT_C) > nxt_motor_get_count(NXT_PORT_B))
 			{
-				nxt_motor_set_speed(NXT_PORT_B , 80 , 0);
+				nxt_motor_set_speed(NXT_PORT_B , power , 0);
 				wait_ms(10);
 
 			}
@@ -71,15 +71,15 @@ void drehen_grad_l(int grad)
 
 	while(-nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)
 	{
-		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
-		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+		nxt_motor_set_speed(NXT_PORT_C , power , 0);
+		nxt_motor_set_speed(NXT_PORT_B , -power , 0);
 		wait_ms(50);
 		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
 		{
 			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
 			{
-				nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+				nxt_motor_set_speed(NXT_PORT_C , power , 0);
 				wait_ms(10);
 
 			}
@@ -90,7 +90,7 @@ void drehen_grad_l(int grad)
 			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
 			{
-				nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+				nxt_motor_set_speed(NXT_PORT_B , -power , 0);
 				wait_ms(10);
 
 			}
@@ -108,63 +108,75 @@ void drehen_grad_l(int grad)
 
 }
 
+
+int checkline_left (int steps, int drehung, int waittime)
+{
+	int i;
+	for (i=0;i<steps;i++)
+	{
+
+		if (ecrobot_get_light_sensor(NXT_PORT_S3)>black)
+		{
+//				ecrobot_sound_tone(500, 500, 10);
+			return 1;
+		}
+		drehen_grad_l(drehung);
+		systick_wait_ms(waittime);
+	}
+	return 0;
+	/// systick_wait_ms(1000);
+}
+
+int checkline_right (int steps, int drehung, int waittime)
+{
+	int i;
+	for (i=0;i<steps;i++)
+	{
+
+		if (ecrobot_get_light_sensor(NXT_PORT_S3)>black)
+		{
+//				ecrobot_sound_tone(500, 500, 10);
+			return 1;
+		}
+		drehen_grad_r(drehung);
+		systick_wait_ms(waittime);
+	}
+	return 0;
+	/// systick_wait_ms(1000);
+}
+
+
 int checkline(int Iterationen)
 {
 
 	/// CHECKLINE GEHT DAVON AUS, DASS MAN SICH AUF WEIß BEFINDET
 	/// IST MAN AUF SCHWARZ, KANN ES SEIN DASS ER SCHWARZ FÄLSCHLICHERWEISE ALS WEIß ERKENNT
 
-	int i,j;
+	int j;
 	int waittime = 5;
 	int drehung = 5;
 	int Anzahl = 3;
-	i=0;
 	j=1;
 	while (j<Iterationen+1) // 2 Iterationen
 	{
 
-		for (i=0;i<Anzahl*j;i++)
+		if (checkline_right(j*Anzahl,drehung,waittime)==1)
 		{
-			if (ecrobot_get_light_sensor(NXT_PORT_S3)>black)
-			{
-//				ecrobot_sound_tone(1000, 500, 10);
-				return 1;
-			}
-			drehen_grad_r(drehung);
-			systick_wait_ms(waittime);
+			return 1;
 		}
-		for (i=0;i<Anzahl*j;i++)
+		if (checkline_left(j*Anzahl,drehung,waittime)==1)
 		{
+			return 1;
+		}
+		if (checkline_left(j*Anzahl,drehung,waittime)==1)
+		{
+			return 1;
+		}
+		if (checkline_right(j*Anzahl,drehung,waittime)==1)
+		{
+			return 1;
+		}
 
-			if (ecrobot_get_light_sensor(NXT_PORT_S3)>black)
-			{
-//				ecrobot_sound_tone(500, 500, 10);
-				return 1;
-			}
-			drehen_grad_l(drehung);
-			systick_wait_ms(waittime);
-		}
-		/// systick_wait_ms(1000);
-		for (i=0;i<Anzahl*j;i++)
-		{
-			if (ecrobot_get_light_sensor(NXT_PORT_S3)>black)
-			{
-//				ecrobot_sound_tone(500, 500, 10);
-				return 1;
-			}
-			drehen_grad_l(drehung);
-			systick_wait_ms(waittime);
-		}
-		for (i=0;i<Anzahl*j;i++)
-		{
-			if (ecrobot_get_light_sensor(NXT_PORT_S3)>black)
-			{
-//				ecrobot_sound_tone(500, 500, 10);
-				return 1;
-			}
-			drehen_grad_r(drehung);
-			systick_wait_ms(waittime);
-		}
 		j++;
 	}
 	ecrobot_sound_tone(100, 2000, 10);
@@ -213,7 +225,8 @@ void follow_line() /// follow_line fährt bis zum nächsten Knoten
 void goto_Node_center()
 {
 	drive_cm(12);
-	drehen_grad_l(360);
+	systick_wait_ms(1000);
+
 }
 
 int sgn(float x)
@@ -381,7 +394,8 @@ void drive_cm(float cm)
 ///
 ///}
 
-int get_Hits(int MAX_grad,int Position)
+int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!!
+
 {
 
 	int waittime = 20;
@@ -397,7 +411,7 @@ int get_Hits(int MAX_grad,int Position)
 		{
 			drehen_grad_r(drehung);			/// dreh dich ein stück
 			systick_wait_ms(waittime);
-			grad =+ 5;
+			grad += 5;
 			Light = ecrobot_get_light_sensor(NXT_PORT_S3); /// Miss Licht
 			if (Light<white)
 			{
@@ -409,17 +423,13 @@ int get_Hits(int MAX_grad,int Position)
 		{
 			drehen_grad_r(drehung);			/// dreh dich ein stück
 			systick_wait_ms(waittime);
-			grad =+ 5;
+			grad += 5;
 			Light = ecrobot_get_light_sensor(NXT_PORT_S3); /// Miss Licht
 			if (Light>black)
 			{
 				Position = 1; /// Er befindet sich jetzt auf Schwarzer Oberfläche
 				Hits++;
-				if (Hits == 3)
-				{
-					/// TODO Drehe bis zum nächsten Knoten
-					return 3;
-				}
+
 				ecrobot_sound_tone(300, 1000, 10);
 			}
 
@@ -432,33 +442,24 @@ int get_Hits(int MAX_grad,int Position)
 void scan_Node()
 {
 	int left,right,straigth = 0;
+	int drehung = 5;
+	int waittime = 20;
 
 	straigth = checkline(3); /// Roboter sucht vor sich nach einer Linie, findet er was richtet er sich aus und setzt variable 1
 
-	int Position;
+		systick_wait_ms(1000);
 
-	///
-	/// ERSTER 180° DURCHLAUF
-	///
+	drehen_grad_r(45); 				/// Dreh 45°
 
-	if (straigth==1) /// Fallunterscheidung ob er auf Schwarz oder weiß startet
+		systick_wait_ms(1000);
+
+	right = get_Hits(70,0);			/// suche Linie rechts
+
+		systick_wait_ms(1000);
+
+	if (checkline_right(12,drehung,waittime)==0)   /// Finde herkunftslinie
 	{
-		Position = 1; /// Pos = 1 Schwarz Pos = 0 Weiß
-	}
-	else
-	{
-		Position = 0; /// Pos = 1 Schwarz Pos = 0 Weiß
-	}
-
-	int Hits_right = get_Hits(180,Position);
-
-	///
-	///
-	///
-
-	Position = checkline(3); /// Ausrichtung auf Linie
-	if (Position==0)         /// Fehlermeldung falls verloren
-	{
+		/// FATAL ERROR
 		ecrobot_sound_tone(1000, 1000, 10);
 		display_clear(1);
 		char str4[14] = "LINIE VERLOREN";
@@ -466,23 +467,25 @@ void scan_Node()
 		display_string(str4);
 		while (1)
 		{
-			/// ABBRUCH
+
 		}
 	}
 
-	///
-	/// 360° Drehung -> Wissen über die gesamtzahl aller Linien
-	///
+		systick_wait_ms(1000);
 
-	int Hits_total = get_Hits(360,Position);
+	drehen_grad_r(45);    /// Dreh 45°
 
-	///
-	///
-	///
+		systick_wait_ms(1000);
 
-	Position = checkline(3); /// Ausrichtung auf Linie
-	if (Position==0)         /// Fehlermeldung falls verloren
+	left = get_Hits(70,0);   /// suche Linie links
+
+		systick_wait_ms(1000);
+
+	drehen_grad_l(135);			/// drehe zurück richtung Herkunftslinie
+
+	if (checkline_left(12,drehung,waittime)==0) /// Finde herkunftslinie
 	{
+		/// FATAL ERROR
 		ecrobot_sound_tone(1000, 1000, 10);
 		display_clear(1);
 		char str4[14] = "LINIE VERLOREN";
@@ -490,79 +493,17 @@ void scan_Node()
 		display_string(str4);
 		while (1)
 		{
-			/// ABBRUCH
+
 		}
 	}
 
-	///
-	/// ZWEITE 180° DREHUNG
-	///
+		systick_wait_ms(1000);
 
-	int Hits_left = get_Hits(360,Position);
+	drehen_grad_l(180);   /// drehe dich zurück zur Ausgangsstellung
 
-	///
-	///
-	///
+		ecrobot_sound_tone(1000,1000,20);
+		systick_wait_ms(1050);
 
-
-	///
-	/// AUSWERTUNG
-	///
-	Hits_total = Hits_total - straigth;  /// Hits_total ist nun 0 1 oder 2
-
-	if (Hits_left + Hits_right < Hits_total || Hits_left + Hits_right > Hits_total + 2 )
-	{
-		/// ERROR
-	}
-
-	if (Hits_total == 2)
-	{
-		left,right = 1;
-	}							/// Einfache fälle
-	if (Hits_total == 0)
-	{
-		left,right = 0;
-	}
-
-	if (Hits_total == 1)
-	{
-		if (Hits_left == 1 && Hits_right ==1)
-		{
-			/// WORST CASE TRY AGAIN
-			drehen_grad_r(180);
-			scan_Node();
-			return;
-		}
-
-		if (Hits_left == 0)
-		{
-			left = 0;
-			right = 1;
-		}
-		if (Hits_left == 1)
-		{
-			if (Hits_right == 0)
-			{
-				left = 1;
-				right = 0;
-			}
-			if (Hits_right == 2)
-			{
-				left = 0;
-				right = 1;
-			}
-		}
-		if (Hits_left == 2)
-		{
-			left = 1;
-			right = 0;
-		}
-	}
-
-
-	///
-	///
-	///
 
 	///
 	/// AUSGABE
@@ -597,7 +538,7 @@ void scan_Node()
 		display_clear(1);
 		char str3[12] = "rightxxxxxx";
 		display_goto_xy(5, 2);				/// Display Ausgabe
-		display_string(str2);
+		display_string(str3);
 
 		systick_wait_ms(3000);
 

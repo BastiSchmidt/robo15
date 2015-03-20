@@ -30,7 +30,12 @@ int turn_left();                       /// Funktionen, die vom algo benötigt we
 int turn_right();
 
 
+
 void follow_line();
+
+int checkline_right (int steps, int drehung, int waittime);
+int checkline_left (int steps, int drehung, int waittime);
+
 int checkline(int Iterationen);
 int forward();						/// erweiterte Bewegungsfunktionen
 void goto_Node_center();

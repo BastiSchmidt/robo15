@@ -20,7 +20,7 @@ int main(void) {
 	printf("Intersection: %0x\n", Robot_GetIntersections());*/
 	current_position.x = 0;
 	current_position.y = 0;
-	orientation = SOUTH;
+	orientation = 2;
 
 	init_sim_rnd();
 
