@@ -108,7 +108,6 @@ void drehen_grad_l(int grad)
 
 }
 
-
 int checkline(int Iterationen)
 {
 
@@ -215,47 +214,6 @@ void goto_Node_center()
 {
 	drive_cm(12);
 	drehen_grad_l(360);
-}
-
-int FindLine(int old_Light)  /// returns 0 if nothing happens -1, if black-->white, 1 if white -> black
-{
-//	ecrobot_sound_tone(1000, 2000, 10);
-	systick_wait_ms(500);
-	int new_Light = ecrobot_get_light_sensor(NXT_PORT_S3);
-	int Diff = new_Light - old_Light;
-	if (abs(Diff) > 50)
-	{
-
-		if (Diff>0)  /// Dunkel auf Hell
-		{
-//			systick_wait_ms(1050);
-//			ecrobot_sound_tone(1000, 1000, 10);
-//			systick_wait_ms(1050);
-			return -1;
-
-		}
-		else  /// Hell auf Dunkel
-		{
-
-//			systick_wait_ms(1050);
-//			ecrobot_sound_tone(1000, 1000, 10);
-//			systick_wait_ms(1050);
-//			ecrobot_sound_tone(1000, 1000, 10);
-//			systick_wait_ms(1050);
-			return 1;
-
-		}
-
-
-	}
-//	systick_wait_ms(1050);
-//	ecrobot_sound_tone(1000, 1000, 10);
-//	systick_wait_ms(1050);
-//	ecrobot_sound_tone(1000, 1000, 10);
-//	systick_wait_ms(1050);
-//	ecrobot_sound_tone(1000, 1000, 10);
-//	systick_wait_ms(1050);
-	return 0;
 }
 
 int sgn(float x)
@@ -378,10 +336,10 @@ void drive_cm(float cm)
 			while(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
 			{
 				nxt_motor_set_speed(NXT_PORT_C , power , 0);
-				wait_ms(10);
+				wait_ms(100);
 
 			}
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+//			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 		}
 		if(nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
 		{
@@ -389,18 +347,15 @@ void drive_cm(float cm)
 			while(nxt_motor_get_count(NXT_PORT_C) > nxt_motor_get_count(NXT_PORT_B))
 			{
 				nxt_motor_set_speed(NXT_PORT_B , power , 0);
-				wait_ms(10);
-
+				wait_ms(100);
 			}
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+//			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 		}
 
 	}
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 }
-
-
 
 /// Idee für ScanNode:
 /// geradeaus = checkline(3);  --> Roboter sucht nach Linie und liefert sofort richtigen Wert
@@ -863,43 +818,12 @@ void kalibrieren_drehen()
 	}
 }
 
-void TEST ()
-{
-	ecrobot_sound_tone(1000, 1000, 10);
-		systick_wait_ms(5000);
-		ecrobot_sound_tone(1000, 1000, 10);
-		display_clear(1);
-		display_goto_xy(1,0);
-		display_int(white,5);
-		systick_wait_ms(5000);
-		ecrobot_sound_tone(1000, 1000, 10);
-		systick_wait_ms(5000);
-		ecrobot_sound_tone(1000, 1000, 10);
-		display_clear(1);
-		display_goto_xy(1,0);
-		display_int(black,5);
-		while (1)
-		{
-
-		}
-}
-
-void Linienfolgen_und_Knoten_finden()
-{
-	int i = 0;
-	int On_the_Line = 1; /// 1 bedeutet Schwarz, d.h wir befinden uns zu beginn auf schwarz
-	while (On_the_Line == 1)  /// Fahre solange, bis schwarz verlassen
-	{
-		On_the_Line = forward();
-	}
-
-	if (checkline(2)== 0)  /// versuche Schwarz wieder zu finden
-	{
-		while (i<5)
-		{
-			wait_ms(1000);
-			i++;
-			/// Roboter hat Knoten gefunden und bricht ab
-		}
-	}
-}
+//int turn_left();
+//{
+//	drehen_grad_l(80);
+//}
+//
+//int turn_right();
+//{
+//
+//}
