@@ -38,7 +38,7 @@ void list_remove_first(struct element **start);
 
 void destroy_list(struct element *start);
 
-int list_search(struct element **start, struct coord tofind);
+int list_search(struct element *start, struct coord tofind);
 
 void reset_nodes_bfs();
 
@@ -69,5 +69,7 @@ int follow_instructions(struct instructions instr);
 void print_matrix(int layer);
 
 void print_ptrmap();
+
+void print_bfs_rf_ptrmap();
 
 #endif //_ROBO15_ALGORITHM_H_

@@ -17,16 +17,24 @@ void init_sim_rnd() {
     } else {
         current_position.x = r; //Update position on successful placement
         current_position.y = 0;
-
-        orientation = 8;
-        for (r = rand() % 4; r >= 0; r--){
-            orientation = orientation * 2; //yields random direction
-        }
+    orientation = rand() % 4;
+//        orientation = 8;
+//        for (r = rand() % 4; r >= 0; r--){
+//            orientation = orientation * 2; //yields random direction
+//        }
     }
 }
 
 int turn_left(){
     switch (orientation){
+        case 0: orientation = 3;
+            break;
+        case 1: orientation = 0;
+            break;
+        case 2: orientation = 1;
+            break;
+        case 3: orientation = 2;
+            break;
         case NORTH: orientation = WEST;
             break;
         case EAST: orientation = NORTH;
@@ -43,6 +51,14 @@ int turn_left(){
 
 int turn_right(){
     switch (orientation){
+        case 0: orientation = 1;
+            break;
+        case 1: orientation = 2;
+            break;
+        case 2: orientation = 3;
+            break;
+        case 3: orientation = 0;
+            break;
         case NORTH: orientation = EAST;
             break;
         case EAST: orientation = SOUTH;
@@ -69,6 +85,14 @@ int go_straight(){
 //Move in a given direction, no detection/abort in case of missing edge!
 int move_d(int direction){
     switch (direction){
+        case 0: current_position.y += 1;
+            break;
+        case 1: current_position.x += 1;
+            break;
+        case 2: current_position.y -= 1;
+            break;
+        case 3: current_position.x -= 1;
+            break;
         case NORTH: current_position.y += 1;
             break;
         case EAST: current_position.x += 1;
@@ -77,6 +101,7 @@ int move_d(int direction){
             break;
         case WEST: current_position.x -= 1;
             break;
+
     }
     return(Robot_Move(current_position.x, current_position.y));
 }
