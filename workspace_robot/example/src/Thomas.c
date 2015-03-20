@@ -3,11 +3,11 @@
 
 int black;  /// MAXIMALES SCHWARZ minus Toleranz siehe: Get_Black_White
 int white;  /// MININMALES WEIß plus Toleranz
-float Toleranz_black = 0.5;
+float Toleranz_black = 0.5; /// Erfahrungswerte Anwendung siehe kalibrierung_farbe
 float Toleranz_white = 0.3;
-int dreh = 1030;
+int dreh = 1030;  /// Gute Näherung, Kalibrierung in kalibrierung_drehen()
 
-void wait_ms(int ms)
+void wait_ms(int ms)  /// Diese Tolle Funktion lässt Zeit voranschreiten, ohne Motoren abzuschalten
 {
 	 int time =systick_get_ms();
 	 while( systick_get_ms()> time + ms)
@@ -15,14 +15,14 @@ void wait_ms(int ms)
 	 }
 }
 
-void Token_found()
+void Token_found()   /// Wird aufgerufen, wenn Token gefunden #noshit
 {
 	/// TODO erhöhe Token Variable um 1
 	ecrobot_sound_tone(500, 2000, 10);
 	systick_wait_ms(10000);
 }
 
-void drehen_grad_l(int grad)
+void drehen_grad_l(int grad)  /// dreht nach links
 {
 
 	float umdr = (grad * dreh/360) ;// 1°drehen entspricht 2.66° Raddrehen, 10 grad weniger wg. Trägheit
@@ -35,27 +35,27 @@ void drehen_grad_l(int grad)
 		nxt_motor_set_speed(NXT_PORT_C , -power , 0);
 		nxt_motor_set_speed(NXT_PORT_B , power , 0);
 		wait_ms(50);
-		if(nxt_motor_get_count(NXT_PORT_B) > -nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+		if(nxt_motor_get_count(NXT_PORT_B) > -nxt_motor_get_count(NXT_PORT_C)) //kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
 		{
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1); // den, der zuviel hat ausmachen
 			while(nxt_motor_get_count(NXT_PORT_B) > -nxt_motor_get_count(NXT_PORT_C))
 			{
-				nxt_motor_set_speed(NXT_PORT_C ,-power , 0);
+				nxt_motor_set_speed(NXT_PORT_C ,-power , 0);     // den anderen aufholen lassen
 				wait_ms(10);
 
 			}
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);  //wieder ausmachen, alle Motoren sind aus
 		}
-		if(nxt_motor_get_count(NXT_PORT_B) < -nxt_motor_get_count(NXT_PORT_C))
+		if(nxt_motor_get_count(NXT_PORT_B) < -nxt_motor_get_count(NXT_PORT_C)) // kucken ob der andere mehr umdrehugen hat
 		{
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1); // den, der zuviel hat ausmachen
 			while(-nxt_motor_get_count(NXT_PORT_C) > nxt_motor_get_count(NXT_PORT_B))
 			{
-				nxt_motor_set_speed(NXT_PORT_B , power , 0);
+				nxt_motor_set_speed(NXT_PORT_B , power , 0); // den anderen aufholen lassen
 				wait_ms(10);
 
 			}
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1); // wieder ausmachen, alle Motoren sind aus
 		}
 
 	}
@@ -155,12 +155,8 @@ int checkline_right (int steps, int drehung, int waittime)
 	/// systick_wait_ms(1000);
 }
 
-<<<<<<< HEAD
-int checkline(int Winkel,int Iterationen)
-=======
 
-int checkline(int Iterationen)
->>>>>>> origin/master
+int checkline(int Winkel,int Iterationen)
 {
 
 	/// CHECKLINE GEHT DAVON AUS, DASS MAN SICH AUF WEIß BEFINDET
@@ -191,6 +187,7 @@ int checkline(int Iterationen)
 		{
 			return 1;
 		}
+		j++;
 
 	}
 	ecrobot_sound_tone(100, 2000, 10);
@@ -295,39 +292,39 @@ void kalibrieren_farbe()
 	white = MIN_WHITE + (MAX_BLACK - MIN_WHITE)*Toleranz_white;  /// DEFINIERE GLOBALE VARIABLEN UM
 	black = MAX_BLACK - (MAX_BLACK - MIN_WHITE)*Toleranz_black;
 
-//	display_clear(1);
-//	char str1[12] = "whitexxxxxx";
-//	display_goto_xy(5, 2);				/// Display Ausgabe
-//	display_string(str1);
-//
-//	systick_wait_ms(3000);
-//
-//	display_clear(1);
-//	display_goto_xy(1,0);
-//	display_int(white,5);
-//
-//	systick_wait_ms(3000);
-//
-//	display_clear(1);
-//	char str2[12] = "blackxxxxxx";
-//	display_goto_xy(5, 2);				/// Display Ausgabe
-//	display_string(str2);
-//
-//	systick_wait_ms(3000);
-//
-//	display_clear(1);
-//	display_goto_xy(1,0);
-//	display_int(black,5);
-//
-//	systick_wait_ms(3000);
-//	ecrobot_sound_tone(500, 1000, 10);
-//	systick_wait_ms(1050);				/// Akustische Ausgabe
-//
-//
-//	display_clear(1);
-//	char str3[12] = "Kalibriert";
-//	display_goto_xy(5, 2);				/// Display Ausgabe
-//	display_string(str3);
+	display_clear(1);
+	char str1[12] = "whitexxxxxx";
+	display_goto_xy(5, 2);				/// Display Ausgabe
+	display_string(str1);
+
+	systick_wait_ms(3000);
+
+	display_clear(1);
+	display_goto_xy(1,0);
+	display_int(white,5);
+
+	systick_wait_ms(3000);
+
+	display_clear(1);
+	char str2[12] = "blackxxxxxx";
+	display_goto_xy(5, 2);				/// Display Ausgabe
+	display_string(str2);
+
+	systick_wait_ms(3000);
+
+	display_clear(1);
+	display_goto_xy(1,0);
+	display_int(black,5);
+
+	systick_wait_ms(3000);
+	ecrobot_sound_tone(500, 1000, 10);
+	systick_wait_ms(1050);				/// Akustische Ausgabe
+
+
+	display_clear(1);
+	char str3[12] = "Kalibriert";
+	display_goto_xy(5, 2);				/// Display Ausgabe
+	display_string(str3);
 
 
 
@@ -768,18 +765,17 @@ void kalibrieren_drehen()
 //	wait_ms(500);
 	dreh = -b; /// Korrektur von Thomas: hab aus b -b gemacht, weil dreh sonst negativ war.
 }
-<<<<<<< HEAD
-=======
+
 
 int turn_left()
 {
 	drehen_grad_l(90);
-	return checkline(2);
+	return checkline(40,2);
 }
 
 int turn_right()
 {
 	drehen_grad_r(90);
-	return checkline(2);
+	return checkline(40,2);
 }
->>>>>>> origin/master
+

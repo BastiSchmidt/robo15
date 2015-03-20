@@ -40,12 +40,9 @@ void follow_line();
 
 int checkline_right (int steps, int drehung, int waittime);
 int checkline_left (int steps, int drehung, int waittime);
-<<<<<<< HEAD
-int checkline(int Winkel,int Iterationen);
-=======
 
-int checkline(int Iterationen);
->>>>>>> origin/master
+int checkline(int Winkel,int Iterationen);
+
 int forward();						/// erweiterte Bewegungsfunktionen
 void goto_Node_center();
 
