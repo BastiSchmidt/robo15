@@ -26,6 +26,8 @@ void drehen_grad_r(int grad);
 void drehen_grad_l(int grad);			/// Grundlegende Bewegungsfunktionen
 void drive_cm(float cm);
 
+void Token_found();						/// Token Funkionen
+int check_Token();
 
 void step_left(int time);
 void step_left(int time);
