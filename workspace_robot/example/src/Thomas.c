@@ -529,6 +529,262 @@ void drive_cm(float cm)
 }
 
 
+
+/// Idee für ScanNode:
+/// geradeaus = checkline(3);  --> Roboter sucht nach Linie und liefert sofort richtigen Wert
+/// danach 2 Rotationen um 180°
+/// bei der ersten muss er sicher wieder eine Linie finden, da er von da kommt --> Ausrichtung korrigieren mit checkline()
+/// während einer Rotation nutzt die Funktion die schwell-variablen white und black aus
+/// while (Rotation 180°)
+///{
+/// bei der ersten Rotation muss beachtet werden, ob er geradeaus was gefunden hat oder nicht,
+/// denn dann startet er auf Weiß oder Schwarz
+///
+/// if (geradaus = 1) /// Start auf schwarz
+/// 	Lichtaktuell = 1
+///     while (Lichtaktuell = 1)
+///
+/// 		Miss das Licht
+/// 		if (Licht < white) /// Licht SEHR weiß
+/// 			Laufvariable++;
+///				Lichtaktuell = 0 /// Licht ist jetzt weiß
+///		while (Lichtaktuell = 0)
+///			Miss das Licht
+/// 		if (Licht > black) /// Licht SEHR schwarz
+///
+///}
+int get_Hits(int MAX_grad,int Position)
+{
+
+	int waittime = 20;
+	int drehung = 5;
+
+	int Light;
+	int grad = 0;  // Zählvariable die die aktuelle Drehung mitverfolgt
+	int Hits = 0;  // Zählvariable, die erhöht wird, wenn ein neuer schwarzer streifen entdeckt wird
+
+	while(grad<MAX_grad)
+	{
+		while(Position==1 && grad < MAX_grad)
+		{
+			drehen_grad_r(drehung);			/// dreh dich ein stück
+			systick_wait_ms(waittime);
+			grad =+ 5;
+			Light = ecrobot_get_light_sensor(NXT_PORT_S3); /// Miss Licht
+			if (Light<white)
+			{
+				Position = 0; /// Er befindet sich jetzt auf Weißer oberfläche
+			}
+		}
+
+		while(Position==0 && grad < MAX_grad)
+		{
+			drehen_grad_r(drehung);			/// dreh dich ein stück
+			systick_wait_ms(waittime);
+			grad =+ 5;
+			Light = ecrobot_get_light_sensor(NXT_PORT_S3); /// Miss Licht
+			if (Light>black)
+			{
+				Position = 1; /// Er befindet sich jetzt auf Schwarzer Oberfläche
+				Hits++;
+				if (Hits == 3)
+				{
+					/// TODO Drehe bis zum nächsten Knoten
+					return 3;
+				}
+				ecrobot_sound_tone(300, 1000, 10);
+			}
+
+		}
+
+	}
+	return Hits;
+}
+void scan_Node()
+{
+	int left,right,straigth = 0;
+
+	straigth = checkline(3); /// Roboter sucht vor sich nach einer Linie, findet er was richtet er sich aus und setzt variable 1
+
+	int Position;
+
+	///
+	/// ERSTER 180° DURCHLAUF
+	///
+
+	if (straigth==1) /// Fallunterscheidung ob er auf Schwarz oder weiß startet
+	{
+		Position = 1; /// Pos = 1 Schwarz Pos = 0 Weiß
+	}
+	else
+	{
+		Position = 0; /// Pos = 1 Schwarz Pos = 0 Weiß
+	}
+
+	int Hits_right = get_Hits(180,Position);
+
+	///
+	///
+	///
+
+	Position = checkline(3); /// Ausrichtung auf Linie
+	if (Position==0)         /// Fehlermeldung falls verloren
+	{
+		ecrobot_sound_tone(1000, 1000, 10);
+		display_clear(1);
+		char str4[14] = "LINIE VERLOREN";
+		display_goto_xy(5, 2);				/// Display Ausgabe
+		display_string(str4);
+		while (1)
+		{
+			/// ABBRUCH
+		}
+	}
+
+	///
+	/// 360° Drehung -> Wissen über die gesamtzahl aller Linien
+	///
+
+	int Hits_total = get_Hits(360,Position);
+
+	///
+	///
+	///
+
+	Position = checkline(3); /// Ausrichtung auf Linie
+	if (Position==0)         /// Fehlermeldung falls verloren
+	{
+		ecrobot_sound_tone(1000, 1000, 10);
+		display_clear(1);
+		char str4[14] = "LINIE VERLOREN";
+		display_goto_xy(5, 2);				/// Display Ausgabe
+		display_string(str4);
+		while (1)
+		{
+			/// ABBRUCH
+		}
+	}
+
+	///
+	/// ZWEITE 180° DREHUNG
+	///
+
+	int Hits_left = get_Hits(360,Position);
+
+	///
+	///
+	///
+
+
+	///
+	/// AUSWERTUNG
+	///
+	Hits_total = Hits_total - straigth;  /// Hits_total ist nun 0 1 oder 2
+
+	if (Hits_left + Hits_right < Hits_total || Hits_left + Hits_right > Hits_total + 2 )
+	{
+		/// ERROR
+	}
+
+	if (Hits_total == 2)
+	{
+		left,right = 1;
+	}							/// Einfache fälle
+	if (Hits_total == 0)
+	{
+		left,right = 0;
+	}
+
+	if (Hits_total == 1)
+	{
+		if (Hits_left == 1 && Hits_right ==1)
+		{
+			/// WORST CASE TRY AGAIN
+			drehen_grad_r(180);
+			scan_Node();
+			return;
+		}
+
+		if (Hits_left == 0)
+		{
+			left = 0;
+			right = 1;
+		}
+		if (Hits_left == 1)
+		{
+			if (Hits_right == 0)
+			{
+				left = 1;
+				right = 0;
+			}
+			if (Hits_right == 2)
+			{
+				left = 0;
+				right = 1;
+			}
+		}
+		if (Hits_left == 2)
+		{
+			left = 1;
+			right = 0;
+		}
+	}
+
+
+	///
+	///
+	///
+
+	///
+	/// AUSGABE
+	///
+
+		display_clear(1);
+		char str1[12] = "straigthxxx";
+		display_goto_xy(5, 2);				/// Display Ausgabe
+		display_string(str1);
+
+		systick_wait_ms(3000);
+
+		display_clear(1);
+		display_goto_xy(1,0);
+		display_int(straigth,5);
+
+		systick_wait_ms(3000);
+
+		display_clear(1);
+		char str2[12] = "leftxxxxxxx";
+		display_goto_xy(5, 2);				/// Display Ausgabe
+		display_string(str2);
+
+		systick_wait_ms(3000);
+
+		display_clear(1);
+		display_goto_xy(1,0);
+		display_int(left,5);
+
+		systick_wait_ms(3000);
+
+		display_clear(1);
+		char str3[12] = "rightxxxxxx";
+		display_goto_xy(5, 2);				/// Display Ausgabe
+		display_string(str2);
+
+		systick_wait_ms(3000);
+
+		display_clear(1);
+		display_goto_xy(1,0);
+		display_int(right,5);
+
+		systick_wait_ms(3000);
+		ecrobot_sound_tone(500, 1000, 10);
+		systick_wait_ms(1050);				/// Akustische Ausgabe
+
+	///
+	///
+	///
+}
+
 void scanNode(int orientation)
 {
 	int gradeaus =0;

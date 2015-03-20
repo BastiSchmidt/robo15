@@ -41,6 +41,8 @@ int checkline(int Iterationen);
 int forward();						/// erweiterte Bewegungsfunktionen
 void goto_Node_center();
 
+int get_Hits(int MAX_grad,int Position);
+void scan_Node();
 void scanNode(int orientation);		/// in entwicklung
 
 void TEST();				/// Testfunktionen
