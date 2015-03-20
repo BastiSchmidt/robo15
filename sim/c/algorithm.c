@@ -11,6 +11,8 @@ void init(){
     current_node = create_node();
     ptrmap[current_position.x + MAZE_WIDTH][current_position.y + MAZE_HEIGHT] =
             current_node;
+    tokencount = 0;
+    discovered_everything = 0;
 }
 
 
@@ -173,13 +175,11 @@ struct coord bfs_closest_unvisited_node() {
             printf("5\n");
         }
         list_remove_first(&queue);
-        position = queue->node_position;
+        if (queue != NULL) position = queue->node_position;
         printf("6\n");
     } while (queue != NULL);
-    struct coord home;
-    home.x = 0;
-    home.y = 0;
-    return home;
+    discovered_everything = 1;
+    return current_position;
 }
 
 //look for shortest path to given coordinates
@@ -276,17 +276,6 @@ void destroy_list (struct element *start) {
         start = next;
     }
 }
-/*
-int list_search(struct element **start, struct coord tofind){
-    struct element *iter = *start;
-    if (iter == NULL) return 0;
-    if ((iter)->node_position.x == tofind.x
-            && (iter)->node_position.y == tofind.y)
-        return 1;
-    else iter = (iter) -> next;
-    list_search(&(iter),tofind);
-    return 0;
-}*/
 
 int list_search(struct element *start, struct coord tofind) {
     struct element *iter = start;
@@ -302,8 +291,8 @@ int list_search(struct element *start, struct coord tofind) {
 
 void reset_nodes_bfs(){
     int i, j;
-    for(i = 0; i < 2 * MAZE_HEIGHT + 2; i++){
-        for(j = 0; j < 2 * MAZE_WIDTH + 2; j++) {
+    for(i = 0; i < 2 * MAZE_HEIGHT + 3; i++){
+        for(j = 0; j < 2 * MAZE_WIDTH + 3; j++) {
             if (ptrmap[i][j] != NULL) {
                 ptrmap[i][j]->bfs_reached_from = 9;
             }
@@ -399,8 +388,8 @@ void print_matrix(int layer){
 //outputs ptrmap to stdout, 1's show present pointers
 void print_ptrmap(){
     int i, j;
-    for(i = 0; i < 2 * MAZE_HEIGHT + 2; i++){
-        for(j = 0; j < 2* MAZE_WIDTH + 2; j++) {
+    for(i = 0; i < 2 * MAZE_HEIGHT + 3; i++){
+        for(j = 0; j < 2* MAZE_WIDTH + 3; j++) {
             if (ptrmap[i][j] != NULL) {
                 printf(" 1");
             } else {
@@ -414,8 +403,8 @@ void print_ptrmap(){
 //outputs ptrmaps bfs_reached_from to stdout
 void print_bfs_rf_ptrmap(){
     int i, j;
-    for(i =  2 * MAZE_HEIGHT + 1;i >= 0; i--){
-        for(j = 0; j < 2 * MAZE_WIDTH + 2; j++) {
+    for(i =  2 * MAZE_HEIGHT + 2; i >= 0; i--){
+        for(j = 0; j < 2 * MAZE_WIDTH + 3; j++) {
             if (ptrmap[j][i] != NULL) {
                 printf("%d ", ptrmap[j][i]->bfs_reached_from);
             } else {

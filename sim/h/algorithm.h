@@ -42,8 +42,6 @@ int list_search(struct element *start, struct coord tofind);
 
 void reset_nodes_bfs();
 
-struct node *ptrmap[2 * 7 + 2][2 * 7 + 2]; //TODO: replace static size!
-
 void init();
 
 void discover();

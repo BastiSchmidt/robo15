@@ -31,7 +31,7 @@
 #define MAZE_WIDTH 6
 #define MAZE_HEIGHT 6
 
-#define TOKEN_AIM 3
+#define TOKEN_AIM 5
 
 //Current orientation of bot
 int orientation;
@@ -42,6 +42,11 @@ int orientation;
 // and bfs
 int matrix[2*MAZE_WIDTH + 2][2*MAZE_HEIGHT + 2][4];
 
+//map of pointers to node objects
+struct node *ptrmap[2 * MAZE_WIDTH + 3][2 * MAZE_HEIGHT + 3];
+
+int tokencount;
+int discovered_everything;
 
 
 #endif /* CONFIGURATION_H_ */
