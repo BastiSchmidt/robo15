@@ -16,12 +16,9 @@ void init_sim_rnd() {
         //TODO: abort conditions!
     } else {
         current_position.x = r; //Update position on successful placement
-        current_position.y = 0;
-    orientation = rand() % 4;
-//        orientation = 8;
-//        for (r = rand() % 4; r >= 0; r--){
-//            orientation = orientation * 2; //yields random direction
-//        }
+        current_position.y = -6;
+    orientation = 0;
+    Robot_Move(current_position.x,current_position.y);
     }
 }
 
@@ -78,6 +75,7 @@ int go_straight(){
     int result = move_d(orientation);
     current_node = ptrmap[current_position.x + MAZE_WIDTH]
             [current_position.y + MAZE_HEIGHT];
+    if (result == ROBOT_TOKENFOUND) tokencount += 1;
     return result;
 }
 

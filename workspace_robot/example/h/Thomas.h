@@ -26,26 +26,31 @@ void drehen_grad_r(int grad);
 void drehen_grad_l(int grad);			/// Grundlegende Bewegungsfunktionen
 void drive_cm(float cm);
 
+
+int turn_left();                       /// Funktionen, die vom algo benötigt werden.
+int turn_right();
+
 void Token_found();						/// Token Funkionen
 int check_Token();
 
-void step_left(int time);
-void step_left(int time);
-int steps_left(int steps, int steplenght);  /// veraltete / nicht gebrauchte Funktionen
-int steps_right(int steps, int steplenght);
-int FindLine(int old_Light);
+
+
+
+void follow_line();
 
 int checkline_right (int steps, int drehung, int waittime);
 int checkline_left (int steps, int drehung, int waittime);
+<<<<<<< HEAD
 int checkline(int Winkel,int Iterationen);
+=======
+
+int checkline(int Iterationen);
+>>>>>>> origin/master
 int forward();						/// erweiterte Bewegungsfunktionen
 void goto_Node_center();
 
 int get_Hits(int MAX_grad,int Position);
 void scan_Node();
 void scanNode(int orientation);		/// in entwicklung
-
-void TEST();				/// Testfunktionen
-void Linienfolgen_und_Knoten_finden();
 
 #endif /* H_THOMAS_H_ */

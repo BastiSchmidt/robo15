@@ -10,28 +10,21 @@ int main(void) {
 	printf("Version %02d%02d%02d\n", timeinfo->tm_mday, timeinfo->tm_hour,
 			timeinfo->tm_min);
 
-/*	//example code...
- 	printf("Token: %d\n", Robot_Move(0, 0));
-	printf("Intersection: %d\n", Robot_GetIntersections());
-	printf("Token: %d\n", Robot_Move(1, 0));
-	printf("Intersection: %d\n", Robot_GetIntersections());
-	printf("Token: %d\n", Robot_Move(2, 0));
-	Robot_Move(3,-5);
-	printf("Intersection: %0x\n", Robot_GetIntersections());*/
 	current_position.x = 0;
 	current_position.y = 0;
+	Robot_Move(current_position.x, current_position.y);
 	orientation = 2;
 
-	init_sim_rnd();
+	//init_sim_rnd();
 
 	init();
 
 	//randomly searching for all nodes - highly wasteful
 	int i = 0, r, d;
-	while (i < 1000){
+	struct coord optimum;
+	while (!(tokencount >= TOKEN_AIM || discovered_everything)){
 		discover();
 		print_ptrmap();
-		struct coord optimum;
 		optimum = bfs_closest_unvisited_node();
 		printf("X:%d Y: %d I:%d\n",optimum.x, optimum.y, i);
 		follow_instructions(bfs_path_to_node(optimum));
@@ -47,6 +40,13 @@ int main(void) {
 		go_straight();*/
 		i++;
 	}
-
+	if (discovered_everything) {
+		printf("Discovered all nodes...");
+		return EXIT_SUCCESS;
+	}
+	optimum.x = 0;
+	optimum.y = 0;
+	follow_instructions(bfs_path_to_node(optimum));
+	printf("Found all tokens: %d tokens.\n", tokencount);
 	return EXIT_SUCCESS;
 }
