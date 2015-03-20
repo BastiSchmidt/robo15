@@ -107,141 +107,6 @@ void drehen_grad_l(int grad)
 	///
 
 }
-void drehen()
-{
-	int umdr = 950;// 360 grad drehen bei ca.950 grad Raddrehen
-	int power = 75; //Prozentzahl für Motoren
-	nxt_motor_set_count(NXT_PORT_B, 0);
-	nxt_motor_set_count(NXT_PORT_C, 0);
-
-	while(-nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)
-	{
-		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
-		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
-		wait_ms(50);
-		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
-		{
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
-			{
-				nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
-				wait_ms(10);
-
-			}
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-		}
-		if(-nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
-		{
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
-			{
-				nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
-				wait_ms(10);
-
-			}
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-		}
-	}
-	wait_ms(6000);
-}
-
-void drive(int umdr)
-{
-	int power = 95; //Prozentzahl für Motoren
-	nxt_motor_set_count(NXT_PORT_B, 0);
-	nxt_motor_set_count(NXT_PORT_C, 0);
-	while(nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)//bis einer die Umdrehungen erreicht hat
-	{
-		nxt_motor_set_speed(NXT_PORT_C , power , 0);
-		nxt_motor_set_speed(NXT_PORT_B , power , 0);
-		wait_ms(100);
-		nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-		nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-		if(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat
-			                                                                 // und dann entsprehend angleichen
-		{
-			while(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
-			{
-				nxt_motor_set_speed(NXT_PORT_C , power , 0);
-				wait_ms(20);
-				nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-			}
-		}
-		else
-		{
-			while(nxt_motor_get_count(NXT_PORT_C) > nxt_motor_get_count(NXT_PORT_B))
-			{
-				nxt_motor_set_speed(NXT_PORT_B , power , 0);
-				wait_ms(100);
-				nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-			}
-		}
-	}
-
-}
-
-
-void step_left(int time)
-{
-
-	nxt_motor_set_speed(NXT_PORT_B,100,0);
-	nxt_motor_set_speed(NXT_PORT_C,-100,0);
-	systick_wait_ms(time);
-	nxt_motor_set_speed(NXT_PORT_B,0,0);
-	nxt_motor_set_speed(NXT_PORT_C,0,0);
-}
-void step_right(int time)
-{
-	nxt_motor_set_speed(NXT_PORT_C,100,0);
-	nxt_motor_set_speed(NXT_PORT_B,-100,0);
-	systick_wait_ms(time);
-	nxt_motor_set_speed(NXT_PORT_C,0,0);
-	nxt_motor_set_speed(NXT_PORT_B,0,0);
-}
-int FindLine(int old_Light);
-int steps_left(int steps, int steplenght)
-{
-	int i,a,Light;
-	for (i=0;i<steps;i++)
-	{
-		Light = ecrobot_get_light_sensor(NXT_PORT_S3);
-		drehen_grad_l(steplenght);
-		a = FindLine(Light);
-		if (a==1)
-		{
-			return 1; /// Roboter hat die Schwarze Linie gefunden
-		}
-		if (FindLine(Light)==1)
-		{
-			/// genauere Suche??? Später TODO
-		}
-
-
-	}
-	return 0;  /// Roboter hat keine Schwarze Linie gefunden
-}
-
-int steps_right(int steps, int steplenght)
-{
-	int i,a,Light;
-	for (i=0;i<steps;i++)
-	{
-		Light = ecrobot_get_light_sensor(NXT_PORT_S3);
-		drehen_grad_r(steplenght);
-		a = FindLine(Light);
-		if (a==1)
-		{
-			return 1; /// Roboter hat die Schwarze Linie gefunden
-		}
-		if (FindLine(Light)==1)
-				{
-					/// genauere Suche??? Später TODO
-				}
-
-
-	}
-	return 0;  /// Roboter hat keine Schwarze Linie gefunden
-}
 
 int checkline_left (int steps, int drehung, int waittime)
 {
@@ -356,7 +221,9 @@ int checkline(int Iterationen)
 	ecrobot_sound_tone(100, 2000, 10);
 	return 0;
 }
+
 void drive_cm(float cm);
+
 int forward() /// returns 1 if still on Black returns 0 if it left black and is on white
 
 /// FORWARD GEHT DAVON AUS, DASS MAN SICH AUF SCHWARZ BEFINDET
@@ -393,6 +260,7 @@ void follow_line() /// follow_line fährt bis zum nächsten Knoten
 		Light = checkline(3);
 	}
 }
+
 void goto_Node_center()
 {
 	drive_cm(12);
@@ -555,28 +423,32 @@ void drive_cm(float cm)
 		nxt_motor_set_speed(NXT_PORT_C , power , 0);
 		nxt_motor_set_speed(NXT_PORT_B , power , 0);
 		wait_ms(100);
-		nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-		nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-//		if(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat
-//			                                                                 // und dann entsprehend angleichen
-//		{
-//			while(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
-//			{
-//				nxt_motor_set_speed(NXT_PORT_C , power , 0);
-//				wait_ms(20);
-//				nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-//			}
-//		}
-//		else
-//		{
-//			while(nxt_motor_get_count(NXT_PORT_C) > nxt_motor_get_count(NXT_PORT_B))
-//			{
-//				nxt_motor_set_speed(NXT_PORT_B , power , 0);
-//				wait_ms(100);
-//				nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-//			}
-//		}
+		if(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+		{
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+			while(nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
+			{
+				nxt_motor_set_speed(NXT_PORT_C , power , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+		}
+		if(nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
+		{
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			while(nxt_motor_get_count(NXT_PORT_C) > nxt_motor_get_count(NXT_PORT_B))
+			{
+				nxt_motor_set_speed(NXT_PORT_B , power , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+		}
+
 	}
+	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 }
 
 
@@ -604,7 +476,9 @@ void drive_cm(float cm)
 /// 		if (Licht > black) /// Licht SEHR schwarz
 ///
 ///}
+
 int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!!
+
 {
 
 	int waittime = 20;
@@ -647,6 +521,7 @@ int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!
 	}
 	return Hits;
 }
+
 void scan_Node()
 {
 	int left,right,straigth = 0;
@@ -966,7 +841,6 @@ void kalibrieren_drehen()
 		ecrobot_sound_tone(800, 500, 30);// für test
 	}
 }
-
 
 void TEST ()
 {
