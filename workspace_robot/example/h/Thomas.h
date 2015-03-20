@@ -26,8 +26,8 @@ void drehen_grad_r(int grad);
 void drehen_grad_l(int grad);			/// Grundlegende Bewegungsfunktionen
 void drive_cm(float cm);
 
-//int turn_left();                       /// Funktionen, die vom algo benötigt werden.
-//int turn_right();
+int turn_left();                       /// Funktionen, die vom algo benötigt werden.
+int turn_right();
 
 
 void follow_line();

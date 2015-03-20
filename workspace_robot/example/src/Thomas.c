@@ -818,12 +818,14 @@ void kalibrieren_drehen()
 	}
 }
 
-//int turn_left();
-//{
-//	drehen_grad_l(80);
-//}
-//
-//int turn_right();
-//{
-//
-//}
+int turn_left()
+{
+	drehen_grad_l(90);
+	return checkline(2);
+}
+
+int turn_right()
+{
+	drehen_grad_r(90);
+	return checkline(2);
+}
