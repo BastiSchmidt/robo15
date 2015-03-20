@@ -15,6 +15,13 @@ void wait_ms(int ms)
 	 }
 }
 
+void Token_found()
+{
+	/// TODO erhöhe Token Variable um 1
+	ecrobot_sound_tone(3000, 2000, 10);
+	systick_wait_ms(10000);
+}
+
 void drehen_grad_r(int grad)
 {
 
@@ -50,6 +57,7 @@ void drehen_grad_r(int grad)
 			}
 			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 		}
+
 	}
 
 	/// Korrektur von Thomas
@@ -59,6 +67,8 @@ void drehen_grad_r(int grad)
 	///der While Schleife beide nxt_motor_get_count den EXAKT selben Wert ausgeben wird keine der
 	///beiden if bedingungen erfüllt und die Motoren werden nicht ausgeschaltet!!!
 	///
+
+
 }
 
 void drehen_grad_l(int grad)
@@ -177,10 +187,19 @@ int checkline(int Iterationen)
 			return 1;
 		}
 
-		j++;
 	}
 	ecrobot_sound_tone(100, 2000, 10);
 	return 0;
+}
+
+int check_Token()
+{
+	int TOUCH = 0;
+	if (ecrobot_get_touch_sensor(NXT_PORT_S2)==1 || ecrobot_get_touch_sensor(NXT_PORT_S1)==1)
+	{
+		TOUCH = 1;
+	}
+	return TOUCH;
 }
 
 void drive_cm(float cm);
@@ -331,6 +350,7 @@ void kalibrieren_farbe()
 
 }
 
+
 void drive_cm(float cm)
 {
 
@@ -364,7 +384,10 @@ void drive_cm(float cm)
 			}
 //			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 		}
-
+		if (check_Token() == 1)
+		{
+			Token_found();
+		}
 	}
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
@@ -457,7 +480,7 @@ void scan_Node()
 
 		systick_wait_ms(1000);
 
-	if (checkline_right(12,drehung,waittime)==0)   /// Finde herkunftslinie
+	if (checkline_right(18,drehung,waittime)==0)   /// Finde herkunftslinie
 	{
 		/// FATAL ERROR
 		ecrobot_sound_tone(1000, 1000, 10);
@@ -483,7 +506,7 @@ void scan_Node()
 
 	drehen_grad_l(135);			/// drehe zurück richtung Herkunftslinie
 
-	if (checkline_left(12,drehung,waittime)==0) /// Finde herkunftslinie
+	if (checkline_left(18,drehung,waittime)==0) /// Finde herkunftslinie
 	{
 		/// FATAL ERROR
 		ecrobot_sound_tone(1000, 1000, 10);
@@ -514,39 +537,39 @@ void scan_Node()
 		display_goto_xy(5, 2);				/// Display Ausgabe
 		display_string(str1);
 
-		systick_wait_ms(3000);
+		systick_wait_ms(1000);
 
 		display_clear(1);
 		display_goto_xy(1,0);
 		display_int(straigth,5);
 
-		systick_wait_ms(3000);
+		systick_wait_ms(1000);
 
 		display_clear(1);
 		char str2[12] = "leftxxxxxxx";
 		display_goto_xy(5, 2);				/// Display Ausgabe
 		display_string(str2);
 
-		systick_wait_ms(3000);
+		systick_wait_ms(1000);
 
 		display_clear(1);
 		display_goto_xy(1,0);
 		display_int(left,5);
 
-		systick_wait_ms(3000);
+		systick_wait_ms(1000);
 
 		display_clear(1);
 		char str3[12] = "rightxxxxxx";
 		display_goto_xy(5, 2);				/// Display Ausgabe
 		display_string(str3);
 
-		systick_wait_ms(3000);
+		systick_wait_ms(1000);
 
 		display_clear(1);
 		display_goto_xy(1,0);
 		display_int(right,5);
 
-		systick_wait_ms(3000);
+		systick_wait_ms(1000);
 		ecrobot_sound_tone(500, 1000, 10);
 		systick_wait_ms(1050);				/// Akustische Ausgabe
 
@@ -662,7 +685,6 @@ void scanNode(int orientation)
 void kalibrieren_drehen()
 {
 	/// Änderung von Thomas : hab das unten mal auskommentiert, da sonst die erzeugte black variable überschrieben wird
-	/// black = ecrobot_get_light_sensor(NXT_PORT_S3)-300; //falls noch nicht kalibriert
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
 	int umdr = 900;
@@ -728,35 +750,16 @@ void kalibrieren_drehen()
 	//wait_ms(100);// evtl. nochma gucken, ob wa immanoch uff schwarz sind
 	//jetzt drehungen vergleichen und dreh berechnen
 	int b = nxt_motor_get_count(NXT_PORT_B);
-	int c = nxt_motor_get_count(NXT_PORT_C);
-	ecrobot_sound_tone(200, 500, 30);// für test
-	wait_ms(100);
-	ecrobot_status_monitor("Hello, wuff");
-	if(-b==c || (b<c+10 && c<b+10) )
-	{
-		display_clear(0);
-		char str3[12] = "Kalibriert";
-		display_goto_xy(5, 2);
-		display_string(str3);
-		display_goto_xy(1,3);
-		display_int(-b-c, 6);
-		wait_ms(500);
-		dreh = -b; /// Korrektur von Thomas: hab aus b -b gemacht, weil dreh sonst negativ war.
-
-	}
-	else
-	{
-		display_clear(0);
-		char str3[12] = "Wuff Error";
-		display_goto_xy(5, 2);
-		display_string(str3);
-		display_goto_xy(1,3);
-		display_int(b, 6);
-		display_goto_xy(1,4);
-		display_int(c, 6);
-		systick_wait_ms(2000);
-		ecrobot_sound_tone(800, 500, 30);// für test
-	}
+//	int c = nxt_motor_get_count(NXT_PORT_C);
+//	ecrobot_status_monitor("Hello, wuff");
+//	display_clear(0);
+//	char str3[12] = "Kalibriert";
+//	display_goto_xy(5, 2);
+//	display_string(str3);
+//	display_goto_xy(1,3);
+//	display_int(-b-c, 6);
+//	wait_ms(500);
+	dreh = -b; /// Korrektur von Thomas: hab aus b -b gemacht, weil dreh sonst negativ war.
 }
 
 int turn_left()
