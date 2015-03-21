@@ -7,6 +7,14 @@ float Toleranz_black = 0.7; /// Erfahrungswerte Anwendung siehe kalibrierung_far
 float Toleranz_white = 0.2;
 int dreh = 1030;  /// Gute Näherung, Kalibrierung in kalibrierung_drehen()
 
+
+
+
+
+///-----------------------------------------------------------------------------------
+/// HILFSFUNKTIONEN
+///-----------------------------------------------------------------------------------
+
 void wait_ms(int ms)  /// Diese Tolle Funktion lässt Zeit voranschreiten, ohne Motoren abzuschalten
 {
 	 int time =systick_get_ms();
@@ -15,11 +23,108 @@ void wait_ms(int ms)  /// Diese Tolle Funktion lässt Zeit voranschreiten, ohne 
 	 }
 }
 
+int sgn(float x) 	  /// einfache Signumfunktion
+{
+	if(x>=0)
+	{
+		return 1;
+	}
+	else
+	{
+		return -1;
+	}
+
+}
+
+///-----------------------------------------------------------------------------------
+///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+///-----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+///-----------------------------------------------------------------------------------
+/// TOKENFUNKIONEN
+///-----------------------------------------------------------------------------------
+
+int check_Token()
+{
+	int TOUCH = 0;
+	if (ecrobot_get_touch_sensor(NXT_PORT_S2)==1 || ecrobot_get_touch_sensor(NXT_PORT_S1)==1)
+	{
+		TOUCH = 1;
+	}
+	return TOUCH;
+}
+
 void Token_found()   /// Wird aufgerufen, wenn Token gefunden #noshit
+
+
 {
 	/// TODO erhöhe Token Variable um 1
 	ecrobot_sound_tone(500, 2000, 10);
 	systick_wait_ms(10000);
+}
+
+///-----------------------------------------------------------------------------------
+///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+///-----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+///-----------------------------------------------------------------------------------
+/// GRUNDLEGENDE FARHFUNKTIONEN
+///-----------------------------------------------------------------------------------
+
+void drive_cm(float cm)
+{
+
+	float umdr =sgn(cm) *cm * 2000/97;
+	int power = sgn(cm)* 80; //Prozentzahl für Motoren
+	nxt_motor_set_count(NXT_PORT_B, 0);
+	nxt_motor_set_count(NXT_PORT_C, 0);
+	while(abs(nxt_motor_get_count(NXT_PORT_B))< umdr && abs(nxt_motor_get_count(NXT_PORT_C))< umdr)//bis einer die Umdrehungen erreicht hat
+	{
+		nxt_motor_set_speed(NXT_PORT_C , power , 0);
+		nxt_motor_set_speed(NXT_PORT_B , power , 0);
+		wait_ms(10);
+		if(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+		{
+			nxt_motor_set_speed(NXT_PORT_B , power*(4/5), 0);
+			while(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))
+			{
+				nxt_motor_set_speed(NXT_PORT_C , power , 0);
+				wait_ms(10);
+
+			}
+//			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+		}
+		if(abs(nxt_motor_get_count(NXT_PORT_B)) < abs(nxt_motor_get_count(NXT_PORT_C)))
+		{
+			nxt_motor_set_speed(NXT_PORT_C , power*(4/5), 0);
+			while( abs(nxt_motor_get_count(NXT_PORT_C)) > abs(nxt_motor_get_count(NXT_PORT_B)))
+			{
+				nxt_motor_set_speed(NXT_PORT_B , power , 0);
+				wait_ms(10);
+			}
+//			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+		}
+		if (check_Token() == 1)
+		{
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+			Token_found();
+		}
+	}
+	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 }
 
 void drehen_grad_l(int grad)  /// dreht nach links
@@ -118,6 +223,19 @@ void drehen_grad_r(int grad)
 
 }
 
+///-----------------------------------------------------------------------------------
+///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+///-----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+///-----------------------------------------------------------------------------------
+/// ERWEITERTE FAHRFUNKTIONEN
+///-----------------------------------------------------------------------------------
 
 int checkline_left (int steps, int drehung, int waittime)
 {
@@ -154,7 +272,6 @@ int checkline_right (int steps, int drehung, int waittime)
 	return 0;
 	/// systick_wait_ms(1000);
 }
-
 
 int checkline(int Winkel,int Iterationen)
 {
@@ -194,18 +311,6 @@ int checkline(int Winkel,int Iterationen)
 	return 0;
 }
 
-int check_Token()
-{
-	int TOUCH = 0;
-	if (ecrobot_get_touch_sensor(NXT_PORT_S2)==1 || ecrobot_get_touch_sensor(NXT_PORT_S1)==1)
-	{
-		TOUCH = 1;
-	}
-	return TOUCH;
-}
-
-void drive_cm(float cm);
-
 int forward(int Strecke) /// returns 1 if still on Black returns 0 if it left black and is on white
 
 /// FORWARD GEHT DAVON AUS, DASS MAN SICH AUF SCHWARZ BEFINDET
@@ -241,68 +346,20 @@ void follow_line() /// follow_line fährt bis zum nächsten Knoten
 		Light = checkline(40,2);
 	}
 }
-void Node_center_case1()
-{
-	int Light = 1;
-	while(Light==1)
-	{
-		Light = forward(-2);
-	}
-	drive_cm(2);
 
-}
+///-----------------------------------------------------------------------------------
+///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+///-----------------------------------------------------------------------------------
 
-void Node_center_case2()
-{
-	int i = 1;
-	drive_cm(-9);
-	int Light = 0;
-	while (Light ==0 && i<4)
-	{
-		drive_cm(-2);
-		Light = checkline(10*i,1);
-		i++;
-	}
-	follow_line();
-	drive_cm(7);
-}
 
-int goto_Node_center()
-{
-	int i;
-	drive_cm(7);
-	systick_wait_ms(1000);
-	for (i=1;i<=2;i++)
-	{
-		if (checkline(10*i,i)==1)
-		{
-			Node_center_case1();
-			ecrobot_sound_tone(500, 1000, 10);
-			systick_wait_ms(1000);
-			return 1;
-		}
-		systick_wait_ms(1000); ///evtl. wichtig sonst komische drehung
-		drive_cm(2);
-		systick_wait_ms(1000);
-	}
-	Node_center_case2();
-	ecrobot_sound_tone(500, 1000, 10);
-	systick_wait_ms(1000);
-	return 0;
-}
 
-int sgn(float x)
-{
-	if(x>=0)
-	{
-		return 1;
-	}
-	else
-	{
-		return -1;
-	}
 
-}
+
+
+
+///-----------------------------------------------------------------------------------
+/// KALIBRIERFUNKIONEN
+///-----------------------------------------------------------------------------------
 
 void kalibrieren_farbe()
 {
@@ -386,86 +443,158 @@ void kalibrieren_farbe()
 		{
 			/// ABBRUCH
 		}
-
 	}
-
-
-
 }
 
-
-void drive_cm(float cm)
+void kalibrieren_drehen()
 {
-
-	float umdr =sgn(cm) *cm * 2000/97;
-	int power = sgn(cm)* 80; //Prozentzahl für Motoren
+	/// Änderung von Thomas : hab das unten mal auskommentiert, da sonst die erzeugte black variable überschrieben wird
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
-	while(abs(nxt_motor_get_count(NXT_PORT_B))< umdr && abs(nxt_motor_get_count(NXT_PORT_C))< umdr)//bis einer die Umdrehungen erreicht hat
+	int umdr = 900;
+
+	while(-nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)
 	{
-		nxt_motor_set_speed(NXT_PORT_C , power , 0);
-		nxt_motor_set_speed(NXT_PORT_B , power , 0);
-		wait_ms(10);
-		if(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+		wait_ms(50);
+		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
 		{
-			nxt_motor_set_speed(NXT_PORT_B , power*(4/5), 0);
-			while(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
 			{
-				nxt_motor_set_speed(NXT_PORT_C , power , 0);
+				nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
 				wait_ms(10);
 
 			}
-//			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 		}
-		if(abs(nxt_motor_get_count(NXT_PORT_B)) < abs(nxt_motor_get_count(NXT_PORT_C)))
-		{
-			nxt_motor_set_speed(NXT_PORT_C , power*(4/5), 0);
-			while( abs(nxt_motor_get_count(NXT_PORT_C)) > abs(nxt_motor_get_count(NXT_PORT_B)))
-			{
-				nxt_motor_set_speed(NXT_PORT_B , power , 0);
-				wait_ms(10);
-			}
-//			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-		}
-		if (check_Token() == 1)
+		if(-nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
 		{
 			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
+			{
+				nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+				wait_ms(10);
+
+			}
 			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-			Token_found();
 		}
-	}
+	}// bissel gedreht, jetzt Schwarz suchen
+	while(ecrobot_get_light_sensor(NXT_PORT_S3)<=black)
+	{
+		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+		wait_ms(20);
+		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+		{
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
+			{
+				nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+		}
+		if(-nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
+		{
+			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
+			{
+				nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+				wait_ms(10);
+
+			}
+			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+		}
+	}// jetzt issa auf schwarz. Motoren aus
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+	//wait_ms(100);// evtl. nochma gucken, ob wa immanoch uff schwarz sind
+	//jetzt drehungen vergleichen und dreh berechnen
+	int b = nxt_motor_get_count(NXT_PORT_B);
+//	int c = nxt_motor_get_count(NXT_PORT_C);
+//	ecrobot_status_monitor("Hello, wuff");
+//	display_clear(0);
+//	char str3[12] = "Kalibriert";
+//	display_goto_xy(5, 2);
+//	display_string(str3);
+//	display_goto_xy(1,3);
+//	display_int(-b-c, 6);
+//	wait_ms(500);
+	dreh = -b; /// Korrektur von Thomas: hab aus b -b gemacht, weil dreh sonst negativ war.
 }
 
-/// Idee für ScanNode:
-/// geradeaus = checkline(3);  --> Roboter sucht nach Linie und liefert sofort richtigen Wert
-/// danach 2 Rotationen um 180°
-/// bei der ersten muss er sicher wieder eine Linie finden, da er von da kommt --> Ausrichtung korrigieren mit checkline()
-/// während einer Rotation nutzt die Funktion die schwell-variablen white und black aus
-/// while (Rotation 180°)
-///{
-/// bei der ersten Rotation muss beachtet werden, ob er geradeaus was gefunden hat oder nicht,
-/// denn dann startet er auf Weiß oder Schwarz
-///
-/// if (geradaus = 1) /// Start auf schwarz
-/// 	Lichtaktuell = 1
-///     while (Lichtaktuell = 1)
-///
-/// 		Miss das Licht
-/// 		if (Licht < white) /// Licht SEHR weiß
-/// 			Laufvariable++;
-///				Lichtaktuell = 0 /// Licht ist jetzt weiß
-///		while (Lichtaktuell = 0)
-///			Miss das Licht
-/// 		if (Licht > black) /// Licht SEHR schwarz
-///
-///}
+void kalibrieren_Knoten();
+
+///-----------------------------------------------------------------------------------
+///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+///-----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+///-----------------------------------------------------------------------------------
+/// HILFSFUNKTIONEN ZUR KONTENERKUNDUNG
+///-----------------------------------------------------------------------------------
+
+void Node_center_case1()
+{
+	int Light = 1;
+	while(Light==1)
+	{
+		Light = forward(-2);
+	}
+	drive_cm(2);
+
+}
+
+void Node_center_case2()
+{
+	int i = 1;
+	drive_cm(-9);
+	int Light = 0;
+	while (Light ==0 && i<4)
+	{
+		drive_cm(-2);
+		Light = checkline(10*i,1);
+		i++;
+	}
+	follow_line();
+	drive_cm(7);
+}
+
+int goto_Node_center()
+{
+	int i;
+	drive_cm(7);
+	systick_wait_ms(1000);
+	for (i=1;i<=2;i++)
+	{
+		if (checkline(10*i,i)==1)
+		{
+			Node_center_case1();
+			ecrobot_sound_tone(500, 1000, 10);
+			systick_wait_ms(1000);
+			return 1;
+		}
+		systick_wait_ms(1000); ///evtl. wichtig sonst komische drehung
+		drive_cm(2);
+		systick_wait_ms(1000);
+	}
+	Node_center_case2();
+	ecrobot_sound_tone(500, 1000, 10);
+	systick_wait_ms(1000);
+	return 0;
+}
 
 int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!!
 
 {
-
 	int waittime = 20;
 	int drehung = 5;
 
@@ -506,6 +635,21 @@ int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!
 	}
 	return Hits;
 }
+///-----------------------------------------------------------------------------------
+///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+///-----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+///-----------------------------------------------------------------------------------
+/// FAHRFUNKTIONEN FÜR SCHNITTSTELLE
+///-----------------------------------------------------------------------------------
+
+void go_straight();
 
 void scan_Node()
 {
@@ -626,191 +770,6 @@ void scan_Node()
 	///
 }
 
-void scanNode(int orientation)
-{
-	int gradeaus =0;
-	int links =0;
-	int rechts =0;
-	// 1
-//	int lvar=0;
-//	int rvar=0;
-//	int steps;
-//	int time = 100;
-//	while(ecrobot_get_light_sensor(NXT_PORT_S3)<500)//weiß. gute abbruchbed, aber in schleife wird dann schwarz detektiert. DANN ABBR.
-//	{
-//
-//		drive_cm(1);// fahren
-////		// getz gucken
-//		//links
-//		while(lvar<10 && ecrobot_get_light_sensor(NXT_PORT_S3)<500)
-//		{
-//			step_left(time);
-//			lvar++;
-//		}//10 schritte nach rechts gegangen oder auf schwarz getroffen
-//		if(lvar==10)
-//		{// zurück auf anfang, links war nüscht.
-//			for(int i=0;i<10;i++)
-//			{
-//				step_right(time);
-//
-//			}
-//			lvar=0;
-//		}
-//		else// et fiat nox
-//		{
-//			drive_cm(3);
-//		}
-//  }
-	//2
-	if (ecrobot_get_light_sensor(NXT_PORT_S3)>500)
-	{
-		gradeaus=1;
-	}
-	// jetzt drehen und linien suchen:
-	int Winkel = 0; //Zählt winkel mit
-	while(Winkel < 360 )
-	{
-
-		drehen_grad_l(5);
-		Winkel +=5;
-		wait_ms(500);
-		if(ecrobot_get_light_sensor(NXT_PORT_S3)>300)// Licht: größer als 500: Schwarz
-		{
-			ecrobot_sound_tone(300, 500, 30);// für test
-//			if(Winkel > 80 && Winkel<100){rechts =1;}
-//			if(Winkel > 260 && Winkel<280){links = 1;}
-			// gefunden: Linie im algo updaten, trotzdem weiterdrehen, um winkel beizubehalten.
-		}		if(ecrobot_get_light_sensor(NXT_PORT_S3)>500)// Licht: größer als 500: Schwarz
-		{
-			ecrobot_sound_tone(600, 500, 30);// für test
-//			if(Winkel > 80 && Winkel<100){rechts =1;}
-//			if(Winkel > 260 && Winkel<280){links = 1;}
-			// gefunden: Linie im algo updaten, trotzdem weiterdrehen, um winkel beizubehalten.
-		}		if(ecrobot_get_light_sensor(NXT_PORT_S3)>600)// Licht: größer als 500: Schwarz
-		{
-			ecrobot_sound_tone(1200, 500, 30);// für test
-//			if(Winkel > 80 && Winkel<100){rechts =1;}
-//			if(Winkel > 260 && Winkel<280){links = 1;}
-			// gefunden: Linie im algo updaten, trotzdem weiterdrehen, um winkel beizubehalten.
-		}
-	}
-	ecrobot_sound_tone(880, 500, 30);
-	// winkel gecheckt	// string bauen
-	display_clear(0);
-	char str1[12] = "LINKS ";
-	char str2[12] = "RECHTS ";
-	char str3[12] = "GRADEAUS";
-	if(links)
-	{
-		display_goto_xy(1,1);
-		display_string(str1);
-	}
-	if(rechts)
-	{
-		display_goto_xy(2,1);
-		display_string(str2);
-	}
-	if(gradeaus)
-	{
-		display_goto_xy(3,1);
-		display_string(str3);
-	}
-	// ergebnis berechnen und zurückgeben
-}
-
-/*		display_clear(0);
-		char str3[12] = "GRADEAUS";
-		display_goto_xy(5,2);
-		display_string(str3);
- *
- *
- *
- */
-/*
- * Start auf Schwarz, dreht sich einmal
- * kalibriert dadurch lichtsensor und drehungszahl
- */
-void kalibrieren_drehen()
-{
-	/// Änderung von Thomas : hab das unten mal auskommentiert, da sonst die erzeugte black variable überschrieben wird
-	nxt_motor_set_count(NXT_PORT_B, 0);
-	nxt_motor_set_count(NXT_PORT_C, 0);
-	int umdr = 900;
-
-	while(-nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)
-	{
-		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
-		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
-		wait_ms(50);
-		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
-		{
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
-			{
-				nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
-				wait_ms(10);
-
-			}
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-		}
-		if(-nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
-		{
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
-			{
-				nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
-				wait_ms(10);
-
-			}
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-		}
-	}// bissel gedreht, jetzt Schwarz suchen
-	while(ecrobot_get_light_sensor(NXT_PORT_S3)<=black)
-	{
-		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
-		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
-		wait_ms(20);
-		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
-		{
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
-			{
-				nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
-				wait_ms(10);
-
-			}
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-		}
-		if(-nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
-		{
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
-			{
-				nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
-				wait_ms(10);
-
-			}
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-		}
-	}// jetzt issa auf schwarz. Motoren aus
-	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-	//wait_ms(100);// evtl. nochma gucken, ob wa immanoch uff schwarz sind
-	//jetzt drehungen vergleichen und dreh berechnen
-	int b = nxt_motor_get_count(NXT_PORT_B);
-//	int c = nxt_motor_get_count(NXT_PORT_C);
-//	ecrobot_status_monitor("Hello, wuff");
-//	display_clear(0);
-//	char str3[12] = "Kalibriert";
-//	display_goto_xy(5, 2);
-//	display_string(str3);
-//	display_goto_xy(1,3);
-//	display_int(-b-c, 6);
-//	wait_ms(500);
-	dreh = -b; /// Korrektur von Thomas: hab aus b -b gemacht, weil dreh sonst negativ war.
-}
-
-
 int turn_left()
 {
 	drehen_grad_l(90);
@@ -822,4 +781,18 @@ int turn_right()
 	drehen_grad_r(90);
 	return checkline(40,2);
 }
+
+///-----------------------------------------------------------------------------------
+///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+///-----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
 

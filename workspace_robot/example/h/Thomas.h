@@ -34,7 +34,8 @@ void Token_found();						/// Token Funkionen
 int check_Token();
 
 
-
+void go_straigth();
+void kalibrieren_Knoten();
 
 void follow_line();
 
