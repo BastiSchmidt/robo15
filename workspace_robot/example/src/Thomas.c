@@ -29,7 +29,12 @@ float Toleranz_black = 0.7; /// Erfahrungswerte Anwendung siehe kalibrierung_far
 float Toleranz_white = 0.2;
 int dreh = 1030;  /// Gute Näherung, Kalibrierung in kalibrierung_drehen()
 
-
+char Zeile1[15] = "Ich kalibriere";
+char Zeile2[15]	= "die Helligkeit";
+char Zeile3[15] = "   Farbwerte  ";
+char Zeile4[15] = "       /      ";
+char Zeile5[15] = " 360° Drehung ";
+char Zeile6[15] = "dreh ist      ";
 
 
 
@@ -102,25 +107,6 @@ void Token_found()   /// Wird aufgerufen, wenn Token gefunden #noshit
 
 
 
-void drive_cm2(float cm)
-{
-	float umdr =sgn(cm) *cm * 2000/97;
-	int power = sgn(cm)* 80; //Prozentzahl für Motoren
-
-	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-
-	nxt_motor_set_count(NXT_PORT_B, 0);
-	nxt_motor_set_count(NXT_PORT_C, 0);
-
-	while(abs(nxt_motor_get_count(NXT_PORT_B))< umdr && abs(nxt_motor_get_count(NXT_PORT_C))< umdr)//bis einer die Umdrehungen erreicht hat
-	{
-		nxt_motor_set_speed(NXT_PORT_C , power , 0);
-		nxt_motor_set_speed(NXT_PORT_B , power , 0);
-	}
-	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-}
 
 ///-----------------------------------------------------------------------------------
 /// GRUNDLEGENDE FARHFUNKTIONEN
@@ -407,9 +393,13 @@ void follow_line() /// follow_line fährt bis zum nächsten Knoten
 void kalibrieren_farbe()
 {
 	display_clear(1);
-	char KalibriereFarbe[20] = "Ich Kalibriere Farbe";
-	display_goto_xy(12, 4);				/// Display Ausgabe
-	display_string(KalibriereFarbe);
+
+	display_goto_xy(1, 1);				/// Display Ausgabe
+	display_string(Zeile1);
+	display_goto_xy(1, 2);
+	display_string(Zeile2);
+
+
 
 	int i,Light;
 	int No_Line_Found=0;
@@ -465,9 +455,13 @@ void kalibrieren_farbe()
 
 
 	display_clear(1);
-	char ErgebnisKalibrierung[23] = "Farbwerte black / white";
-	display_goto_xy(5, 2);				/// Display Ausgabe
-	display_string(ErgebnisKalibrierung);
+
+	display_goto_xy(1, 1);				/// Display Ausgabe
+	display_string(Zeile3);
+	display_goto_xy(1, 2);
+	display_string(Zeile4);
+	printnumber(black,5,2);
+	printnumber(white,9,2);
 
 
 
@@ -497,6 +491,14 @@ void kalibrieren_drehen()
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
 	int umdr = 900;
+
+
+	display_goto_xy(1, 4);				/// Display Ausgabe
+	display_string(Zeile1);
+	display_goto_xy(1, 5);
+	display_string(Zeile5);
+
+
 
 	while(-nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)
 	{
@@ -559,16 +561,23 @@ void kalibrieren_drehen()
 	//wait_ms(100);// evtl. nochma gucken, ob wa immanoch uff schwarz sind
 	//jetzt drehungen vergleichen und dreh berechnen
 	int b = nxt_motor_get_count(NXT_PORT_B);
-//	int c = nxt_motor_get_count(NXT_PORT_C);
-//	ecrobot_status_monitor("Hello, wuff");
-//	display_clear(0);
-//	char str3[12] = "Kalibriert";
-//	display_goto_xy(5, 2);
-//	display_string(str3);
-//	display_goto_xy(1,3);
-//	display_int(-b-c, 6);
-//	wait_ms(500);
+
 	dreh = -b; /// Korrektur von Thomas: hab aus b -b gemacht, weil dreh sonst negativ war.
+
+
+	display_clear(1);
+
+	display_goto_xy(1, 1);				/// Display Ausgabe
+	display_string(Zeile3);
+	display_goto_xy(1, 2);
+	display_string(Zeile4);
+	printnumber(black,5,2);
+	printnumber(white,9,2);
+
+	display_goto_xy(1, 4);				/// Display Ausgabe
+	display_string(Zeile6);
+	printnumber(dreh,10,4);
+
 }
 
 void kalibrieren_Knoten();
@@ -649,14 +658,6 @@ int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!
 	/// TODO drübergucken
 
 	/// Korrektur falls Position falsch übergeben wurde
-	if (ecrobot_get_light_sensor(NXT_PORT_S3)<white)
-	{
-		Position = 0;
-	}
-	if (ecrobot_get_light_sensor(NXT_PORT_S3)>black)
-	{
-		Position = 1;
-	}
 
 	while(grad<MAX_grad)
 	{
@@ -683,14 +684,9 @@ int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!
 				Position = 1; /// Er befindet sich jetzt auf Schwarzer Oberfläche
 				Hits++;
 
-				ecrobot_sound_tone(300, 1000, 10);
+				ecrobot_sound_tone(300, 300, 50);
 			}
-			while( grad < MAX_grad)
-			{
-				drehen_grad_r(drehung);			/// dreh dich ein stück
-				systick_wait_ms(waittime);
-				grad += 5;
-			}
+
 
 		}
 
@@ -720,7 +716,7 @@ int scan()
 {
 
 
-	int left,right,straigth = 0;
+	int left,right,straigth;
 	int drehung = 5;
 	int waittime = 20;
 	int i;
@@ -733,6 +729,7 @@ int scan()
 	}
 
 	straigth = checkline(20,2);
+	if (straigth == 1) {ecrobot_sound_tone(300, 300, 50);}
 	 /// Roboter sucht vor sich nach einer Linie, findet er was richtet er sich aus und setzt variable 1
 
 //		systick_wait_ms(1000);
@@ -742,6 +739,8 @@ int scan()
 //		systick_wait_ms(1000);
 
 	right = get_Hits(90,0);			/// suche Linie rechts
+	if (right == 0){}
+	else {right = 1;}
 
 //		systick_wait_ms(1000);
 
@@ -763,9 +762,12 @@ int scan()
 
 	drehen_grad_r(20);    /// Dreh 45°
 
+
 //		systick_wait_ms(1000);
 
 	left = get_Hits(90,0);   /// suche Linie links
+	if (left == 0){}
+	else {left = 1;}
 
 //		systick_wait_ms(1000);
 
