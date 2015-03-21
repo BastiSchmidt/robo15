@@ -32,10 +32,11 @@ TASK(OSEK_Main_Task)
 	kalibrieren_farbe();
 	systick_wait_ms(1000);
 	kalibrieren_drehen();
+	int a;
 	while (1)
 	{
-		follow_line();
-		scan_Node();
+		go_straight();
+		a = scan();
 		turn_left();
 
 	}

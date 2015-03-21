@@ -1,5 +1,27 @@
 #include "../h/Thomas.h"
+#define NORTH 0x10
+#define SOUTH 0x20
+#define WEST 0x40
+#define EAST 0x80
 
+#define D_N     0x10    // North
+#define D_S     0x20    // South
+#define D_NS    0x30    // North and South
+#define D_W     0x40    // West
+#define D_NW    0x50    // North and West
+#define D_SW    0x60    // South and West
+#define D_NSW   0x70    // North, South and West
+#define D_E     0x80    // East
+#define D_NE    0x90    // North and East
+#define D_SE    0xA0    // South and East
+#define D_NSE   0xB0    // North, South and East
+#define D_WE    0xC0    // West and East
+#define D_NWE   0xD0    // North, West and East
+#define D_SWE   0xE0    // South, West and East
+#define D_NSWE  0xF0    // North, South, West and East
+#define ROBOT_FAIL        0x00
+#define ROBOT_SUCCESS     0x01
+#define ROBOT_TOKENFOUND  0x02
 
 int black;  /// MAXIMALES SCHWARZ minus Toleranz siehe: Get_Black_White
 int white;  /// MININMALES WEIß plus Toleranz
@@ -386,7 +408,7 @@ void kalibrieren_farbe()
 {
 	display_clear(1);
 	char KalibriereFarbe[20] = "Ich Kalibriere Farbe";
-	display_goto_xy(5, 2);				/// Display Ausgabe
+	display_goto_xy(12, 4);				/// Display Ausgabe
 	display_string(KalibriereFarbe);
 
 	int i,Light;
@@ -443,9 +465,9 @@ void kalibrieren_farbe()
 
 
 	display_clear(1);
-	char str3[12] = "Kalibriert";
+	char ErgebnisKalibrierung[23] = "Farbwerte black / white";
 	display_goto_xy(5, 2);				/// Display Ausgabe
-	display_string(str3);
+	display_string(ErgebnisKalibrierung);
 
 
 
@@ -694,8 +716,10 @@ void go_straight()
 	follow_line(10,1);
 }
 
-void scan_Node()
+int scan()
 {
+
+
 	int left,right,straigth = 0;
 	int drehung = 5;
 	int waittime = 20;
@@ -760,20 +784,38 @@ void scan_Node()
 
 		}
 	}
-
-//		systick_wait_ms(1000);
-
-//	drehen_grad_l(180);   /// drehe dich zurück zur Ausgangsstellung
-
-//		ecrobot_sound_tone(1000,500,10);
-//		systick_wait_ms(1050);
-
+	int orientation = 0;
+	int intersection = 0;
+	switch(orientation)
+	{
+			case 0: if (straigth) intersection |= D_N;
+					if (right) intersection |= D_E;
+					intersection |= D_S;
+					if (left) intersection |= D_W;
+					break;
+			case 1: if (left) intersection |= D_N;
+					if (straigth) intersection |= D_E;
+					if (right) intersection |= D_S;
+					intersection |= D_W;
+					break;
+			case 2: intersection |= D_N;
+					if (left) intersection |= D_E;
+					if (straigth) intersection |= D_S;
+					if (right) intersection |= D_W;
+					break;
+			case 3: if (right) intersection |= D_N;
+					intersection |= D_E;
+					if (left) intersection |= D_S;
+					if (straigth) intersection |= D_W;
+					break;
+			default: return 0;
+	}
 
 	display_clear(1);
 	printnumber(left,1,1);
 	printnumber(straigth,3,2);
 	printnumber(right,5,1);
-
+	return intersection;
 }
 
 int turn_left()

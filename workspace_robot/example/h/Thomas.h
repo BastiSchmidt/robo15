@@ -53,7 +53,6 @@ void Node_center_case1();
 void Node_center_case2();
 
 int get_Hits(int MAX_grad,int Position);
-void scan_Node();
-void scanNode(int orientation);		/// in entwicklung
+int scan();
 
 #endif /* H_THOMAS_H_ */
