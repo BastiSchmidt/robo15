@@ -36,6 +36,9 @@ int check_Token();
 
 void go_straigth();
 void kalibrieren_Knoten();
+void drive_cm2(float cm);
+void printnumber(int zahl , int x, int y);
+
 
 void follow_line();
 

@@ -36,6 +36,11 @@ int sgn(float x) 	  /// einfache Signumfunktion
 
 }
 
+void printnumber(int zahl , int x, int y){
+  display_goto_xy(x, y);
+  display_int(zahl,3);
+}
+
 ///-----------------------------------------------------------------------------------
 ///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ///-----------------------------------------------------------------------------------
@@ -75,9 +80,25 @@ void Token_found()   /// Wird aufgerufen, wenn Token gefunden #noshit
 
 
 
+void drive_cm2(float cm)
+{
+	float umdr =sgn(cm) *cm * 2000/97;
+	int power = sgn(cm)* 80; //Prozentzahl für Motoren
 
+	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 
+	nxt_motor_set_count(NXT_PORT_B, 0);
+	nxt_motor_set_count(NXT_PORT_C, 0);
 
+	while(abs(nxt_motor_get_count(NXT_PORT_B))< umdr && abs(nxt_motor_get_count(NXT_PORT_C))< umdr)//bis einer die Umdrehungen erreicht hat
+	{
+		nxt_motor_set_speed(NXT_PORT_C , power , 0);
+		nxt_motor_set_speed(NXT_PORT_B , power , 0);
+	}
+	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+}
 
 ///-----------------------------------------------------------------------------------
 /// GRUNDLEGENDE FARHFUNKTIONEN
@@ -363,6 +384,11 @@ void follow_line() /// follow_line fährt bis zum nächsten Knoten
 
 void kalibrieren_farbe()
 {
+	display_clear(1);
+	char KalibriereFarbe[20] = "Ich Kalibriere Farbe";
+	display_goto_xy(5, 2);				/// Display Ausgabe
+	display_string(KalibriereFarbe);
+
 	int i,Light;
 	int No_Line_Found=0;
 	int MAX_BLACK = 0;
@@ -390,10 +416,7 @@ void kalibrieren_farbe()
 	white = MIN_WHITE + (MAX_BLACK - MIN_WHITE)*Toleranz_white;  /// DEFINIERE GLOBALE VARIABLEN UM
 	black = MAX_BLACK - (MAX_BLACK - MIN_WHITE)*Toleranz_black;
 
-//	display_clear(1);
-//	char str1[12] = "whitexxxxxx";
-//	display_goto_xy(5, 2);				/// Display Ausgabe
-//	display_string(str1);
+
 //
 //	systick_wait_ms(3000);
 //
@@ -602,6 +625,17 @@ int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!
 	int grad = 0;  // Zählvariable die die aktuelle Drehung mitverfolgt
 	int Hits = 0;  // Zählvariable, die erhöht wird, wenn ein neuer schwarzer streifen entdeckt wird
 	/// TODO drübergucken
+
+	/// Korrektur falls Position falsch übergeben wurde
+	if (ecrobot_get_light_sensor(NXT_PORT_S3)<white)
+	{
+		Position = 0;
+	}
+	if (ecrobot_get_light_sensor(NXT_PORT_S3)>black)
+	{
+		Position = 1;
+	}
+
 	while(grad<MAX_grad)
 	{
 		while(Position==1 && grad < MAX_grad)
@@ -629,6 +663,12 @@ int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!
 
 				ecrobot_sound_tone(300, 1000, 10);
 			}
+			while( grad < MAX_grad)
+			{
+				drehen_grad_r(drehung);			/// dreh dich ein stück
+				systick_wait_ms(waittime);
+				grad += 5;
+			}
 
 		}
 
@@ -649,7 +689,10 @@ int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!
 /// FAHRFUNKTIONEN FÜR SCHNITTSTELLE
 ///-----------------------------------------------------------------------------------
 
-void go_straight();
+void go_straight()
+{
+	follow_line(10,1);
+}
 
 void scan_Node()
 {
@@ -659,8 +702,14 @@ void scan_Node()
 	int i;
 
 
+	for (i=0;i<3;i++)
+	{
+		drive_cm(2);
+		systick_wait_ms(200);
+	}
 
-	straigth = goto_Node_center(); /// Roboter sucht vor sich nach einer Linie, findet er was richtet er sich aus und setzt variable 1
+	straigth = checkline(20,2);
+	 /// Roboter sucht vor sich nach einer Linie, findet er was richtet er sich aus und setzt variable 1
 
 //		systick_wait_ms(1000);
 
@@ -714,60 +763,17 @@ void scan_Node()
 
 //		systick_wait_ms(1000);
 
-	drehen_grad_l(180);   /// drehe dich zurück zur Ausgangsstellung
+//	drehen_grad_l(180);   /// drehe dich zurück zur Ausgangsstellung
 
 //		ecrobot_sound_tone(1000,500,10);
 //		systick_wait_ms(1050);
 
 
-	///
-	/// AUSGABE
-	///
+	display_clear(1);
+	printnumber(left,1,1);
+	printnumber(straigth,3,2);
+	printnumber(right,5,1);
 
-//		display_clear(1);
-//		char str1[12] = "straigthxxx";
-//		display_goto_xy(5, 2);				/// Display Ausgabe
-//		display_string(str1);
-//
-//		systick_wait_ms(1000);
-//
-//		display_clear(1);
-//		display_goto_xy(1,0);
-//		display_int(straigth,5);
-//
-//		systick_wait_ms(1000);
-//
-//		display_clear(1);
-//		char str2[12] = "leftxxxxxxx";
-//		display_goto_xy(5, 2);				/// Display Ausgabe
-//		display_string(str2);
-//
-//		systick_wait_ms(1000);
-//
-//		display_clear(1);
-//		display_goto_xy(1,0);
-//		display_int(left,5);
-//
-//		systick_wait_ms(1000);
-//
-//		display_clear(1);
-//		char str3[12] = "rightxxxxxx";
-//		display_goto_xy(5, 2);				/// Display Ausgabe
-//		display_string(str3);
-//
-//		systick_wait_ms(1000);
-//
-//		display_clear(1);
-//		display_goto_xy(1,0);
-//		display_int(right,5);
-//
-//		systick_wait_ms(1000);
-//		ecrobot_sound_tone(500, 1000, 10);
-//		systick_wait_ms(1050);				/// Akustische Ausgabe
-
-	///
-	///
-	///
 }
 
 int turn_left()
