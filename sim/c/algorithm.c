@@ -90,19 +90,19 @@ void turn_d(int direction){
     int diff = ((orientation - direction + 4)%4);
     switch (diff){
         case 0:
-            return;
+            break;
         case 1:
             turn_left();
-            return;
+            break;
         case 2:
             turn_left();
             turn_left();
-            return;
+            break;
         case 3:
             turn_right();
-            return;
+            break;
     }
-
+    orientation = direction;
 }
 
 
