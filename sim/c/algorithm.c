@@ -86,12 +86,25 @@ int direction_detect(int given_intersection, int wanted_direction) {
 }
 
 //turn bot in a specific direction
-int turn_d(int direction){
-    while (orientation != direction){
-        turn_left();
+void turn_d(int direction){
+    int diff = ((orientation - direction + 4)%4);
+    switch (diff){
+        case 0:
+            return;
+        case 1:
+            turn_left();
+            return;
+        case 2:
+            turn_left();
+            turn_left();
+            return;
+        case 3:
+            turn_right();
+            return;
     }
-    return ROBOT_SUCCESS;
+
 }
+
 
 //return pointer to new, empty node
 struct node *create_node(){
