@@ -1,4 +1,5 @@
 //#include "../h/Thomas.h"
+
 #define NORTH 0x10
 #define SOUTH 0x20
 #define WEST 0x40
