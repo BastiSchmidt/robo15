@@ -231,7 +231,7 @@ void drive_cm(float cm)
 	}
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-	systick_wait_ms(20);
+	systick_wait_ms(5);
 }
 
 void drehen_grad_l(int grad)  /// dreht nach links
@@ -275,7 +275,7 @@ void drehen_grad_l(int grad)  /// dreht nach links
 	/// Korrektur von Thomas
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-	systick_wait_ms(20);
+	systick_wait_ms(5);
 	// das hier ist wichtig, denn falls im letzten Schritt
 	///der While Schleife beide nxt_motor_get_count den EXAKT selben Wert ausgeben wird keine der
 	///beiden if bedingungen erfüllt und die Motoren werden nicht ausgeschaltet!!!
@@ -324,7 +324,7 @@ void drehen_grad_r(int grad)
 	/// Korrektur von Thomas
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-	systick_wait_ms(20);
+	systick_wait_ms(5);
 	// das hier ist wichtig, denn falls im letzten Schritt
 	///der While Schleife beide nxt_motor_get_count den EXAKT selben Wert ausgeben wird keine der
 	///beiden if bedingungen erfüllt und die Motoren werden nicht ausgeschaltet!!!
@@ -392,8 +392,8 @@ int checkline(int Winkel,int Iterationen)
 	/// IST MAN AUF SCHWARZ, KANN ES SEIN DASS ER SCHWARZ FÄLSCHLICHERWEISE ALS WEIß ERKENNT
 
 	int j =1;
-	int waittime = 20;
-	int drehung = 5;
+	int waittime = 5;
+	int drehung = 3;
 
 	int step = (Winkel)/(Iterationen)/drehung; /// damit sollte er sich in der Letzten Iteration um Winkel drehen
 
@@ -461,7 +461,12 @@ void follow_line() /// follow_line fährt bis zum nächsten Knoten
 			Light = forward(2);
 		}
 		Light = checkline(40,2);
+
 	}
+	systick_wait_ms(1000);
+	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+
 }
 
 ///-----------------------------------------------------------------------------------
@@ -581,6 +586,14 @@ void kalibrieren_drehen()
 	int umdr = 900;
 	int power = 80;
 
+	display_clear(1);
+
+	display_goto_xy(1, 1);				/// Display Ausgabe
+	display_string(Zeile3);
+	display_goto_xy(1, 2);
+	display_string(Zeile4);
+	printnumber(black,5,2);
+	printnumber(white,9,2);
 
 	display_goto_xy(1, 4);				/// Display Ausgabe
 	display_string(Zeile1);

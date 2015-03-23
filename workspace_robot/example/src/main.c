@@ -31,9 +31,7 @@ TASK(OSEK_Main_Task)
 
 	while (1)
 	{
-		follow_line();
-		int a = scan();
-		turn_left();
+		int a = checkline(40,2);
 	}
 //	int a = main_loop();
 //	discover();
