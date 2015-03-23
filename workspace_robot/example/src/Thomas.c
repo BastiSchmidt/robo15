@@ -649,7 +649,7 @@ void Node_center_case2()
 	drive_cm(7);
 }
 
-int goto_Node_center()
+int goto_Node_center()// TODO kann man hier evtl. Zeiten rausnehmen?
 {
 	int i;
 	drive_cm(7);
@@ -692,7 +692,7 @@ int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!
 		{
 			drehen_grad_r(drehung);			/// dreh dich ein stück
 			systick_wait_ms(waittime);
-			grad += 5;
+			grad += drehung;
 			Light = ecrobot_get_light_sensor(NXT_PORT_S3); /// Miss Licht
 			if (Light<white)
 			{
@@ -704,7 +704,7 @@ int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!
 		{
 			drehen_grad_r(drehung);			/// dreh dich ein stück
 			systick_wait_ms(waittime);
-			grad += 5;
+			grad += drehung;
 			Light = ecrobot_get_light_sensor(NXT_PORT_S3); /// Miss Licht
 			if (Light>black)
 			{
@@ -741,8 +741,6 @@ void go_straight()
 
 int scan()
 {
-
-
 	int left,right,straigth;
 	int drehung = 5;
 	int waittime = 20;
@@ -849,13 +847,13 @@ int scan()
 
 int turn_left()
 {
-	drehen_grad_l(90);
+	drehen_grad_l(100);// weila sich bei checkline erst nach rechts dreht
 	return checkline(40,2);
 }
 
 int turn_right()
 {
-	drehen_grad_r(90);
+	drehen_grad_r(80);// weila sich bei checkline erst nach rechts dreht
 	return checkline(40,2);
 }
 
