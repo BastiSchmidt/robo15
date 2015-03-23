@@ -10,7 +10,7 @@ int main(void) {
 	printf("Version %02d%02d%02d\n", timeinfo->tm_mday, timeinfo->tm_hour,
 			timeinfo->tm_min);
 
-	current_position.x = 0;
+	current_position.x = 4;
 	current_position.y = 0;
 	Robot_Move(current_position.x, current_position.y);
 	orientation = 2;

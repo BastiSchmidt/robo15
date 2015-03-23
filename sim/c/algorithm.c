@@ -3,14 +3,17 @@
 
 void init(){
     int i, j;
-    for(i = 0; i < 2 * MAZE_HEIGHT + 2; i++){
-        for(j = 0; j < 2* MAZE_WIDTH + 2; j++) {
+    for(i = 0; i < 2 * MAZE_WIDTH; i++){
+        for(j = 0; j < MAZE_HEIGHT + 2; j++) {
             ptrmap[i][j] = NULL;
         }
     }
     current_node = create_node();
     ptrmap[current_position.x + MAZE_WIDTH][current_position.y + MAZE_HEIGHT] =
             current_node;
+
+    global_instructions = malloc(sizeof(struct instructions));
+
     tokencount = 0;
     discovered_everything = 0;
 }
@@ -168,13 +171,12 @@ struct coord bfs_closest_unvisited_node() {
 }
 
 //look for shortest path to given coordinates
-struct instructions bfs_path_to_node(struct coord goal) {
+struct instructions *bfs_path_to_node(struct coord goal) {
     int i;
     struct element  *queue;
     queue = NULL;
     struct element *seen;
     seen = NULL;
-    struct instructions path_to_goal;
     struct coord cur_position;
     cur_position = current_position;
     current_node->bfs_reached_from = 8;
@@ -186,13 +188,13 @@ struct instructions bfs_path_to_node(struct coord goal) {
         list_append(&seen, cur_position);
         if ((cur_position.x  == goal.x) && (cur_position.y == goal.y)){
             printf("131\n");
-            path_to_goal = create_path(goal);
+            global_instructions = create_path(goal);
             printf("132\n");
             reset_nodes_bfs();
             printf("133\n");
             destroy_list(queue);
             destroy_list(seen);
-            return path_to_goal;
+            return global_instructions;
         }
 
         for (i = 3; i >= 0; i--) {
@@ -219,8 +221,8 @@ struct instructions bfs_path_to_node(struct coord goal) {
     }
 
     printf("17\n");
-    path_to_goal.path[0] = 8;
-    return path_to_goal;
+    global_instructions->path[0] = 8;
+    return global_instructions;
 }
 
 //appends the list the given pointer is pointing to with the given coord
@@ -275,8 +277,8 @@ int list_search(struct element *start, struct coord tofind) {
 
 void reset_nodes_bfs(){
     int i, j;
-    for(i = 0; i < 2 * MAZE_HEIGHT + 3; i++){
-        for(j = 0; j < 2 * MAZE_WIDTH + 3; j++) {
+    for(i = 0; i < 2 * MAZE_WIDTH; i++){
+        for(j = 0; j < MAZE_HEIGHT + 2; j++) {
             if (ptrmap[i][j] != NULL) {
                 ptrmap[i][j]->bfs_reached_from = 9;
             }
@@ -316,20 +318,19 @@ struct coord shift_coordinates(struct coord old, int direction){
     }
 }
 
-int follow_instructions(struct instructions instr){
+int follow_instructions(struct instructions *instr){
     printf("Starting to follow...\n");
     int i;
-    for (i = 0; instr.path[i] != 8; i++){
-        turn_d(instr.path[i]);
+    for (i = 0; instr->path[i] != 8; i++){
+        turn_d(instr->path[i]);
         go_straight();
         printf("Followed one instruction\n");
     }
     return ROBOT_SUCCESS;
 }
 
-struct instructions create_path(struct coord goal_position){
+struct instructions *create_path(struct coord goal_position){
     struct instructions temp;
-    struct instructions path_to_goal;
     print_bfs_rf_ptrmap();
     int i;
     printf("1321\n");
@@ -345,35 +346,21 @@ struct instructions create_path(struct coord goal_position){
     printf("1325\n");
     int j;
     for (j = 0, i -= 1; i >= 0; i--, j++){
-        path_to_goal.path[j] = temp.path[i];
-        printf("Instruction: %d\n", path_to_goal.path[j]);
+        global_instructions->path[j] = temp.path[i];
+        printf("Instruction: %d\n", global_instructions->path[j]);
     }
-    path_to_goal.path[j] = 8;
-    return path_to_goal;
+    global_instructions->path[j] = 8;
+    return global_instructions;
 }
 
-//outputs ptrmap to stdout, 1's show present pointers
-void print_ptrmap(){
-    int i, j;
-    for(i = 0; i < 2 * MAZE_HEIGHT + 3; i++){
-        for(j = 0; j < 2* MAZE_WIDTH + 3; j++) {
-            if (ptrmap[i][j] != NULL) {
-                printf(" 1");
-            } else {
-                printf(" 0");
-            }
-        }
-        printf("\n");
-    }
-}
 
 //outputs ptrmaps bfs_reached_from to stdout
 void print_bfs_rf_ptrmap(){
     int i, j;
-    for(i =  2 * MAZE_HEIGHT + 2; i >= 0; i--){
-        for(j = 0; j < 2 * MAZE_WIDTH + 3; j++) {
-            if (ptrmap[j][i] != NULL) {
-                printf("%d ", ptrmap[j][i]->bfs_reached_from);
+    for(j =  0; j < MAZE_HEIGHT + 2; j++){
+        for(i = 0; i < 2 * MAZE_WIDTH; i++) {
+            if (ptrmap[i][j] != NULL) {
+                printf("%d ", ptrmap[i][j]->bfs_reached_from);
             } else {
                 printf("X ");
             }
