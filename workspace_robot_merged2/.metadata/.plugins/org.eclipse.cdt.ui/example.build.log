@@ -1,15 +1,11 @@
-09:55:17 **** Incremental Build of configuration Default for project example ****
+11:43:46 **** Incremental Build of configuration Default for project example ****
 make all 
 cygwin warning:
   MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
-Compiling src/main.c to main.o
   Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
   CYGWIN environment variable option "nodosfilewarning" turns off this warning.
   Consult the user's guide for more details about POSIX paths:
     http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
-Generating binary image file: main_rom.bin
-Generating binary image file: main_ram.bin
-Generating binary image file: main.rxe
 
-09:55:19 Build Finished (took 1s.168ms)
+11:43:47 Build Finished (took 406ms)
 

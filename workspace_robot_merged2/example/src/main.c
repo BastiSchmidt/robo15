@@ -1,5 +1,4 @@
 #include "../h/main.h"
-#include "../../../sim/h/Configuration.h"
 
 /// DO NOT DELETE THIS METHOD
 /// It is called every 1ms and e.g. can be used for implementing a
@@ -1168,35 +1167,28 @@ struct coord shift_coordinates(struct coord old, int direction){
 }
 
 int follow_instructions(struct instructions *instr){
-	printf("Starting to follow...\n");
 	int i;
 	for (i = 0; instr->path[i] != 8; i++){
 		turn_d(instr->path[i]);
 		go_straight();
-		printf("Followed one instruction\n");
 	}
 	return ROBOT_SUCCESS;
 }
 
 struct instructions *create_path(struct coord goal_position){
 	struct instructions temp;
-	print_bfs_rf_ptrmap();
 	int i;
-	printf("1321\n");
 	for (i=0; (goal_position.x != current_position.x)
 			|| (goal_position.y != current_position.y); i++){
 		temp.path[i] = ptrmap[goal_position.x + MAZE_WIDTH]
 		[goal_position.y + MAZE_HEIGHT]->bfs_reached_from;
 		if (temp.path[i] == 9) {
-			printf("Bullshit!\n");
 		}
 		goal_position = shift_coordinates(goal_position, (temp.path[i] + 2) % 4);
 	}
-	printf("1325\n");
 	int j;
 	for (j = 0, i -= 1; i >= 0; i--, j++){
 		global_instructions->path[j] = temp.path[i];
-		printf("Instruction: %d\n", global_instructions->path[j]);
 	}
 	global_instructions->path[j] = 8;
 	return global_instructions;
