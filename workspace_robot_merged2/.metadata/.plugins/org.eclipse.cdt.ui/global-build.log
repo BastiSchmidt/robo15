@@ -1,16 +1,4 @@
-11:42:22 **** Incremental Build of configuration Default for project example ****
-make all 
-cygwin warning:
-  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
-Compiling src/main.c to main.o
-  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
-  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
-  Consult the user's guide for more details about POSIX paths:
-    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
-src/main.c: In function ‘create_path’:
-src/main.c:1180: error: implicit declaration of function ‘print_bfs_rf_ptrmap’
-make: *** [build/src/main.o] Error 1
-11:42:41 **** Incremental Build of configuration Default for project example ****
+12:12:10 **** Incremental Build of configuration Default for project example ****
 make all 
 cygwin warning:
   MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
@@ -22,7 +10,19 @@ Compiling src/main.c to main.o
 Generating binary image file: main_rom.bin
 Generating binary image file: main_ram.bin
 Generating binary image file: main.rxe
-11:43:35 **** Incremental Build of configuration Default for project example ****
+12:14:20 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+12:24:49 **** Incremental Build of configuration Default for project example ****
 make all 
 cygwin warning:
   MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
@@ -30,7 +30,63 @@ cygwin warning:
   CYGWIN environment variable option "nodosfilewarning" turns off this warning.
   Consult the user's guide for more details about POSIX paths:
     http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
-11:43:46 **** Incremental Build of configuration Default for project example ****
+Compiling src/main.c to main.o
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+12:32:37 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Compiling src/main.c to main.o
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+12:33:10 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+12:47:12 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+12:48:44 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+12:48:49 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+13:28:44 **** Incremental Build of configuration Default for project example ****
 make all 
 cygwin warning:
   MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\

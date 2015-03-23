@@ -27,13 +27,12 @@ void Token_found();						/// Token Funkionen
 int check_Token();
 
 
-void go_straigth();
 void kalibrieren_Knoten();
 void drive_cm2(float cm);
 void printnumber(int zahl , int x, int y);
 
 
-void follow_line();
+void go_straight();
 
 int checkline_right (int steps, int drehung, int waittime);
 int checkline_left (int steps, int drehung, int waittime);

@@ -1,4 +1,4 @@
-11:43:46 **** Incremental Build of configuration Default for project example ****
+13:28:44 **** Incremental Build of configuration Default for project example ****
 make all 
 cygwin warning:
   MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
@@ -7,5 +7,5 @@ cygwin warning:
   Consult the user's guide for more details about POSIX paths:
     http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
 
-11:43:47 Build Finished (took 406ms)
+13:28:48 Build Finished (took 3s.190ms)
 

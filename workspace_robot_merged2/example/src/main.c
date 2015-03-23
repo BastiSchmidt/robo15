@@ -39,7 +39,7 @@ void ecrobot_device_terminate(void) {
 #define MAZE_WIDTH 7
 #define MAZE_HEIGHT 7
 
-#define TOKEN_AIM 9999
+#define TOKEN_AIM 3
 
 //Current orientation of bot
 int orientation;
@@ -393,18 +393,38 @@ int forward(int Strecke) /// returns 1 if still on Black returns 0 if it left bl
 
 }
 
-void follow_line() /// follow_line f�hrt bis zum n�chsten Knoten
-{
+void go_straight(){ /// follow_line f�hrt bis zum n�chsten Knoten
+
 	/// FOLLOW-LINE GEHT DAVON AUS, DASS MAN AUF SCHWARZ IST
 	int Light = 1; /// 1 bedeutet Schwarz
-	while(Light == 1)
-	{
-		while(Light == 1)
-		{
+	while(Light == 1){
+
+		while(Light == 1){
 			Light = forward(2);
 		}
+
 		Light = checkline(40,2);
 	}
+	int i;
+
+
+	for (i=0;i<3;i++){
+		drive_cm(2);
+		systick_wait_ms(200);
+	}
+
+	switch (orientation){
+	        case 0: current_position.y += 1;
+	            break;
+	        case 1: current_position.x += 1;
+	            break;
+	        case 2: current_position.y -= 1;
+	            break;
+	        case 3: current_position.x -= 1;
+	            break;
+	}
+	current_node = ptrmap[current_position.x + MAZE_WIDTH]
+						 [current_position.y + MAZE_HEIGHT];
 }
 
 ///-----------------------------------------------------------------------------------
@@ -611,7 +631,6 @@ void kalibrieren_drehen()
 
 }
 
-void kalibrieren_Knoten();
 
 ///-----------------------------------------------------------------------------------
 ///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -649,7 +668,7 @@ void Node_center_case2()
 		Light = checkline(10*i,1);
 		i++;
 	}
-	follow_line();
+	go_straight();
 	drive_cm(7);
 }
 
@@ -738,11 +757,6 @@ int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!
 /// FAHRFUNKTIONEN F�R SCHNITTSTELLE
 ///-----------------------------------------------------------------------------------
 
-void go_straight()
-{
-	follow_line(10,1);
-}
-
 int scan()
 {
 
@@ -750,14 +764,7 @@ int scan()
 	int left,right,straigth;
 	int drehung = 5;
 	int waittime = 20;
-	int i;
 
-
-	for (i=0;i<3;i++)
-	{
-		drive_cm(2);
-		systick_wait_ms(200);
-	}
 
 	straigth = checkline(20,2);
 	if (straigth == 1) {ecrobot_sound_tone(300, 300, 50);}
@@ -801,7 +808,7 @@ int scan()
 	else {left = 1;}
 
 //		systick_wait_ms(1000);
-
+	/*
 	drehen_grad_l(135);			/// drehe zur�ck richtung Herkunftslinie
 
 	if (checkline_left(18,drehung,waittime)==0) /// Finde herkunftslinie
@@ -816,8 +823,7 @@ int scan()
 		{
 
 		}
-	}
-	int orientation = 0;
+	}*/
 	int intersection = 0;
 	switch(orientation)
 	{
@@ -848,6 +854,7 @@ int scan()
 	printnumber(left,1,1);
 	printnumber(straigth,3,2);
 	printnumber(right,5,1);
+	drehen_grad_r(45);
 	return intersection;
 }
 
@@ -869,6 +876,9 @@ int turn_right()
 
 
 void init(){
+	tokencount = 0;
+	discovered_everything = 0;
+	orientation = 2;
 	int i, j;
 	for(i = 0; i < 2 * MAZE_WIDTH; i++){
 		for(j = 0; j < MAZE_HEIGHT + 2; j++) {
@@ -878,8 +888,10 @@ void init(){
 	current_node = create_node();
 	ptrmap[current_position.x + MAZE_WIDTH][current_position.y + MAZE_HEIGHT] =
 			current_node;
-	tokencount = 0;
-	discovered_everything = 0;
+	current_node->visited = 1;
+	ptrmap[current_position.x + MAZE_WIDTH][current_position.y - 1 + MAZE_HEIGHT] =
+				create_node();
+
 }
 
 
@@ -1141,25 +1153,13 @@ struct coord shift_coordinates(struct coord old, int direction){
 		case 0:
 			old.y += 1;
 			return old;
-		case NORTH:
-			old.y += 1;
-			return old;
 		case 1:
-			old.x += 1;
-			return old;
-		case EAST:
 			old.x += 1;
 			return old;
 		case 2:
 			old.y -= 1;
 			return old;
-		case SOUTH:
-			old.y -= 1;
-			return old;
 		case 3:
-			old.x -= 1;
-			return old;
-		case WEST:
 			old.x -= 1;
 			return old;
 		default: return old;
@@ -1170,6 +1170,8 @@ int follow_instructions(struct instructions *instr){
 	int i;
 	for (i = 0; instr->path[i] != 8; i++){
 		turn_d(instr->path[i]);
+		display_clear(1);
+		printnumber(i,3,1);
 		go_straight();
 	}
 	return ROBOT_SUCCESS;
@@ -1194,40 +1196,29 @@ struct instructions *create_path(struct coord goal_position){
 	return global_instructions;
 }
 
-int main_loop() {
-
-	current_position.x = 0;
-	current_position.y = 0;
-	orientation = 2;
-
-	//main loop
-	int i = 0;
-	struct coord optimum;
-	while (!(tokencount >= TOKEN_AIM || discovered_everything)){
-		discover();
-		optimum = bfs_closest_unvisited_node();
-		follow_instructions(bfs_path_to_node(optimum));
-		i++;
-	}
-	if (discovered_everything) {
-		return EXIT_SUCCESS;
-	}
-	optimum.x = 0;
-	optimum.y = 0;
-	follow_instructions(bfs_path_to_node(optimum));
-	return EXIT_SUCCESS;
-}
-
 TASK(OSEK_Main_Task) {
 		ecrobot_set_light_sensor_active(NXT_PORT_S3);
 		display_clear(1);
 		printnumber(1,1,1);
 		printnumber(1,3,2);
 		printnumber(1,5,1);
-		init();
 		kalibrieren_farbe();
-		systick_wait_ms(1000);
 		kalibrieren_drehen();
+		current_position.x = 0;
+		current_position.y = 1;
+		init();
 		go_straight();
-		main_loop();
+		//main loop
+		while (!(tokencount >= TOKEN_AIM || discovered_everything)){
+			discover();
+			follow_instructions(bfs_path_to_node(bfs_closest_unvisited_node()));
+		}
+		if (discovered_everything) {
+			systick_wait_ms(100000);
+		}
+
+		struct coord optimum;
+		optimum.x = 0;
+		optimum.y = 1;
+		follow_instructions(bfs_path_to_node(optimum));
 }
