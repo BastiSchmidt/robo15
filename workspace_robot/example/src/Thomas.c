@@ -131,19 +131,21 @@ void drive_cm(float cm)
 			{
 				nxt_motor_set_speed(NXT_PORT_C , power , 0);
 				wait_ms(10);
-
 			}
-//			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+			nxt_motor_set_speed(NXT_PORT_B , power, 0);
 		}
-		if(abs(nxt_motor_get_count(NXT_PORT_B)) < abs(nxt_motor_get_count(NXT_PORT_C)))
+		else
 		{
-			nxt_motor_set_speed(NXT_PORT_C , power*(4/5), 0);
-			while( abs(nxt_motor_get_count(NXT_PORT_C)) > abs(nxt_motor_get_count(NXT_PORT_B)))
+			if(abs(nxt_motor_get_count(NXT_PORT_B)) < abs(nxt_motor_get_count(NXT_PORT_C)))
 			{
-				nxt_motor_set_speed(NXT_PORT_B , power , 0);
-				wait_ms(10);
+				nxt_motor_set_speed(NXT_PORT_C , power*(4/5), 0);
+				while( abs(nxt_motor_get_count(NXT_PORT_C)) > abs(nxt_motor_get_count(NXT_PORT_B)))
+				{
+					nxt_motor_set_speed(NXT_PORT_B , power , 0);
+					wait_ms(10);
+				}
+				nxt_motor_set_speed(NXT_PORT_C , power, 0);
 			}
-//			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 		}
 		if (check_Token() == 1)
 		{
