@@ -491,6 +491,7 @@ void kalibrieren_drehen()
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
 	int umdr = 900;
+	int power = 80;
 
 
 	display_goto_xy(1, 4);				/// Display Ausgabe
@@ -500,60 +501,86 @@ void kalibrieren_drehen()
 
 
 
-	while(-nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)
+//	while(-nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)
+//	{
+//		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+//		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+//		wait_ms(50);
+//		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+//		{
+//			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+//			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
+//			{
+//				nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+//				wait_ms(10);
+//
+//			}
+//			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+//		}
+//		if(-nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
+//		{
+//			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+//			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
+//			{
+//				nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+//				wait_ms(10);
+//
+//			}
+//			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+//		}
+//	}
+	while(abs(nxt_motor_get_count(NXT_PORT_B))< umdr && abs(nxt_motor_get_count(NXT_PORT_C))< umdr)//bis einer die Umdrehungen erreicht hat
 	{
-		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
-		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
-		wait_ms(50);
-		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+		nxt_motor_set_speed(NXT_PORT_C , power , 0);
+		nxt_motor_set_speed(NXT_PORT_B , -power , 0);
+		wait_ms(10);
+		if(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
 		{
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
+			nxt_motor_set_speed(NXT_PORT_B , power*(4/5), 0);
+			while(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))
 			{
-				nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+				nxt_motor_set_speed(NXT_PORT_C , power , 0);
 				wait_ms(10);
 
 			}
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+//			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 		}
-		if(-nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
+		if(abs(nxt_motor_get_count(NXT_PORT_B)) < abs(nxt_motor_get_count(NXT_PORT_C)))
 		{
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
+			nxt_motor_set_speed(NXT_PORT_C , power*(4/5), 0);
+			while( abs(nxt_motor_get_count(NXT_PORT_C)) > abs(nxt_motor_get_count(NXT_PORT_B)))
 			{
-				nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+				nxt_motor_set_speed(NXT_PORT_B , -power , 0);
 				wait_ms(10);
-
 			}
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+//			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 		}
 	}// bissel gedreht, jetzt Schwarz suchen
 	while(ecrobot_get_light_sensor(NXT_PORT_S3)<=black)
 	{
-		nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
-		nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
-		wait_ms(20);
-		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+		nxt_motor_set_speed(NXT_PORT_C , power , 0);
+		nxt_motor_set_speed(NXT_PORT_B , -power , 0);
+		wait_ms(10);
+		if(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
 		{
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
+			nxt_motor_set_speed(NXT_PORT_B , power*(4/5), 0);
+			while(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))
 			{
-				nxt_motor_set_speed(NXT_PORT_C , 80 , 0);
+				nxt_motor_set_speed(NXT_PORT_C , power , 0);
 				wait_ms(10);
 
 			}
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+//			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 		}
-		if(-nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
+		if(abs(nxt_motor_get_count(NXT_PORT_B)) < abs(nxt_motor_get_count(NXT_PORT_C)))
 		{
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
+			nxt_motor_set_speed(NXT_PORT_C , power*(4/5), 0);
+			while( abs(nxt_motor_get_count(NXT_PORT_C)) > abs(nxt_motor_get_count(NXT_PORT_B)))
 			{
-				nxt_motor_set_speed(NXT_PORT_B , -80 , 0);
+				nxt_motor_set_speed(NXT_PORT_B , -power , 0);
 				wait_ms(10);
-
 			}
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
+//			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 		}
 	}// jetzt issa auf schwarz. Motoren aus
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
@@ -835,14 +862,3 @@ int turn_right()
 ///-----------------------------------------------------------------------------------
 ///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ///-----------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
