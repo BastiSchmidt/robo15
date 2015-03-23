@@ -16,6 +16,17 @@ int dreh;
 #include "ecrobot_interface.h"
 #include "../src/Thomas.c"
 
+
+
+//// Algo kram
+
+
+
+
+
+
+///
+
 void wait_ms(int ms);   /// Hilfsfunktionen
 int sgn(float x);
 

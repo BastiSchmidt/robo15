@@ -24,21 +24,22 @@ TASK(OSEK_Main_Task)
 {
 
 	ecrobot_set_light_sensor_active(NXT_PORT_S3);
-	display_clear(1);
-		printnumber(1,1,1);
-		printnumber(1,3,2);
-		printnumber(1,5,1);
 
 	kalibrieren_farbe();
 	systick_wait_ms(1000);
 	kalibrieren_drehen();
-	int a;
+
 	while (1)
 	{
-		go_straight();
-		a = scan();
+		follow_line();
+		int a = scan();
 		turn_left();
-
 	}
+//	int a = main_loop();
+//	discover();
+
+
+
+
 }
 

@@ -1,67 +1,16 @@
-09:44:58 **** Build of configuration Default for project example ****
+11:42:22 **** Incremental Build of configuration Default for project example ****
 make all 
 cygwin warning:
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/kernel/alarm.c to alarm.o
   MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
   Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
   CYGWIN environment variable option "nodosfilewarning" turns off this warning.
   Consult the user's guide for more details about POSIX paths:
     http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/kernel/event.c to event.o
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/kernel/interrupt.c to interrupt.o
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/kernel/osctl.c to osctl.o
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/kernel/resource.c to resource.o
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/kernel/task.c to task.o
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/kernel/task_manage.c to task_manage.o
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/config/at91sam7s-gnu/cpu_config.c to cpu_config.o
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/config/at91sam7s-gnu/lego_nxt/sys_config.c to sys_config.o
-Generating OSEK kernel config files from ./main.oil
-Compiling kernel_cfg.c to kernel_cfg.o
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/c/syscalls.c to syscalls.o
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/c/ecrobot_bluetooth.c to ecrobot_bluetooth.o
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/c/ecrobot_base.c to ecrobot_base.o
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/c/ecrobot.c to ecrobot.o
-Compiling src/main.c to main.o
-src/main.c:64: warning: initializer-string for array of chars is too long
-Compiling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/syslib/at91sam7s-gnu/lego_nxt/hw_sys_timer.c to hw_sys_timer.oram
-Assembling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../lejos_nxj/src/nxtvm/platform/nxt/vectors.s to vectors.o
-Assembling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/config/at91sam7s-gnu/debug.S to debug.o
-Assembling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/config/at91sam7s-gnu/lego_nxt/sys_support.S to sys_support.o
-Assembling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/c/nxt_binary_header.s to nxt_binary_header.o
-Assembling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/c/nxt_entry_point.s to nxt_entry_point.o
-Assembling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/c/ecrobot_init.s to ecrobot_init.o
-Assembling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/config/at91sam7s-gnu/cpu_support.S to cpu_support.oram
-Assembling /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/config/at91sam7s-gnu/irq.s to irq.oram
-Generating binary image file: main_rom.bin
-Generating binary image file: main_ram.bin
-Generating binary image file: main.rxe
-09:47:18 **** Incremental Build of configuration Default for project example ****
-make all 
-cygwin warning:
-Compiling src/main.c to main.o
-  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
-  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
-  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
-  Consult the user's guide for more details about POSIX paths:
-    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
-src/main.c:65: warning: initializer-string for array of chars is too long
-Generating binary image file: main_rom.bin
-Generating binary image file: main_ram.bin
-Generating binary image file: main.rxe
-09:54:38 **** Incremental Build of configuration Default for project example ****
-make all 
-cygwin warning:
-  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
-  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
-  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
-  Consult the user's guide for more details about POSIX paths:
-    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
-Compiling src/main.c to main.o
-src/main.c:65: warning: initializer-string for array of chars is too long
-Generating binary image file: main_rom.bin
-Generating binary image file: main_ram.bin
-Generating binary image file: main.rxe
-09:55:17 **** Incremental Build of configuration Default for project example ****
+src/main.c: In function ‘create_path’:
+src/main.c:1180: error: implicit declaration of function ‘print_bfs_rf_ptrmap’
+make: *** [build/src/main.o] Error 1
+11:42:41 **** Incremental Build of configuration Default for project example ****
 make all 
 cygwin warning:
   MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
@@ -73,3 +22,19 @@ Compiling src/main.c to main.o
 Generating binary image file: main_rom.bin
 Generating binary image file: main_ram.bin
 Generating binary image file: main.rxe
+11:43:35 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+11:43:46 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
