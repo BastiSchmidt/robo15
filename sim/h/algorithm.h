@@ -48,7 +48,7 @@ void discover();
 
 int direction_detect(int given_intersection, int wanted_direction);
 
-int turn_d(int direction);
+void turn_d(int direction);
 
 struct node *create_node();
 
