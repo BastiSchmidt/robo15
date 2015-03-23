@@ -15,7 +15,7 @@ int main(void) {
 	Robot_Move(current_position.x, current_position.y);
 	orientation = 2;
 
-	init_sim_rnd();
+	//init_sim_rnd();
 	init();
 
 	//main loop

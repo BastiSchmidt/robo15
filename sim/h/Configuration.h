@@ -28,8 +28,8 @@
 #define URL "http://" IP ":" PORT "/query?id=" GROUPID "&values="
 
 // define maze size here
-#define MAZE_WIDTH 24
-#define MAZE_HEIGHT 24
+#define MAZE_WIDTH 7
+#define MAZE_HEIGHT 7
 
 #define TOKEN_AIM 9999
 
