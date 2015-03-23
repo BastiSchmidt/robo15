@@ -16,7 +16,7 @@ void init_sim_rnd() {
         //TODO: abort conditions!
     } else {
         current_position.x = r; //Update position on successful placement
-        current_position.y = -6;
+        current_position.y = 0;
     orientation = 0;
     Robot_Move(current_position.x,current_position.y);
     }

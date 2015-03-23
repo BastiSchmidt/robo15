@@ -61,25 +61,25 @@ void discover(){
 int direction_detect(int given_intersection, int wanted_direction) {
     //Northern node?
     if ( ((given_intersection >> 4)&1) && (wanted_direction == NORTH ||
-            wanted_direction == 0)) {
+                                            wanted_direction == 0)) {
         return 1;
     }
 
     //Eastern node?
     else if (((given_intersection >> 7)&1) && (wanted_direction == EAST ||
-            wanted_direction == 1)) {
+                                                wanted_direction == 1)) {
         return 1;
     }
 
     //Southern node?
     else if (((given_intersection >> 5)&1) && (wanted_direction == SOUTH ||
-        wanted_direction == 2)) {
+                                                wanted_direction == 2)) {
         return 1;
     }
 
     //Western node?
-    else if (((given_intersection >> 6)&1) &&
-                    (wanted_direction == WEST || wanted_direction == 3)){
+    else if (((given_intersection >> 6)&1) && (wanted_direction == WEST ||
+                                                wanted_direction == 3)){
         return 1;
     }
     return 0;

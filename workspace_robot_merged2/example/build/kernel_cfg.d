@@ -1,0 +1,18 @@
+build/./kernel_cfg.o: kernel_cfg.c \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/kernel/osek_kernel.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/include/kernel.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/config/at91sam7s-gnu/lego_nxt/sys_defs.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/config/at91sam7s-gnu/cpu_defs.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/include/osek.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/include/t_stddef.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/config/at91sam7s-gnu/tool_defs.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/include/t_config.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/config/at91sam7s-gnu/lego_nxt/sys_config.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/config/at91sam7s-gnu/cpu_config.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/config/at91sam7s-gnu/cpu_insn.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/config/at91sam7s-gnu/tool_config.h \
+  kernel_id.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/kernel/alarm.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/kernel/interrupt.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/kernel/resource.h \
+  /cygdrive/C/cygwin/nxtOSEK/ecrobot/../toppers_osek/kernel/task.h
