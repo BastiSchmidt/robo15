@@ -16,6 +16,49 @@ int dreh;
 #include "ecrobot_interface.h"
 #include "../src/Thomas.c"
 
+
+
+//// Algo kram
+
+
+void list_append(struct element **start, struct coord discovered);
+
+void list_remove_first(struct element **start);
+
+void destroy_list(struct element *start);
+
+int list_search(struct element *start, struct coord tofind);
+
+void reset_nodes_bfs();
+
+void init();
+
+void discover();
+
+int direction_detect(int given_intersection, int wanted_direction);
+
+int turn_d(int direction);
+
+struct node *create_node();
+
+struct coord bfs_closest_unvisited_node();
+
+struct instructions bfs_path_to_node(struct coord goal);
+
+struct coord shift_coordinates(struct coord old, int direction);
+
+struct instructions create_path(struct coord goal_position);
+
+int follow_instructions(struct instructions instr);
+int main_loop();
+
+//Current orientation of bot
+int orientation;
+
+
+
+///
+
 void wait_ms(int ms);   /// Hilfsfunktionen
 int sgn(float x);
 
