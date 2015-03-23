@@ -54,13 +54,13 @@ struct node *create_node();
 
 struct coord bfs_closest_unvisited_node();
 
-struct instructions bfs_path_to_node(struct coord goal);
+struct instructions *bfs_path_to_node(struct coord goal);
 
 struct coord shift_coordinates(struct coord old, int direction);
 
-struct instructions create_path(struct coord goal_position);
+struct instructions *create_path(struct coord goal_position);
 
-int follow_instructions(struct instructions instr);
+int follow_instructions(struct instructions *instr);
 
 void print_ptrmap();
 

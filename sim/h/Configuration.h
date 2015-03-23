@@ -37,10 +37,11 @@
 int orientation;
 
 //map of pointers to node objects
-struct node *ptrmap[2 * MAZE_WIDTH + 3][2 * MAZE_HEIGHT + 3];
+struct node *ptrmap[2 * MAZE_WIDTH][MAZE_HEIGHT + 2];
 
 int tokencount;
 int discovered_everything;
 
+struct instructions *global_instructions;
 
 #endif /* CONFIGURATION_H_ */

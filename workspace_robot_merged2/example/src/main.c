@@ -1,4 +1,5 @@
 #include "../h/main.h"
+#include "../../../sim/h/Configuration.h"
 
 /// DO NOT DELETE THIS METHOD
 /// It is called every 1ms and e.g. can be used for implementing a
@@ -45,12 +46,14 @@ void ecrobot_device_terminate(void) {
 int orientation;
 
 //map of pointers to node objects
-struct node *ptrmap[2 * MAZE_WIDTH + 3][2 * MAZE_HEIGHT + 3];
+struct node *ptrmap[2 * MAZE_WIDTH][MAZE_HEIGHT + 2];
 struct node *current_node;
 struct coord current_position;
 
 int tokencount;
 int discovered_everything;
+
+struct instructions *global_instructions;
 
 int black;  /// MAXIMALES SCHWARZ minus Toleranz siehe: Get_Black_White
 int white;  /// MININMALES WEI� plus Toleranz
@@ -868,8 +871,8 @@ int turn_right()
 
 void init(){
 	int i, j;
-	for(i = 0; i < 2 * MAZE_HEIGHT + 2; i++){
-		for(j = 0; j < 2* MAZE_WIDTH + 2; j++) {
+	for(i = 0; i < 2 * MAZE_WIDTH; i++){
+		for(j = 0; j < MAZE_HEIGHT + 2; j++) {
 			ptrmap[i][j] = NULL;
 		}
 	}
@@ -879,6 +882,7 @@ void init(){
 	tokencount = 0;
 	discovered_everything = 0;
 }
+
 
 
 //Discover surrounding connected nodes and create them in map
@@ -1024,13 +1028,12 @@ struct coord bfs_closest_unvisited_node() {
 }
 
 //look for shortest path to given coordinates
-struct instructions bfs_path_to_node(struct coord goal) {
+struct instructions *bfs_path_to_node(struct coord goal) {
 	int i;
 	struct element  *queue;
 	queue = NULL;
 	struct element *seen;
 	seen = NULL;
-	struct instructions path_to_goal;
 	struct coord cur_position;
 	cur_position = current_position;
 	current_node->bfs_reached_from = 8;
@@ -1041,11 +1044,11 @@ struct instructions bfs_path_to_node(struct coord goal) {
 	while (queue != NULL) {
 		list_append(&seen, cur_position);
 		if ((cur_position.x  == goal.x) && (cur_position.y == goal.y)){
-			path_to_goal = create_path(goal);
+			global_instructions = create_path(goal);
 			reset_nodes_bfs();
 			destroy_list(queue);
 			destroy_list(seen);
-			return path_to_goal;
+			return global_instructions;
 		}
 
 		for (i = 3; i >= 0; i--) {
@@ -1066,8 +1069,8 @@ struct instructions bfs_path_to_node(struct coord goal) {
 		cur_position = queue->node_position;
 	}
 
-	path_to_goal.path[0] = 8;
-	return path_to_goal;
+	global_instructions->path[0] = 8;
+	return global_instructions;
 }
 
 //appends the list the given pointer is pointing to with the given coord
@@ -1122,14 +1125,15 @@ int list_search(struct element *start, struct coord tofind) {
 
 void reset_nodes_bfs(){
 	int i, j;
-	for(i = 0; i < 2 * MAZE_HEIGHT + 3; i++){
-		for(j = 0; j < 2 * MAZE_WIDTH + 3; j++) {
+	for(i = 0; i < 2 * MAZE_WIDTH; i++){
+		for(j = 0; j < MAZE_HEIGHT + 2; j++) {
 			if (ptrmap[i][j] != NULL) {
 				ptrmap[i][j]->bfs_reached_from = 9;
 			}
 		}
 	}
 }
+
 
 //translates iterable and pre-defined directions and returns the respective
 // coords
@@ -1163,34 +1167,41 @@ struct coord shift_coordinates(struct coord old, int direction){
 	}
 }
 
-int follow_instructions(struct instructions instr){
+int follow_instructions(struct instructions *instr){
+	printf("Starting to follow...\n");
 	int i;
-	for (i = 0; instr.path[i] != 8; i++){
-		turn_d(instr.path[i]);
+	for (i = 0; instr->path[i] != 8; i++){
+		turn_d(instr->path[i]);
 		go_straight();
+		printf("Followed one instruction\n");
 	}
 	return ROBOT_SUCCESS;
 }
 
-struct instructions create_path(struct coord goal_position){
+struct instructions *create_path(struct coord goal_position){
 	struct instructions temp;
-	struct instructions path_to_goal;
+	print_bfs_rf_ptrmap();
 	int i;
+	printf("1321\n");
 	for (i=0; (goal_position.x != current_position.x)
 			|| (goal_position.y != current_position.y); i++){
 		temp.path[i] = ptrmap[goal_position.x + MAZE_WIDTH]
 		[goal_position.y + MAZE_HEIGHT]->bfs_reached_from;
 		if (temp.path[i] == 9) {
+			printf("Bullshit!\n");
 		}
 		goal_position = shift_coordinates(goal_position, (temp.path[i] + 2) % 4);
 	}
+	printf("1325\n");
 	int j;
 	for (j = 0, i -= 1; i >= 0; i--, j++){
-		path_to_goal.path[j] = temp.path[i];
+		global_instructions->path[j] = temp.path[i];
+		printf("Instruction: %d\n", global_instructions->path[j]);
 	}
-	path_to_goal.path[j] = 8;
-	return path_to_goal;
+	global_instructions->path[j] = 8;
+	return global_instructions;
 }
+
 int main_loop() {
 
 	current_position.x = 0;
