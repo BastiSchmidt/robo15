@@ -410,6 +410,8 @@ int checkline(int Winkel,int Iterationen)
 			return 1;
 		}
 
+		systick_wait_ms(1000);
+
 		if (checkline_left(j*step,drehung,waittime)==1)
 		{
 			return 1;
@@ -419,6 +421,7 @@ int checkline(int Winkel,int Iterationen)
 		{
 			return 1;
 		}
+		systick_wait_ms(1000);
 
 		j++;
 
@@ -458,9 +461,10 @@ void follow_line() /// follow_line fährt bis zum nächsten Knoten
 	{
 		while(Light == 1)
 		{
+			systick_wait_ms(200);
 			Light = forward(2);
 		}
-		Light = checkline(40,2);
+		Light = checkline(30,1);
 
 	}
 	systick_wait_ms(1000);
