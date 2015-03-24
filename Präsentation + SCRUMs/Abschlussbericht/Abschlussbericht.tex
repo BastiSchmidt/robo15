@@ -1,4 +1,4 @@
-\documentclass[a4paper, 12pt]{scrreprt}
+\documentclass[a4paper, 12pt]{scrartcl}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -7,18 +7,35 @@
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{tikz}
-\usetikzlibrary{matrix}
+\usetikzlibrary{arrows.meta}
 \usepackage{lipsum}
 %nur um alles einmal geladen zu haben
 
-\title{Abschlussbericht Roboterpraktikum}
-\author{Thomas Adlmaier\\ David Tucholski\\ Friedrich Zahn\\ Sebastian Schmidt}
-
 \begin{document}
-\maketitle
+\begin{titlepage}
+\begin{center}
+\includegraphics{Bilder/logo.png}\\[2.3cm]
+{\huge\textsf{\textbf{ Abschlussbericht Roboterpraktikum}}}\\[1.5cm]
+{\Large Thomas Adlmaier\\ David Tucholski\\ Friedrich Zahn\\[7pt]Sebastian Schmidt}\\[1cm]
+\rule{\linewidth}{.5mm}\\[1.7cm]
+\end{center}
 \tableofcontents
+\end{titlepage}
 
-\chapter{Abschnitt}
+\section{Einleitung}
 \lipsum
-
+\section{Hardware Design}
+\lipsum
+\section{Software Design}
+\subsection{Datenstrukturen}
+\lipsum
+\subsection{Algorithmen}
+\lipsum
+\section{Praktikumsverlauf}
+\subsection{Entwicklungsmethoden}
+\lipsum
+\subsection{Probleme}
+\lipsum
+\section{Zusammenfassung}
+\lipsum
 \end{document}
