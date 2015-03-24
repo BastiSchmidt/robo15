@@ -99,15 +99,6 @@ void printnumber(int zahl , int x, int y){
 	display_int(zahl,3);
 }
 
-///-----------------------------------------------------------------------------------
-///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-///-----------------------------------------------------------------------------------
-
-
-
-
-
-
 
 ///-----------------------------------------------------------------------------------
 /// TOKENFUNKIONEN
@@ -146,7 +137,7 @@ void Token_found()   /// Wird aufgerufen, wenn Token gefunden #noshit
 void drive_cm(float cm)
 {
 
-	float umdr =sgn(cm) *cm * 2000/97;
+	float umdr =sgn(cm) * cm * 2000/97;
 	int power = sgn(cm)* 80; //Prozentzahl f�r Motoren
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
@@ -213,7 +204,7 @@ void drehen_grad_l(int grad)  /// dreht nach links
 		}
 		if(nxt_motor_get_count(NXT_PORT_B) < -nxt_motor_get_count(NXT_PORT_C)) // kucken ob der andere mehr umdrehugen hat
 		{
-			nxt_motor_set_speed(NXT_PORT_C , power/2,0); // den, der zuviel hat ausmachen
+			nxt_motor_set_speed(NXT_PORT_C , power/2, 0); // den, der zuviel hat ausmachen
 			while(-nxt_motor_get_count(NXT_PORT_C) > nxt_motor_get_count(NXT_PORT_B))
 			{
 				nxt_motor_set_speed(NXT_PORT_B , power , 0); // den anderen aufholen lassen
@@ -339,32 +330,21 @@ int checkline(int Winkel,int Iterationen)
 	/// CHECKLINE GEHT DAVON AUS, DASS MAN SICH AUF WEI� BEFINDET
 	/// IST MAN AUF SCHWARZ, KANN ES SEIN DASS ER SCHWARZ F�LSCHLICHERWEISE ALS WEI� ERKENNT
 
-
 	int waittime = 20;
 	int drehung = 5;
 
-	int step = (Winkel/Iterationen)/drehung; /// damit sollte er sich in der Letzten Iteration um Winkel drehen
+	int step = (Winkel)/(Iterationen)/drehung; /// damit sollte er sich in der Letzten Iteration um Winkel drehen
 	int j;
-	for (j = 1; j<=Iterationen; j++)
-	{
-
-		if (checkline_right(j*step,drehung,waittime)==1)
-		{
-			return 1;
-		}
-		if (checkline_left(j*step,drehung,waittime)==1)
-		{
-			return 1;
-		}
-		if (checkline_left(j*step,drehung,waittime)==1)
-		{
-			return 1;
-		}
-		if (checkline_right(j*step,drehung,waittime)==1)
-		{
+	for(j = 1; j <= Iterationen; j++){
+		if (checkline_left(j*step,drehung,waittime)){
 			return 1;
 		}
 
+		drehen_grad_r(2*j*Winkel/Iterationen);
+
+		if (checkline_left(j*step,drehung,waittime)){
+			return 1;
+		}
 	}
 	ecrobot_sound_tone(100, 2000, 10);
 	return 0;
@@ -395,19 +375,44 @@ int forward(int Strecke) /// returns 1 if still on Black returns 0 if it left bl
 void go_straight(){ /// follow_line f�hrt bis zum n�chsten Knoten
 
 	/// FOLLOW-LINE GEHT DAVON AUS, DASS MAN AUF SCHWARZ IST
-	int Light = 1; /// 1 bedeutet Schwarz
-	while(Light == 1){
+	int abort = 0;
+	int waittime = 20;
+	int drehung = 5;
+	int Winkel = 40;
+	int Iterationen = 2;
+	int step = (Winkel)/(Iterationen)/drehung; /// damit sollte er sich in der Letzten Iteration um Winkel drehen
+	int j;
+	while(!abort){
 
-		while(Light == 1){
-			Light = forward(2);
+
+		for(j = 1; j <= Iterationen; j++){
+			if (checkline_right(j*step,drehung,waittime)){
+				abort = 0;
+				break;
+			} else {abort = 1;}
+
+			if (checkline_left(j*step,drehung,waittime)){
+				abort = 0;
+				break;
+			} else {abort = 1;}
+
+
+			if (checkline_left(j*step,drehung,waittime)){
+				abort = 0;
+				break;
+
+			} else {abort = 1;}
+
+			if (checkline_right(j*step,drehung,waittime)){
+				abort = 0;
+				break;
+			} else {abort = 1;}
 		}
-
-		Light = checkline(30,2);
+		while(forward(2)){}
 	}
-	systick_wait_ms(60);
-	drehen_grad_l(4);
-	int i;
 
+	systick_wait_ms(100);
+	int i;
 	for (i=0;i<3;i++){
 		drive_cm(3.2);
 		systick_wait_ms(20);
@@ -426,16 +431,6 @@ void go_straight(){ /// follow_line f�hrt bis zum n�chsten Knoten
 	current_node = ptrmap[current_position.x + MAZE_WIDTH]
 						 [current_position.y + MAZE_HEIGHT];
 }
-
-///-----------------------------------------------------------------------------------
-///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-///-----------------------------------------------------------------------------------
-
-
-
-
-
-
 
 ///-----------------------------------------------------------------------------------
 /// KALIBRIERFUNKIONEN
@@ -479,28 +474,6 @@ void kalibrieren_farbe()
 	white = MIN_WHITE + (MAX_BLACK - MIN_WHITE)*Toleranz_white;  /// DEFINIERE GLOBALE VARIABLEN UM
 	black = MAX_BLACK - (MAX_BLACK - MIN_WHITE)*Toleranz_black;
 
-
-//
-//	systick_wait_ms(3000);
-//
-//	display_clear(1);
-//	display_goto_xy(1,0);
-//	display_int(white,5);
-//
-//	systick_wait_ms(3000);
-//
-//	display_clear(1);
-//	char str2[12] = "blackxxxxxx";
-//	display_goto_xy(5, 2);				/// Display Ausgabe
-//	display_string(str2);
-//
-//	systick_wait_ms(3000);
-//
-//	display_clear(1);
-//	display_goto_xy(1,0);
-//	display_int(black,5);
-//
-//	systick_wait_ms(3000);
 	ecrobot_sound_tone(500, 1000, 10);
 	systick_wait_ms(1050);				/// Akustische Ausgabe
 
@@ -611,9 +584,9 @@ void kalibrieren_drehen()
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 	//wait_ms(100);// evtl. nochma gucken, ob wa immanoch uff schwarz sind
 	//jetzt drehungen vergleichen und dreh berechnen
-	int b = nxt_motor_get_count(NXT_PORT_B);
 
-	dreh = -b; /// Korrektur von Thomas: hab aus b -b gemacht, weil dreh sonst negativ war.
+
+	dreh = - nxt_motor_get_count(NXT_PORT_B);
 
 
 	display_clear(1);
@@ -635,66 +608,6 @@ void kalibrieren_drehen()
 ///-----------------------------------------------------------------------------------
 ///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ///-----------------------------------------------------------------------------------
-
-
-
-
-
-
-
-///-----------------------------------------------------------------------------------
-/// HILFSFUNKTIONEN ZUR KONTENERKUNDUNG
-///-----------------------------------------------------------------------------------
-
-void Node_center_case1()
-{
-	int Light = 1;
-	while(Light==1)
-	{
-		Light = forward(-2);
-	}
-	drive_cm(2);
-
-}
-
-void Node_center_case2()
-{
-	int i = 1;
-	drive_cm(-9);
-	int Light = 0;
-	while (Light ==0 && i<4)
-	{
-		drive_cm(-2);
-		Light = checkline(10*i,1);
-		i++;
-	}
-	go_straight();
-	drive_cm(7);
-}
-
-int goto_Node_center()
-{
-	int i;
-	drive_cm(7);
-	systick_wait_ms(1000);
-	for (i=1;i<=2;i++)
-	{
-		if (checkline(10*i,i)==1)
-		{
-			Node_center_case1();
-			ecrobot_sound_tone(500, 1000, 10);
-			systick_wait_ms(1000);
-			return 1;
-		}
-		systick_wait_ms(1000); ///evtl. wichtig sonst komische drehung
-		drive_cm(2);
-		systick_wait_ms(1000);
-	}
-	Node_center_case2();
-	ecrobot_sound_tone(500, 1000, 10);
-	systick_wait_ms(1000);
-	return 0;
-}
 
 int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!!
 
@@ -743,15 +656,6 @@ int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!
 	}
 	return Hits;
 }
-///-----------------------------------------------------------------------------------
-///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-///-----------------------------------------------------------------------------------
-
-
-
-
-
-
 
 ///-----------------------------------------------------------------------------------
 /// FAHRFUNKTIONEN F�R SCHNITTSTELLE
@@ -957,8 +861,8 @@ void turn_d(int direction){
 			turn_left();
 			break;
 		case 2:
-			turn_left();
-			turn_left();
+			drehen_grad_r(180);
+			checkline(40,2);
 			break;
 		case 3:
 			turn_right();
@@ -1197,15 +1101,7 @@ TASK(OSEK_Main_Task) {
 
 		if (discovered_everything) {
 			ecrobot_sound_tone(220,1000,30);
-
-			int i, j;
-			for(i = 0; i < 2 * MAZE_WIDTH; i++){
-				for(j = 0; j < MAZE_HEIGHT + 2; j++) {
-					if (ptrmap[i][j] != NULL) {
-						free(ptrmap[i][j]);
-					}
-				}
-			}
+			while(1){}
 			return;
 		}
 
@@ -1214,13 +1110,6 @@ TASK(OSEK_Main_Task) {
 		optimum.y = 1;
 		follow_instructions(bfs_path_to_node(optimum));
 		ecrobot_sound_tone(220,1000,30);
-		int i, j;
-		for(i = 0; i < 2 * MAZE_WIDTH; i++){
-			for(j = 0; j < MAZE_HEIGHT + 2; j++) {
-				if (ptrmap[i][j] != NULL) {
-					free(ptrmap[i][j]);
-				}
-			}
-		}
+		while(1){}
 		return;
 }
