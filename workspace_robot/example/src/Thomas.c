@@ -315,8 +315,8 @@ int checkline(int Winkel,int Iterationen)
 	/// IST MAN AUF SCHWARZ, KANN ES SEIN DASS ER SCHWARZ FÄLSCHLICHERWEISE ALS WEIß ERKENNT
 
 	int j =1;
-	int waittime = 5;
-	int drehung = 3;
+	int waittime = 20;
+	int drehung = 5;
 
 	int step = (Winkel)/(Iterationen)/drehung; /// damit sollte er sich in der Letzten Iteration um Winkel drehen
 
@@ -333,8 +333,6 @@ int checkline(int Winkel,int Iterationen)
 			return 1;
 		}
 
-		systick_wait_ms(1000);
-
 		if (checkline_left(j*step,drehung,waittime)==1)
 		{
 			return 1;
@@ -344,7 +342,6 @@ int checkline(int Winkel,int Iterationen)
 		{
 			return 1;
 		}
-		systick_wait_ms(1000);
 
 		j++;
 
@@ -384,15 +381,11 @@ void follow_line() /// follow_line fährt bis zum nächsten Knoten
 	{
 		while(Light == 1)
 		{
-			systick_wait_ms(200);
 			Light = forward(2);
 		}
-		Light = checkline(30,1);
+		Light = checkline(40,2);
 
 	}
-	systick_wait_ms(1000);
-	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 
 }
 
@@ -764,7 +757,7 @@ int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!
 
 void go_straight()
 {
-	follow_line(10,1);
+	follow_line();
 }
 
 int scan()
