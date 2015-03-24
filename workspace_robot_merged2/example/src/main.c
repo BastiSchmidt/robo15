@@ -39,18 +39,18 @@ void ecrobot_device_terminate(void) {
 #define MAZE_WIDTH 7
 #define MAZE_HEIGHT 7
 
-#define TOKEN_AIM 3
+#define TOKEN_AIM 1
 
 //Current orientation of bot
-int orientation;
+char orientation;
 
 //map of pointers to node objects
 struct node *ptrmap[2 * MAZE_WIDTH][MAZE_HEIGHT + 2];
 struct node *current_node;
 struct coord current_position;
 
-int tokencount;
-int discovered_everything;
+char tokencount;
+char discovered_everything;
 
 struct instructions *global_instructions;
 
@@ -127,7 +127,7 @@ void Token_found()   /// Wird aufgerufen, wenn Token gefunden #noshit
 
 
 {
-	/// TODO erh�he Token Variable um 1
+	tokencount += 1;
 	ecrobot_sound_tone(500, 2000, 10);
 	systick_wait_ms(10000);
 }
@@ -339,13 +339,13 @@ int checkline(int Winkel,int Iterationen)
 	/// CHECKLINE GEHT DAVON AUS, DASS MAN SICH AUF WEI� BEFINDET
 	/// IST MAN AUF SCHWARZ, KANN ES SEIN DASS ER SCHWARZ F�LSCHLICHERWEISE ALS WEI� ERKENNT
 
-	int j =1;
+
 	int waittime = 20;
 	int drehung = 5;
 
-	int step = (Winkel)/(Iterationen)/drehung; /// damit sollte er sich in der Letzten Iteration um Winkel drehen
-
-	while (j<=Iterationen)
+	int step = (Winkel/Iterationen)/drehung; /// damit sollte er sich in der Letzten Iteration um Winkel drehen
+	int j;
+	for (j = 1; j<=Iterationen; j++)
 	{
 
 		if (checkline_right(j*step,drehung,waittime)==1)
@@ -364,7 +364,6 @@ int checkline(int Winkel,int Iterationen)
 		{
 			return 1;
 		}
-		j++;
 
 	}
 	ecrobot_sound_tone(100, 2000, 10);
@@ -403,14 +402,15 @@ void go_straight(){ /// follow_line f�hrt bis zum n�chsten Knoten
 			Light = forward(2);
 		}
 
-		Light = checkline(40,2);
+		Light = checkline(30,2);
 	}
+	systick_wait_ms(60);
+	drehen_grad_l(4);
 	int i;
 
-
 	for (i=0;i<3;i++){
-		drive_cm(2);
-		systick_wait_ms(200);
+		drive_cm(3.2);
+		systick_wait_ms(20);
 	}
 
 	switch (orientation){
@@ -807,23 +807,6 @@ int scan()
 	if (left == 0){}
 	else {left = 1;}
 
-//		systick_wait_ms(1000);
-	/*
-	drehen_grad_l(135);			/// drehe zur�ck richtung Herkunftslinie
-
-	if (checkline_left(18,drehung,waittime)==0) /// Finde herkunftslinie
-	{
-		/// FATAL ERROR
-		ecrobot_sound_tone(1000, 1000, 10);
-		display_clear(1);
-		char str4[14] = "LINIE VERLOREN";
-		display_goto_xy(5, 2);				/// Display Ausgabe
-		display_string(str4);
-		while (1)
-		{
-
-		}
-	}*/
 	int intersection = 0;
 	switch(orientation)
 	{
@@ -1115,10 +1098,11 @@ void list_remove_first(struct element **start) {
 
 //completely free the list given at start
 void destroy_list (struct element *start) {
+	struct element *iter;
 	while (start != NULL) {
-		struct element *next = start->next;
+		iter = start->next;
 		free(start);
-		start = next;
+		start = iter;
 	}
 }
 
@@ -1173,7 +1157,10 @@ int follow_instructions(struct instructions *instr){
 		display_clear(1);
 		printnumber(i,3,1);
 		go_straight();
+		instr->path[i] = 9;
 	}
+	i++;
+	instr->path[i] = 9;
 	return ROBOT_SUCCESS;
 }
 
@@ -1184,8 +1171,6 @@ struct instructions *create_path(struct coord goal_position){
 			|| (goal_position.y != current_position.y); i++){
 		temp.path[i] = ptrmap[goal_position.x + MAZE_WIDTH]
 		[goal_position.y + MAZE_HEIGHT]->bfs_reached_from;
-		if (temp.path[i] == 9) {
-		}
 		goal_position = shift_coordinates(goal_position, (temp.path[i] + 2) % 4);
 	}
 	int j;
@@ -1198,10 +1183,6 @@ struct instructions *create_path(struct coord goal_position){
 
 TASK(OSEK_Main_Task) {
 		ecrobot_set_light_sensor_active(NXT_PORT_S3);
-		display_clear(1);
-		printnumber(1,1,1);
-		printnumber(1,3,2);
-		printnumber(1,5,1);
 		kalibrieren_farbe();
 		kalibrieren_drehen();
 		current_position.x = 0;
@@ -1213,12 +1194,33 @@ TASK(OSEK_Main_Task) {
 			discover();
 			follow_instructions(bfs_path_to_node(bfs_closest_unvisited_node()));
 		}
+
 		if (discovered_everything) {
-			systick_wait_ms(100000);
+			ecrobot_sound_tone(220,1000,30);
+
+			int i, j;
+			for(i = 0; i < 2 * MAZE_WIDTH; i++){
+				for(j = 0; j < MAZE_HEIGHT + 2; j++) {
+					if (ptrmap[i][j] != NULL) {
+						free(ptrmap[i][j]);
+					}
+				}
+			}
+			return;
 		}
 
 		struct coord optimum;
 		optimum.x = 0;
 		optimum.y = 1;
 		follow_instructions(bfs_path_to_node(optimum));
+		ecrobot_sound_tone(220,1000,30);
+		int i, j;
+		for(i = 0; i < 2 * MAZE_WIDTH; i++){
+			for(j = 0; j < MAZE_HEIGHT + 2; j++) {
+				if (ptrmap[i][j] != NULL) {
+					free(ptrmap[i][j]);
+				}
+			}
+		}
+		return;
 }

@@ -50,8 +50,8 @@ int scan();
 
 //Absolute coordinates
 typedef struct coord{
-    int x;
-    int y;
+    char x;
+    char y;
 } coord;
 
 struct coord current_position;
@@ -60,8 +60,8 @@ typedef struct node *maze;
 typedef struct node{
     struct coord position;
     maze compass[4];
-    int visited;
-    int bfs_reached_from;
+    char visited;
+    char bfs_reached_from;
 } node;
 
 
@@ -73,7 +73,7 @@ typedef struct element{
 } element;
 
 typedef struct instructions{
-    int path[50];
+    char path[30];
 } instructions;
 
 void list_append(struct element **start, struct coord discovered);
