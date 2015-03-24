@@ -1,4 +1,4 @@
-\documentclass[a4paper, 12pt]{scrreprt}
+\documentclass[a4paper, 12pt]{scrartcl}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -6,19 +6,55 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{xcolor}
+\definecolor{hgrey}{gray}{.9}
 \usepackage{tikz}
-\usetikzlibrary{matrix}
+\usetikzlibrary{arrows.meta}
 \usepackage{lipsum}
+\usepackage{listings}
+\lstset{language=c,basicstyle=\ttfamily\footnotesize , tabsize=4}
 %nur um alles einmal geladen zu haben
 
-\title{Abschlussbericht Roboterpraktikum}
-\author{Thomas Adlmaier\\ David Tucholski\\ Friedrich Zahn\\ Sebastian Schmidt}
 
 \begin{document}
-\maketitle
+\begin{titlepage}
+\begin{center}
+\includegraphics{Bilder/logo.png}\\[2.3cm]
+{\huge\textsf{\textbf{ Abschlussbericht Roboterpraktikum}}}\\[1.5cm]
+{\Large Thomas Adlmaier\\ David Tucholski\\ Friedrich Zahn\\[7pt]\emph{Sebastian Schmidt}}\\[1cm]
+\rule{\linewidth}{.5mm}\\[1.7cm]
+\end{center}
 \tableofcontents
+\end{titlepage}
 
-\chapter{Abschnitt}
-\lipsum
+\section{Einleitung}
+
+\section{Hardware Design}
+
+\section{Software Design}
+\subsection{Datenstrukturen}
+Nach einem ersten Versuch, das Labyrinth mittels eines  dreidimensionalen Arrays zu modellieren (1.Layer: Koordinaten und Abzweige jedes Knotens, 2 Layer: Flags um Knoten als besucht zu markieren, 3. Layer: Vorgängerinformation), wurde uns schnell klar, dass sich damit die gestellten Aufgaben nicht optimal lösen ließen konnten. Also überlegten wir uns am dritten Tag des Praktikums eine Datenstruktur, welche sich am besten dafür eignete, nämlich
+
+
+\begin{lstlisting}
+typedef struct node{
+	struct coord position;
+	struct node *maze compass[4];
+	int visited;
+	int bfs_reached_from;
+} 
+\end{lstlisting}
+
+wobei die \lstinline$struct coord$ schlicht aus zwei Integers für die x- und y-Koordinate besteht. Die \lstinline$maze$-Pointer repräsentieren dabei die vier kardinalen Himmelsrichtungen und sind in einem Array verpackt, damit nachher einfacher über sie iteriert werden kann.
+
+
+
+\subsection{Algorithmen}
+
+\section{Praktikumsverlauf}
+\subsection{Entwicklungsmethoden}
+
+\subsection{Probleme}
+
+\section{Zusammenfassung}
 
 \end{document}
