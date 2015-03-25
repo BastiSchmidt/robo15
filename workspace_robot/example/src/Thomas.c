@@ -171,29 +171,29 @@ void drehen_grad_l(int grad)  /// dreht nach links
 		nxt_motor_set_speed(NXT_PORT_C , -power , 0);
 		nxt_motor_set_speed(NXT_PORT_B , power , 0);
 		wait_ms(10);
-		if(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
-		{
-			nxt_motor_set_speed(NXT_PORT_B , power*(4/5), 0);
-			while(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))
-			{
-				nxt_motor_set_speed(NXT_PORT_C , -power , 0);
-				wait_ms(10);
-			}
-			nxt_motor_set_speed(NXT_PORT_B , power, 0);
-		}
-		else
-		{
-			if(abs(nxt_motor_get_count(NXT_PORT_B)) < abs(nxt_motor_get_count(NXT_PORT_C)))
-			{
-				nxt_motor_set_speed(NXT_PORT_C , -power*(4/5), 0);
-				while( abs(nxt_motor_get_count(NXT_PORT_C)) > abs(nxt_motor_get_count(NXT_PORT_B)))
-				{
-					nxt_motor_set_speed(NXT_PORT_B , power , 0);
-					wait_ms(10);
-				}
-				nxt_motor_set_speed(NXT_PORT_C , -power, 0);
-			}
-		}
+//		if(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+//		{
+//			nxt_motor_set_speed(NXT_PORT_B , power*(4/5), 0);
+//			while(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))
+//			{
+//				nxt_motor_set_speed(NXT_PORT_C , -power , 0);
+//				wait_ms(10);
+//			}
+//			nxt_motor_set_speed(NXT_PORT_B , power, 0);
+//		}
+//		else
+//		{
+//			if(abs(nxt_motor_get_count(NXT_PORT_B)) < abs(nxt_motor_get_count(NXT_PORT_C)))
+//			{
+//				nxt_motor_set_speed(NXT_PORT_C , -power*(4/5), 0);
+//				while( abs(nxt_motor_get_count(NXT_PORT_C)) > abs(nxt_motor_get_count(NXT_PORT_B)))
+//				{
+//					nxt_motor_set_speed(NXT_PORT_B , power , 0);
+//					wait_ms(10);
+//				}
+//				nxt_motor_set_speed(NXT_PORT_C , -power, 0);
+//			}
+//		}
 	}
 	/// Korrektur von Thomas
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
@@ -219,29 +219,29 @@ void drehen_grad_r(int grad)
 		nxt_motor_set_speed(NXT_PORT_C , power , 0);
 		nxt_motor_set_speed(NXT_PORT_B , -power , 0);
 		wait_ms(10);
-		if(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
-		{
-			nxt_motor_set_speed(NXT_PORT_B , -power*(4/5), 0);
-			while(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))
-			{
-				nxt_motor_set_speed(NXT_PORT_C , power , 0);
-				wait_ms(10);
-			}
-			nxt_motor_set_speed(NXT_PORT_B , -power, 0);
-		}
-		else
-		{
-		if(abs(nxt_motor_get_count(NXT_PORT_B)) < abs(nxt_motor_get_count(NXT_PORT_C)))
-			{
-				nxt_motor_set_speed(NXT_PORT_C , power*(4/5), 0);
-				while( abs(nxt_motor_get_count(NXT_PORT_C)) > abs(nxt_motor_get_count(NXT_PORT_B)))
-				{
-					nxt_motor_set_speed(NXT_PORT_B , -power , 0);
-					wait_ms(10);
-				}
-				nxt_motor_set_speed(NXT_PORT_C , power, 0);
-			}
-		}
+//		if(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+//		{
+//			nxt_motor_set_speed(NXT_PORT_B , -power*(4/5), 0);
+//			while(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))
+//			{
+//				nxt_motor_set_speed(NXT_PORT_C , power , 0);
+//				wait_ms(10);
+//			}
+//			nxt_motor_set_speed(NXT_PORT_B , -power, 0);
+//		}
+//		else
+//		{
+//		if(abs(nxt_motor_get_count(NXT_PORT_B)) < abs(nxt_motor_get_count(NXT_PORT_C)))
+//			{
+//				nxt_motor_set_speed(NXT_PORT_C , power*(4/5), 0);
+//				while( abs(nxt_motor_get_count(NXT_PORT_C)) > abs(nxt_motor_get_count(NXT_PORT_B)))
+//				{
+//					nxt_motor_set_speed(NXT_PORT_B , -power , 0);
+//					wait_ms(10);
+//				}
+//				nxt_motor_set_speed(NXT_PORT_C , power, 0);
+//			}
+//		}
 
 	}
 	/// Korrektur von Thomas
@@ -301,7 +301,6 @@ int checkline_right (int steps, int drehung, int waittime)
 			return 1;
 		}
 		drehen_grad_r(drehung);
-
 		systick_wait_ms(waittime);
 	}
 	return 0;
@@ -327,22 +326,19 @@ int checkline(int Winkel,int Iterationen)
 		{
 			return 1;
 		}
-
 		if (checkline_left(j*step,drehung,waittime)==1)
 		{
 			return 1;
 		}
-
+		wait_ms(20);
 		if (checkline_left(j*step,drehung,waittime)==1)
 		{
 			return 1;
 		}
-
 		if (checkline_right(j*step,drehung,waittime)==1)
 		{
 			return 1;
 		}
-
 		j++;
 
 	}
@@ -381,10 +377,9 @@ void follow_line() /// follow_line fährt bis zum nächsten Knoten
 	{
 		while(Light == 1)
 		{
-			Light = forward(2);
+			Light = forward(1);
 		}
 		Light = checkline(40,2);
-
 	}
 
 }
