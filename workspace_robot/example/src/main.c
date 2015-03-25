@@ -24,7 +24,7 @@ TASK(OSEK_Main_Task)
 {
 
 	ecrobot_set_light_sensor_active(NXT_PORT_S3);
-
+	nxt_motor_set_speed(NXT_PORT_A , 60 , 0);
 	kalibrieren_farbe();
 	systick_wait_ms(1000);
 	kalibrieren_drehen();

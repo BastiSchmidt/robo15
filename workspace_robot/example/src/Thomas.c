@@ -30,6 +30,7 @@ int white;  /// MININMALES WEIß plus Toleranz
 float Toleranz_black = 0.7; /// Erfahrungswerte Anwendung siehe kalibrierung_farbe
 float Toleranz_white = 0.2;
 int dreh = 1030;  /// Gute Näherung, Kalibrierung in kalibrierung_drehen()
+int power = 80;
 
 char Zeile1[15] = "Ich kalibriere";
 char Zeile2[15]	= "die Helligkeit";
@@ -116,8 +117,7 @@ void Token_found()   /// Wird aufgerufen, wenn Token gefunden #noshit
 void drive_cm(float cm)
 {
 
-	float umdr =sgn(cm) *cm * 2000/97;
-	int power = sgn(cm)* 80; //Prozentzahl für Motoren
+	float umdr = cm * 2000/97;
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
 	while(abs(nxt_motor_get_count(NXT_PORT_B))< umdr && abs(nxt_motor_get_count(NXT_PORT_C))< umdr)//bis einer die Umdrehungen erreicht hat
@@ -157,13 +157,12 @@ void drive_cm(float cm)
 	}
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-	systick_wait_ms(5);
+
 }
 
 void drehen_grad_l(int grad)  /// dreht nach links
 {
 	float umdr = (grad * dreh/360) ;// 1°drehen entspricht 2.66° Raddrehen, 10 grad weniger wg. Trägheit
-	int power = 80; //Prozentzahl für Motoren
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
 	while(abs(nxt_motor_get_count(NXT_PORT_B))< umdr && abs(nxt_motor_get_count(NXT_PORT_C))< umdr)//bis einer die Umdrehungen erreicht hat
@@ -198,7 +197,7 @@ void drehen_grad_l(int grad)  /// dreht nach links
 	/// Korrektur von Thomas
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-	systick_wait_ms(5);
+
 	// das hier ist wichtig, denn falls im letzten Schritt
 	///der While Schleife beide nxt_motor_get_count den EXAKT selben Wert ausgeben wird keine der
 	///beiden if bedingungen erfüllt und die Motoren werden nicht ausgeschaltet!!!
@@ -211,7 +210,6 @@ void drehen_grad_r(int grad)
 {
 
 	float umdr = (grad * dreh/360) ;// 1°drehen entspricht 2.66° Raddrehen, 10 grad weniger wg. Trägheit
-	int power = 80; //Prozentzahl für Motoren
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
 	while(abs(nxt_motor_get_count(NXT_PORT_B))< umdr && abs(nxt_motor_get_count(NXT_PORT_C))< umdr)//bis einer die Umdrehungen erreicht hat
@@ -247,7 +245,7 @@ void drehen_grad_r(int grad)
 	/// Korrektur von Thomas
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-	systick_wait_ms(5);
+
 	// das hier ist wichtig, denn falls im letzten Schritt
 	///der While Schleife beide nxt_motor_get_count den EXAKT selben Wert ausgeben wird keine der
 	///beiden if bedingungen erfüllt und die Motoren werden nicht ausgeschaltet!!!
@@ -301,7 +299,6 @@ int checkline_right (int steps, int drehung, int waittime)
 			return 1;
 		}
 		drehen_grad_r(drehung);
-
 		systick_wait_ms(waittime);
 	}
 	return 0;
@@ -504,7 +501,6 @@ void kalibrieren_drehen()
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
 	int umdr = 900;
-	int power = 80;
 
 	display_clear(1);
 
