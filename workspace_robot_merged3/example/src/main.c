@@ -39,7 +39,7 @@ void ecrobot_device_terminate(void) {
 #define MAZE_WIDTH 7
 #define MAZE_HEIGHT 7
 
-#define TOKEN_AIM 1
+#define TOKEN_AIM 3
 
 //Current orientation of bot
 char orientation;
@@ -67,6 +67,9 @@ char Zeile4[15] = "       /      ";
 char Zeile5[15] = " 360 Drehung ";
 char Zeile6[15] = "dreh ist      ";
 
+char StringLinks[15] = "LINKS         ";
+char StringGeradeaus[15] = "GERADEAUS     ";
+char StringRechts[15] = "RECHTS        ";
 
 
 ///-----------------------------------------------------------------------------------
@@ -102,27 +105,7 @@ void printnumber(int zahl , int x, int y){
 
 ///-----------------------------------------------------------------------------------
 /// TOKENFUNKIONEN
-///-----------------------------------------------------------------------------------
-
-int check_Token()
-{
-	int TOUCH = 0;
-	if (ecrobot_get_touch_sensor(NXT_PORT_S2)==1 || ecrobot_get_touch_sensor(NXT_PORT_S1)==1)
-	{
-		TOUCH = 1;
-	}
-	return TOUCH;
-}
-
-void Token_found()   /// Wird aufgerufen, wenn Token gefunden #noshit
-
-
-{
-	tokencount += 1;
-	ecrobot_sound_tone(500, 2000, 10);
-	systick_wait_ms(10000);
-}
-
+///----------------
 ///-----------------------------------------------------------------------------------
 ///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ///-----------------------------------------------------------------------------------
@@ -138,7 +121,7 @@ void drive_cm(float cm)
 {
 
 	float umdr =sgn(cm) * cm * 2000/97;
-	int power = sgn(cm)* 80; //Prozentzahl f�r Motoren
+	int power = sgn(cm)* 85; //Prozentzahl f�r Motoren
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
 	while(abs(nxt_motor_get_count(NXT_PORT_B))< umdr && abs(nxt_motor_get_count(NXT_PORT_C))< umdr)//bis einer die Umdrehungen erreicht hat
@@ -167,61 +150,63 @@ void drive_cm(float cm)
 			}
 //			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 		}
-		if (check_Token() == 1)
+
+		//check for token
+		if (ecrobot_get_touch_sensor(NXT_PORT_S2) || ecrobot_get_touch_sensor(NXT_PORT_S1))
 		{
 			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-			Token_found();
-		}
+			tokencount += 1;
+			ecrobot_sound_tone(220, 1000, 35);
+			systick_wait_ms(10000);		}
 	}
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 }
 
+
 void drehen_grad_l(int grad)  /// dreht nach links
 {
-
-	float umdr = (grad * dreh/360) ;// 1�drehen entspricht 2.66� Raddrehen, 10 grad weniger wg. Tr�gheit
-	int power = 80; //Prozentzahl f�r Motoren
+	float umdr = (grad * dreh/360) ;// 1°drehen entspricht 2.66° Raddrehen, 10 grad weniger wg. Trägheit
+	int power = 80; //Prozentzahl für Motoren
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
-
-	while(nxt_motor_get_count(NXT_PORT_B)< umdr && -nxt_motor_get_count(NXT_PORT_C)< umdr)
+	while(abs(nxt_motor_get_count(NXT_PORT_B))< umdr && abs(nxt_motor_get_count(NXT_PORT_C))< umdr)//bis einer die Umdrehungen erreicht hat
 	{
 		nxt_motor_set_speed(NXT_PORT_C , -power , 0);
 		nxt_motor_set_speed(NXT_PORT_B , power , 0);
-		wait_ms(50);
-		if(nxt_motor_get_count(NXT_PORT_B) > -nxt_motor_get_count(NXT_PORT_C)) //kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
-		{
-			nxt_motor_set_speed(NXT_PORT_B ,power/2 ,0); // den, der zuviel hat ausmachen
-			while(nxt_motor_get_count(NXT_PORT_B) > -nxt_motor_get_count(NXT_PORT_C))
-			{
-				nxt_motor_set_speed(NXT_PORT_C ,-power , 0);     // den anderen aufholen lassen
-				wait_ms(10);
-
-			}
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);  //wieder ausmachen, alle Motoren sind aus
-		}
-		if(nxt_motor_get_count(NXT_PORT_B) < -nxt_motor_get_count(NXT_PORT_C)) // kucken ob der andere mehr umdrehugen hat
-		{
-			nxt_motor_set_speed(NXT_PORT_C , power/2, 0); // den, der zuviel hat ausmachen
-			while(-nxt_motor_get_count(NXT_PORT_C) > nxt_motor_get_count(NXT_PORT_B))
-			{
-				nxt_motor_set_speed(NXT_PORT_B , power , 0); // den anderen aufholen lassen
-				wait_ms(10);
-
-			}
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1); // wieder ausmachen, alle Motoren sind aus
-		}
-
+		wait_ms(10);
+//		if(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+//		{
+//			nxt_motor_set_speed(NXT_PORT_B , power*(4/5), 0);
+//			while(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))
+//			{
+//				nxt_motor_set_speed(NXT_PORT_C , -power , 0);
+//				wait_ms(10);
+//			}
+//			nxt_motor_set_speed(NXT_PORT_B , power, 0);
+//		}
+//		else
+//		{
+//			if(abs(nxt_motor_get_count(NXT_PORT_B)) < abs(nxt_motor_get_count(NXT_PORT_C)))
+//			{
+//				nxt_motor_set_speed(NXT_PORT_C , -power*(4/5), 0);
+//				while( abs(nxt_motor_get_count(NXT_PORT_C)) > abs(nxt_motor_get_count(NXT_PORT_B)))
+//				{
+//					nxt_motor_set_speed(NXT_PORT_B , power , 0);
+//					wait_ms(10);
+//				}
+//				nxt_motor_set_speed(NXT_PORT_C , -power, 0);
+//			}
+//		}
 	}
-
 	/// Korrektur von Thomas
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+	systick_wait_ms(5);
 	// das hier ist wichtig, denn falls im letzten Schritt
 	///der While Schleife beide nxt_motor_get_count den EXAKT selben Wert ausgeben wird keine der
-	///beiden if bedingungen erf�llt und die Motoren werden nicht ausgeschaltet!!!
+	///beiden if bedingungen erfüllt und die Motoren werden nicht ausgeschaltet!!!
 	///
 
 
@@ -230,49 +215,51 @@ void drehen_grad_l(int grad)  /// dreht nach links
 void drehen_grad_r(int grad)
 {
 
-	float umdr = (grad * dreh/360) ;// 1�drehen entspricht 2.66� Raddrehen, 10 grad weniger wg. Tr�gheit
-	int power = 80; //Prozentzahl f�r Motoren
+	float umdr = (grad * dreh/360) ;// 1°drehen entspricht 2.66° Raddrehen, 10 grad weniger wg. Trägheit
+	int power = 80; //Prozentzahl für Motoren
 	nxt_motor_set_count(NXT_PORT_B, 0);
 	nxt_motor_set_count(NXT_PORT_C, 0);
-
-	while(-nxt_motor_get_count(NXT_PORT_B)< umdr && nxt_motor_get_count(NXT_PORT_C)< umdr)
+	while(abs(nxt_motor_get_count(NXT_PORT_B))< umdr && abs(nxt_motor_get_count(NXT_PORT_C))< umdr)//bis einer die Umdrehungen erreicht hat
 	{
 		nxt_motor_set_speed(NXT_PORT_C , power , 0);
 		nxt_motor_set_speed(NXT_PORT_B , -power , 0);
-		wait_ms(50);
-		if(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
-		{
-			nxt_motor_set_speed(NXT_PORT_B , power/2,0);
-			while(-nxt_motor_get_count(NXT_PORT_B) > nxt_motor_get_count(NXT_PORT_C))
-			{
-				nxt_motor_set_speed(NXT_PORT_C , power , 0);
-				wait_ms(10);
+		wait_ms(10);
+//		if(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))//kucken, ob einer mehr umdrehungen hat	                                                                 // und dann entsprehend angleichen
+//		{
+//			nxt_motor_set_speed(NXT_PORT_B , -power*(4/5), 0);
+//			while(abs(nxt_motor_get_count(NXT_PORT_B)) > abs(nxt_motor_get_count(NXT_PORT_C)))
+//			{
+//				nxt_motor_set_speed(NXT_PORT_C , power , 0);
+//				wait_ms(10);
+//			}
+//			nxt_motor_set_speed(NXT_PORT_B , -power, 0);
+//		}
+//		else
+//		{
+//		if(abs(nxt_motor_get_count(NXT_PORT_B)) < abs(nxt_motor_get_count(NXT_PORT_C)))
+//			{
+//				nxt_motor_set_speed(NXT_PORT_C , power*(4/5), 0);
+//				while( abs(nxt_motor_get_count(NXT_PORT_C)) > abs(nxt_motor_get_count(NXT_PORT_B)))
+//				{
+//					nxt_motor_set_speed(NXT_PORT_B , -power , 0);
+//					wait_ms(10);
+//				}
+//				nxt_motor_set_speed(NXT_PORT_C , power, 0);
+//			}
+//		}
 
-			}
-			nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
-		}
-		if(-nxt_motor_get_count(NXT_PORT_B) < nxt_motor_get_count(NXT_PORT_C))
-		{
-			nxt_motor_set_speed(NXT_PORT_C , power/2,0);
-			while(nxt_motor_get_count(NXT_PORT_C) > -nxt_motor_get_count(NXT_PORT_B))
-			{
-				nxt_motor_set_speed(NXT_PORT_B , -power , 0);
-				wait_ms(10);
-
-			}
-			nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
-		}
 	}
-
 	/// Korrektur von Thomas
 	nxt_motor_set_speed(NXT_PORT_B , 0 , 1);
 	nxt_motor_set_speed(NXT_PORT_C , 0 , 1);
+	systick_wait_ms(5);
 	// das hier ist wichtig, denn falls im letzten Schritt
 	///der While Schleife beide nxt_motor_get_count den EXAKT selben Wert ausgeben wird keine der
-	///beiden if bedingungen erf�llt und die Motoren werden nicht ausgeschaltet!!!
+	///beiden if bedingungen erfüllt und die Motoren werden nicht ausgeschaltet!!!
 	///
 
 }
+
 
 ///-----------------------------------------------------------------------------------
 ///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -327,24 +314,37 @@ int checkline_right (int steps, int drehung, int waittime)
 int checkline(int Winkel,int Iterationen)
 {
 
-	/// CHECKLINE GEHT DAVON AUS, DASS MAN SICH AUF WEI� BEFINDET
-	/// IST MAN AUF SCHWARZ, KANN ES SEIN DASS ER SCHWARZ F�LSCHLICHERWEISE ALS WEI� ERKENNT
+	/// CHECKLINE GEHT DAVON AUS, DASS MAN SICH AUF WEIß BEFINDET
+	/// IST MAN AUF SCHWARZ, KANN ES SEIN DASS ER SCHWARZ FÄLSCHLICHERWEISE ALS WEIß ERKENNT
 
-	int waittime = 20;
+	int j =1;
+	int waittime = 5;
 	int drehung = 5;
 
 	int step = (Winkel)/(Iterationen)/drehung; /// damit sollte er sich in der Letzten Iteration um Winkel drehen
-	int j;
-	for(j = 1; j <= Iterationen; j++){
-		if (checkline_left(j*step,drehung,waittime)){
+
+	while (j<=Iterationen)
+	{
+
+		if (checkline_right(j*step,drehung,waittime))
+		{
 			return 1;
 		}
-
-		drehen_grad_r(2*j*Winkel/Iterationen);
-
-		if (checkline_left(j*step,drehung,waittime)){
+		if (checkline_left(j*step,drehung,waittime))
+		{
 			return 1;
 		}
+		wait_ms(15);
+		if (checkline_left(j*step,drehung,waittime))
+		{
+			return 1;
+		}
+		if (checkline_right(j*step,drehung,waittime))
+		{
+			return 1;
+		}
+		j++;
+
 	}
 	ecrobot_sound_tone(100, 2000, 10);
 	return 0;
@@ -375,46 +375,15 @@ int forward(int Strecke) /// returns 1 if still on Black returns 0 if it left bl
 void go_straight(){ /// follow_line f�hrt bis zum n�chsten Knoten
 
 	/// FOLLOW-LINE GEHT DAVON AUS, DASS MAN AUF SCHWARZ IST
-	int abort = 0;
-	int waittime = 20;
-	int drehung = 5;
-	int Winkel = 40;
-	int Iterationen = 2;
-	int step = (Winkel)/(Iterationen)/drehung; /// damit sollte er sich in der Letzten Iteration um Winkel drehen
-	int j;
-	while(!abort){
 
-
-		for(j = 1; j <= Iterationen; j++){
-			if (checkline_right(j*step,drehung,waittime)){
-				abort = 0;
-				break;
-			} else {abort = 1;}
-
-			if (checkline_left(j*step,drehung,waittime)){
-				abort = 0;
-				break;
-			} else {abort = 1;}
-
-
-			if (checkline_left(j*step,drehung,waittime)){
-				abort = 0;
-				break;
-
-			} else {abort = 1;}
-
-			if (checkline_right(j*step,drehung,waittime)){
-				abort = 0;
-				break;
-			} else {abort = 1;}
-		}
-		while(forward(2)){}
+	while (checkline(32,2)){
+		while (forward(1)){}
 	}
 
 	systick_wait_ms(100);
 	int i;
-	for (i=0;i<3;i++){
-		drive_cm(3.2);
+	for (i=0;i<2;i++){
+		drive_cm(4.3);
 		systick_wait_ms(20);
 	}
 
@@ -608,7 +577,7 @@ void kalibrieren_drehen()
 ///-----------------------------------------------------------------------------------
 ///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ///-----------------------------------------------------------------------------------
-
+/*
 int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!!
 
 {
@@ -656,7 +625,7 @@ int get_Hits(int MAX_grad,int Position)   /// GET_HITS SUCHT IMMER NACH RECHTS!!
 	}
 	return Hits;
 }
-
+*/
 ///-----------------------------------------------------------------------------------
 /// FAHRFUNKTIONEN F�R SCHNITTSTELLE
 ///-----------------------------------------------------------------------------------
@@ -666,50 +635,23 @@ int scan()
 
 
 	int left,right,straigth;
-	int drehung = 5;
-	int waittime = 20;
 
-
-	straigth = checkline(20,2);
-	if (straigth == 1) {ecrobot_sound_tone(300, 300, 50);}
+	straigth = checkline(30,1);
+	if (straigth) {ecrobot_sound_tone(300, 300, 50);}
 	/// Roboter sucht vor sich nach einer Linie, findet er was richtet er sich aus und setzt variable 1
 
 //		systick_wait_ms(1000);
 
-	drehen_grad_r(20); 				/// Dreh 45�
+	drehen_grad_r(90); 				/// Dreh 45�
 
-//		systick_wait_ms(1000);
+	right = checkline(30,1);
+	if (right) {ecrobot_sound_tone(300, 300, 50);}
 
-	right = get_Hits(90,0);			/// suche Linie rechts
-	if (right == 0){}
-	else {right = 1;}
+	drehen_grad_r(180);
 
-//		systick_wait_ms(1000);
+	left = checkline(30,1);
+	if (left) {ecrobot_sound_tone(300, 300, 50);}
 
-	if (checkline_right(24,drehung,waittime)==0)   /// Finde herkunftslinie
-	{
-		/// FATAL ERROR
-		ecrobot_sound_tone(1000, 1000, 10);
-		display_clear(1);
-		char str4[14] = "LINIE VERLOREN";
-		display_goto_xy(5, 2);				/// Display Ausgabe
-		display_string(str4);
-		while (1)
-		{
-
-		}
-	}
-
-//		systick_wait_ms(1000);
-
-	drehen_grad_r(20);    /// Dreh 45�
-
-
-//		systick_wait_ms(1000);
-
-	left = get_Hits(90,0);   /// suche Linie links
-	if (left == 0){}
-	else {left = 1;}
 
 	int intersection = 0;
 	switch(orientation)
@@ -738,24 +680,22 @@ int scan()
 	}
 
 	display_clear(1);
-	printnumber(left,1,1);
-	printnumber(straigth,3,2);
-	printnumber(right,5,1);
-	drehen_grad_r(45);
+	if (left){
+		display_goto_xy(1,1);
+		display_string(StringLinks);
+	}
+	if (right){
+		display_goto_xy(1,2);
+		display_string(StringRechts);
+	}
+	if (straigth){
+		display_goto_xy(1,3);
+		display_string(StringGeradeaus);
+	}
+	drehen_grad_r(90);
 	return intersection;
 }
 
-int turn_left()
-{
-	drehen_grad_l(90);
-	return checkline(40,2);
-}
-
-int turn_right()
-{
-	drehen_grad_r(90);
-	return checkline(40,2);
-}
 
 ///-----------------------------------------------------------------------------------
 ///XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -858,16 +798,17 @@ void turn_d(int direction){
 		case 0:
 			break;
 		case 1:
-			turn_left();
+			drehen_grad_l(90);
 			break;
 		case 2:
 			drehen_grad_r(180);
-			checkline(40,2);
 			break;
 		case 3:
-			turn_right();
+			drehen_grad_r(90);
+
 			break;
 	}
+	checkline(40,2);
 	orientation = direction;
 }
 
@@ -1058,8 +999,6 @@ int follow_instructions(struct instructions *instr){
 	int i;
 	for (i = 0; instr->path[i] != 8; i++){
 		turn_d(instr->path[i]);
-		display_clear(1);
-		printnumber(i,3,1);
 		go_straight();
 		instr->path[i] = 9;
 	}
@@ -1099,8 +1038,8 @@ TASK(OSEK_Main_Task) {
 			follow_instructions(bfs_path_to_node(bfs_closest_unvisited_node()));
 		}
 
-		if (discovered_everything) {
-			ecrobot_sound_tone(220,1000,30);
+		if (discovered_everything && (tokencount != TOKEN_AIM)) {
+			ecrobot_sound_tone(220,1000,35);
 			while(1){}
 			return;
 		}
@@ -1109,7 +1048,7 @@ TASK(OSEK_Main_Task) {
 		optimum.x = 0;
 		optimum.y = 1;
 		follow_instructions(bfs_path_to_node(optimum));
-		ecrobot_sound_tone(220,1000,30);
+		ecrobot_sound_tone(220,1000,35);
 		while(1){}
 		return;
 }

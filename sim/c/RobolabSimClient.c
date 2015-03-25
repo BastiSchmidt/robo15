@@ -28,7 +28,7 @@ int main(void) {
 		follow_instructions(bfs_path_to_node(optimum));
 		i++;
 	}
-	if (discovered_everything) {
+	if (discovered_everything && (tokencount != TOKEN_AIM)) {
 		printf("Discovered all nodes...");
 		return EXIT_SUCCESS;
 	}

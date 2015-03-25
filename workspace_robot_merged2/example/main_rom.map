@@ -114,7 +114,7 @@ tcb_waievt          0x4               build/./kernel_cfg.o
 rescb_prevpri       0x1               build/./kernel_cfg.o
 almcb_prev          0x1               build/./kernel_cfg.o
 callevel            0x1               build/kernel/osctl.o
-orientation         0x4               build/src/main.o
+orientation         0x1               build/src/main.o
 runtsk              0x1               build/kernel/task.o
 tcb_lastres         0x1               build/./kernel_cfg.o
 runisr              0x1               build/kernel/interrupt.o
@@ -127,7 +127,7 @@ black               0x4               build/src/main.o
 _errorhook_par1     0x4               build/kernel/osctl.o
 schedtsk            0x1               build/kernel/task.o
 tcb_next            0x1               build/./kernel_cfg.o
-tokencount          0x4               build/src/main.o
+tokencount          0x1               build/src/main.o
 tcb_curpri          0x1               build/./kernel_cfg.o
 tcb_tstat           0x1               build/./kernel_cfg.o
 data_abort_pc       0x4               /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(data_abort.oram)
@@ -135,9 +135,9 @@ ptrmap              0x1f8             build/src/main.o
 nextpri             0x1               build/kernel/task.o
 isrcb_lastres       0x1               build/./kernel_cfg.o
 cntcb_almque        0x1               build/./kernel_cfg.o
-current_position    0x8               build/src/main.o
+current_position    0x4               build/src/main.o
 discovered_everything
-                    0x4               build/src/main.o
+                    0x1               build/src/main.o
 current_node        0x4               build/src/main.o
 rescb_prevres       0x1               build/./kernel_cfg.o
 tcb_actcnt          0x1               build/./kernel_cfg.o
@@ -654,7 +654,7 @@ LOAD /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libg
                 0x0010b980                __data_load_start__ = LOADADDR (.data)
                 0x0010c260                __data_load_end__ = (__data_load_start__ + SIZEOF (.data))
 
-.text           0x0010c260     0x3050
+.text           0x0010c260     0x30d0
                 0x0010c260                . = ALIGN (0x10)
  *(*.text *.text.* *.glue*)
  .text.StartOS  0x0010c260       0x58 build/kernel/osctl.o
@@ -738,311 +738,310 @@ LOAD /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libg
                 0x0010c8e0       0x20 build/src/main.o
                 0x0010c8e0                check_Token
  .text.Token_found
-                0x0010c900       0x20 build/src/main.o
+                0x0010c900       0x2c build/src/main.o
                 0x0010c900                Token_found
  .text.drehen_grad_l
-                0x0010c920      0x12c build/src/main.o
-                0x0010c920                drehen_grad_l
+                0x0010c92c      0x12c build/src/main.o
+                0x0010c92c                drehen_grad_l
  .text.drehen_grad_r
-                0x0010ca4c      0x12c build/src/main.o
-                0x0010ca4c                drehen_grad_r
+                0x0010ca58      0x12c build/src/main.o
+                0x0010ca58                drehen_grad_r
  .text.checkline_left
-                0x0010cb78       0x3c build/src/main.o
-                0x0010cb78                checkline_left
+                0x0010cb84       0x3c build/src/main.o
+                0x0010cb84                checkline_left
  .text.checkline_right
-                0x0010cbb4       0x3c build/src/main.o
-                0x0010cbb4                checkline_right
+                0x0010cbc0       0x3c build/src/main.o
+                0x0010cbc0                checkline_right
  .text.checkline
-                0x0010cbf0       0x70 build/src/main.o
-                0x0010cbf0                checkline
+                0x0010cbfc       0x74 build/src/main.o
+                0x0010cbfc                checkline
  .text.kalibrieren_farbe
-                0x0010cc60      0x178 build/src/main.o
-                0x0010cc60                kalibrieren_farbe
+                0x0010cc70      0x178 build/src/main.o
+                0x0010cc70                kalibrieren_farbe
  .text.kalibrieren_drehen
-                0x0010cdd8      0x268 build/src/main.o
-                0x0010cdd8                kalibrieren_drehen
+                0x0010cde8      0x268 build/src/main.o
+                0x0010cde8                kalibrieren_drehen
  .text.get_Hits
-                0x0010d040       0x80 build/src/main.o
-                0x0010d040                get_Hits
- .text.scan     0x0010d0c0      0x15c build/src/main.o
-                0x0010d0c0                scan
+                0x0010d050       0x80 build/src/main.o
+                0x0010d050                get_Hits
+ .text.scan     0x0010d0d0      0x160 build/src/main.o
+                0x0010d0d0                scan
  .text.turn_left
-                0x0010d21c       0x14 build/src/main.o
-                0x0010d21c                turn_left
- .text.turn_right
                 0x0010d230       0x14 build/src/main.o
-                0x0010d230                turn_right
+                0x0010d230                turn_left
+ .text.turn_right
+                0x0010d244       0x14 build/src/main.o
+                0x0010d244                turn_right
  .text.shift_coordinates
-                0x0010d244       0x44 build/src/main.o
-                0x0010d244                shift_coordinates
+                0x0010d258       0x3c build/src/main.o
+                0x0010d258                shift_coordinates
  .text.direction_detect
-                0x0010d288       0x38 build/src/main.o
-                0x0010d288                direction_detect
- .text.turn_d   0x0010d2c0       0x4c build/src/main.o
-                0x0010d2c0                turn_d
+                0x0010d294       0x38 build/src/main.o
+                0x0010d294                direction_detect
+ .text.turn_d   0x0010d2cc       0x5c build/src/main.o
+                0x0010d2cc                turn_d
  .text.create_node
-                0x0010d30c       0x24 build/src/main.o
-                0x0010d30c                create_node
+                0x0010d328       0x24 build/src/main.o
+                0x0010d328                create_node
  .text.discover
-                0x0010d330       0xa8 build/src/main.o
-                0x0010d330                discover
- .text.init     0x0010d3d8       0x84 build/src/main.o
-                0x0010d3d8                init
+                0x0010d34c       0xb4 build/src/main.o
+                0x0010d34c                discover
+ .text.init     0x0010d400       0x94 build/src/main.o
+                0x0010d400                init
  .text.list_append
-                0x0010d45c       0x2c build/src/main.o
-                0x0010d45c                list_append
+                0x0010d494       0x2c build/src/main.o
+                0x0010d494                list_append
  .text.list_search
-                0x0010d488       0x24 build/src/main.o
-                0x0010d488                list_search
+                0x0010d4c0       0x18 build/src/main.o
+                0x0010d4c0                list_search
  .text.create_path
-                0x0010d4ac       0x9c build/src/main.o
-                0x0010d4ac                create_path
+                0x0010d4d8       0xc4 build/src/main.o
+                0x0010d4d8                create_path
  .text.reset_nodes_bfs
-                0x0010d548       0x30 build/src/main.o
-                0x0010d548                reset_nodes_bfs
+                0x0010d59c       0x30 build/src/main.o
+                0x0010d59c                reset_nodes_bfs
  .text.destroy_list
-                0x0010d578       0x18 build/src/main.o
-                0x0010d578                destroy_list
+                0x0010d5cc       0x18 build/src/main.o
+                0x0010d5cc                destroy_list
  .text.list_remove_first
-                0x0010d590       0x18 build/src/main.o
-                0x0010d590                list_remove_first
+                0x0010d5e4       0x18 build/src/main.o
+                0x0010d5e4                list_remove_first
  .text.bfs_path_to_node
-                0x0010d5a8      0x134 build/src/main.o
-                0x0010d5a8                bfs_path_to_node
+                0x0010d5fc      0x114 build/src/main.o
+                0x0010d5fc                bfs_path_to_node
  .text.bfs_closest_unvisited_node
-                0x0010d6dc       0xf0 build/src/main.o
-                0x0010d6dc                bfs_closest_unvisited_node
+                0x0010d710       0xf0 build/src/main.o
+                0x0010d710                bfs_closest_unvisited_node
  .text.drive_cm
-                0x0010d7cc      0x18c build/src/main.o
-                0x0010d7cc                drive_cm
- .text.forward  0x0010d958       0x3c build/src/main.o
-                0x0010d958                forward
+                0x0010d800      0x18c build/src/main.o
+                0x0010d800                drive_cm
+ .text.forward  0x0010d98c       0x3c build/src/main.o
+                0x0010d98c                forward
  .text.go_straight
-                0x0010d994       0xa0 build/src/main.o
-                0x0010d994                go_straight
+                0x0010d9c8       0xf0 build/src/main.o
+                0x0010d9c8                go_straight
  .text.follow_instructions
-                0x0010da34       0x30 build/src/main.o
-                0x0010da34                follow_instructions
+                0x0010dab8       0x44 build/src/main.o
+                0x0010dab8                follow_instructions
  .text.TaskMainOSEK_Main_Task
-                0x0010da64       0xac build/src/main.o
-                0x0010da64                TaskMainOSEK_Main_Task
+                0x0010dafc       0x98 build/src/main.o
+                0x0010dafc                TaskMainOSEK_Main_Task
  .text.ecrobot_set_light_sensor_active
-                0x0010db10       0x10 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
-                0x0010db10                ecrobot_set_light_sensor_active
+                0x0010db94       0x10 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
+                0x0010db94                ecrobot_set_light_sensor_active
  .text.ecrobot_get_light_sensor
-                0x0010db20       0x14 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
-                0x0010db20                ecrobot_get_light_sensor
+                0x0010dba4       0x14 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
+                0x0010dba4                ecrobot_get_light_sensor
  .text.ecrobot_get_touch_sensor
-                0x0010db34       0x20 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
-                0x0010db34                ecrobot_get_touch_sensor
+                0x0010dbb8       0x20 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
+                0x0010dbb8                ecrobot_get_touch_sensor
  .text.ecrobot_get_battery_voltage
-                0x0010db54        0xc /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
-                0x0010db54                ecrobot_get_battery_voltage
+                0x0010dbd8        0xc /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
+                0x0010dbd8                ecrobot_get_battery_voltage
  .text.ecrobot_get_button_state
-                0x0010db60        0xc /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
-                0x0010db60                ecrobot_get_button_state
+                0x0010dbe4        0xc /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
+                0x0010dbe4                ecrobot_get_button_state
  .text.ecrobot_init_nxtstate
-                0x0010db6c       0x28 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
-                0x0010db6c                ecrobot_init_nxtstate
+                0x0010dbf0       0x28 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
+                0x0010dbf0                ecrobot_init_nxtstate
  .text.ecrobot_poll_nxtstate
-                0x0010db94       0x64 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
-                0x0010db94                ecrobot_poll_nxtstate
+                0x0010dc18       0x64 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
+                0x0010dc18                ecrobot_poll_nxtstate
  .text.ecrobot_setDeviceInitialized
-                0x0010dbf8       0x14 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
-                0x0010dbf8                ecrobot_setDeviceInitialized
+                0x0010dc7c       0x14 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
+                0x0010dc7c                ecrobot_setDeviceInitialized
  .text.ecrobot_bmp2lcd
-                0x0010dc0c      0x1c8 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
-                0x0010dc0c                ecrobot_bmp2lcd
+                0x0010dc90      0x1c8 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
+                0x0010dc90                ecrobot_bmp2lcd
  .text.ecrobot_sound_tone
-                0x0010ddd4        0xc /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
-                0x0010ddd4                ecrobot_sound_tone
+                0x0010de58        0xc /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
+                0x0010de58                ecrobot_sound_tone
  .text.StartupHook
-                0x0010dde0        0x4 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(osek_hook.o)
-                0x0010dde0                StartupHook
+                0x0010de64        0x4 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(osek_hook.o)
+                0x0010de64                StartupHook
  .text.PreTaskHook
-                0x0010dde4        0x4 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(osek_hook.o)
-                0x0010dde4                PreTaskHook
+                0x0010de68        0x4 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(osek_hook.o)
+                0x0010de68                PreTaskHook
  .text.PostTaskHook
-                0x0010dde8        0x4 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(osek_hook.o)
-                0x0010dde8                PostTaskHook
- .text          0x0010ddec       0x8c /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_udivsi3.o)
-                0x0010ddec                __udivsi3
-                0x0010de68                __aeabi_uidivmod
- .text          0x0010de78       0xa4 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_divsi3.o)
-                0x0010de78                __divsi3
-                0x0010df0c                __aeabi_idivmod
- .text          0x0010df1c       0xc8 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_umodsi3.o)
-                0x0010df1c                __umodsi3
- .text          0x0010dfe4       0xd8 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_modsi3.o)
-                0x0010dfe4                __modsi3
- .text          0x0010e0bc        0x4 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_dvmd_tls.o)
-                0x0010e0bc                __aeabi_ldiv0
-                0x0010e0bc                __div0
-                0x0010e0bc                __aeabi_idiv0
- .text          0x0010e0c0      0x2ac /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_addsubsf3.o)
-                0x0010e0cc                __aeabi_fadd
-                0x0010e0c8                __subsf3
-                0x0010e290                __aeabi_i2f
-                0x0010e0c8                __aeabi_fsub
-                0x0010e2c0                __floatdisf
-                0x0010e290                __floatsisf
-                0x0010e2b0                __floatundisf
-                0x0010e288                __aeabi_ui2f
-                0x0010e2c0                __aeabi_l2f
-                0x0010e2b0                __aeabi_ul2f
-                0x0010e0c0                __aeabi_frsub
-                0x0010e288                __floatunsisf
-                0x0010e0cc                __addsf3
- .text          0x0010e36c      0x2f8 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_muldivsf3.o)
-                0x0010e504                __divsf3
-                0x0010e504                __aeabi_fdiv
-                0x0010e36c                __mulsf3
-                0x0010e36c                __aeabi_fmul
- .text          0x0010e664      0x110 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_cmpsf2.o)
-                0x0010e75c                __aeabi_fcmpgt
-                0x0010e66c                __lesf2
-                0x0010e674                __nesf2
-                0x0010e744                __aeabi_fcmpge
-                0x0010e664                __gtsf2
-                0x0010e72c                __aeabi_fcmple
-                0x0010e674                __eqsf2
-                0x0010e674                __cmpsf2
-                0x0010e66c                __ltsf2
-                0x0010e6e4                __aeabi_cfcmple
-                0x0010e664                __gesf2
-                0x0010e6fc                __aeabi_fcmpeq
-                0x0010e6d4                __aeabi_cfrcmple
-                0x0010e714                __aeabi_fcmplt
-                0x0010e6e4                __aeabi_cfcmpeq
- .text          0x0010e774       0x5c /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_fixsfsi.o)
-                0x0010e774                __fixsfsi
-                0x0010e774                __aeabi_f2iz
- .text          0x0010e7d0        0xc /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(abs.o)
-                0x0010e7d0                abs
- .text          0x0010e7dc       0x28 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(malloc.o)
-                0x0010e7dc                malloc
-                0x0010e7f0                free
- .text          0x0010e804      0x548 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(mallocr.o)
-                0x0010e804                _malloc_r
- .text          0x0010ed4c       0x68 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(memcpy.o)
-                0x0010ed4c                memcpy
- .text          0x0010edb4       0x68 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(memset.o)
-                0x0010edb4                memset
- .text          0x0010ee1c        0x8 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(mlock.o)
-                0x0010ee20                __malloc_unlock
-                0x0010ee1c                __malloc_lock
- .text          0x0010ee24       0x60 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(strcpy.o)
-                0x0010ee24                strcpy
- .text          0x0010ee84       0x48 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(strlen.o)
-                0x0010ee84                strlen
- .text          0x0010eecc      0x260 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(freer.o)
-                0x0010ef6c                _free_r
-                0x0010eecc                _malloc_trim_r
- .glue_7        0x0010f12c       0x30 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(freer.o)
-                0x0010f144                __call_posttaskhook_from_arm
-                0x0010f12d                __ecrobot_debug1_from_arm
-                0x0010f139                __ecrobot_debug2_from_arm
-                0x0010f150                __call_pretaskhook_from_arm
- .glue_7t       0x0010f15c       0xa0 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(freer.o)
-                0x0010f188                __start_change_to_arm
-                0x0010f1e4                __interrupts_get_and_disable_from_thumb
-                0x0010f1dd                ____gtdf2_from_thumb
-                0x0010f17d                __exit_and_dispatch_from_thumb
-                0x0010f1c4                ____divsf3_from_thumb
-                0x0010f190                ____gesf2_change_to_arm
-                0x0010f1b8                ____fixsfsi_change_to_arm
-                0x0010f1b0                ____addsf3_change_to_arm
-                0x0010f1b4                ____fixsfsi_from_thumb
-                0x0010f194                ____floatsisf_from_thumb
-                0x0010f180                __exit_and_dispatch_change_to_arm
-                0x0010f15c                __disable_int_from_thumb
-                0x0010f18c                ____gesf2_from_thumb
-                0x0010f174                __start_dispatch_from_thumb
-                0x0010f19c                ____ltsf2_from_thumb
-                0x0010f184                __start_from_thumb
-                0x0010f1d8                ____muldf3_change_to_arm
-                0x0010f1c8                ____divsf3_change_to_arm
-                0x0010f164                __enable_int_from_thumb
-                0x0010f16d                __dispatch_from_thumb
-                0x0010f1f0                __interrupts_enable_change_to_arm
-                0x0010f1e8                __interrupts_get_and_disable_change_to_arm
-                0x0010f170                __dispatch_change_to_arm
-                0x0010f1a8                ____mulsf3_change_to_arm
-                0x0010f1e0                ____gtdf2_change_to_arm
-                0x0010f1cd                ____floatsidf_from_thumb
-                0x0010f198                ____floatsisf_change_to_arm
-                0x0010f1f5                __display_bios_status_from_thumb
-                0x0010f1bc                ____subsf3_from_thumb
-                0x0010f160                __disable_int_change_to_arm
-                0x0010f1a0                ____ltsf2_change_to_arm
-                0x0010f1a4                ____mulsf3_from_thumb
-                0x0010f1ac                ____addsf3_from_thumb
-                0x0010f1d5                ____muldf3_from_thumb
-                0x0010f1c0                ____subsf3_change_to_arm
-                0x0010f168                __enable_int_change_to_arm
-                0x0010f1d0                ____floatsidf_change_to_arm
-                0x0010f1ec                __interrupts_enable_from_thumb
-                0x0010f1f8                __display_bios_status_change_to_arm
-                0x0010f178                __start_dispatch_change_to_arm
-                0x0010f200                . = ALIGN (0x10)
- *fill*         0x0010f1fc        0x4 00
+                0x0010de6c        0x4 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(osek_hook.o)
+                0x0010de6c                PostTaskHook
+ .text          0x0010de70       0x8c /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_udivsi3.o)
+                0x0010de70                __udivsi3
+                0x0010deec                __aeabi_uidivmod
+ .text          0x0010defc       0xa4 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_divsi3.o)
+                0x0010defc                __divsi3
+                0x0010df90                __aeabi_idivmod
+ .text          0x0010dfa0       0xc8 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_umodsi3.o)
+                0x0010dfa0                __umodsi3
+ .text          0x0010e068       0xd8 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_modsi3.o)
+                0x0010e068                __modsi3
+ .text          0x0010e140        0x4 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_dvmd_tls.o)
+                0x0010e140                __aeabi_ldiv0
+                0x0010e140                __div0
+                0x0010e140                __aeabi_idiv0
+ .text          0x0010e144      0x2ac /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_addsubsf3.o)
+                0x0010e150                __aeabi_fadd
+                0x0010e14c                __subsf3
+                0x0010e314                __aeabi_i2f
+                0x0010e14c                __aeabi_fsub
+                0x0010e344                __floatdisf
+                0x0010e314                __floatsisf
+                0x0010e334                __floatundisf
+                0x0010e30c                __aeabi_ui2f
+                0x0010e344                __aeabi_l2f
+                0x0010e334                __aeabi_ul2f
+                0x0010e144                __aeabi_frsub
+                0x0010e30c                __floatunsisf
+                0x0010e150                __addsf3
+ .text          0x0010e3f0      0x2f8 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_muldivsf3.o)
+                0x0010e588                __divsf3
+                0x0010e588                __aeabi_fdiv
+                0x0010e3f0                __mulsf3
+                0x0010e3f0                __aeabi_fmul
+ .text          0x0010e6e8      0x110 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_cmpsf2.o)
+                0x0010e7e0                __aeabi_fcmpgt
+                0x0010e6f0                __lesf2
+                0x0010e6f8                __nesf2
+                0x0010e7c8                __aeabi_fcmpge
+                0x0010e6e8                __gtsf2
+                0x0010e7b0                __aeabi_fcmple
+                0x0010e6f8                __eqsf2
+                0x0010e6f8                __cmpsf2
+                0x0010e6f0                __ltsf2
+                0x0010e768                __aeabi_cfcmple
+                0x0010e6e8                __gesf2
+                0x0010e780                __aeabi_fcmpeq
+                0x0010e758                __aeabi_cfrcmple
+                0x0010e798                __aeabi_fcmplt
+                0x0010e768                __aeabi_cfcmpeq
+ .text          0x0010e7f8       0x5c /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libgcc.a(_fixsfsi.o)
+                0x0010e7f8                __fixsfsi
+                0x0010e7f8                __aeabi_f2iz
+ .text          0x0010e854        0xc /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(abs.o)
+                0x0010e854                abs
+ .text          0x0010e860       0x28 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(malloc.o)
+                0x0010e860                malloc
+                0x0010e874                free
+ .text          0x0010e888      0x548 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(mallocr.o)
+                0x0010e888                _malloc_r
+ .text          0x0010edd0       0x68 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(memcpy.o)
+                0x0010edd0                memcpy
+ .text          0x0010ee38       0x68 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(memset.o)
+                0x0010ee38                memset
+ .text          0x0010eea0        0x8 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(mlock.o)
+                0x0010eea4                __malloc_unlock
+                0x0010eea0                __malloc_lock
+ .text          0x0010eea8       0x60 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(strcpy.o)
+                0x0010eea8                strcpy
+ .text          0x0010ef08       0x48 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(strlen.o)
+                0x0010ef08                strlen
+ .text          0x0010ef50      0x260 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(freer.o)
+                0x0010eff0                _free_r
+                0x0010ef50                _malloc_trim_r
+ .glue_7        0x0010f1b0       0x30 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(freer.o)
+                0x0010f1c8                __call_posttaskhook_from_arm
+                0x0010f1b1                __ecrobot_debug1_from_arm
+                0x0010f1bd                __ecrobot_debug2_from_arm
+                0x0010f1d4                __call_pretaskhook_from_arm
+ .glue_7t       0x0010f1e0       0xa0 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(freer.o)
+                0x0010f20c                __start_change_to_arm
+                0x0010f268                __interrupts_get_and_disable_from_thumb
+                0x0010f261                ____gtdf2_from_thumb
+                0x0010f201                __exit_and_dispatch_from_thumb
+                0x0010f248                ____divsf3_from_thumb
+                0x0010f214                ____gesf2_change_to_arm
+                0x0010f23c                ____fixsfsi_change_to_arm
+                0x0010f234                ____addsf3_change_to_arm
+                0x0010f238                ____fixsfsi_from_thumb
+                0x0010f218                ____floatsisf_from_thumb
+                0x0010f204                __exit_and_dispatch_change_to_arm
+                0x0010f1e0                __disable_int_from_thumb
+                0x0010f210                ____gesf2_from_thumb
+                0x0010f1f8                __start_dispatch_from_thumb
+                0x0010f220                ____ltsf2_from_thumb
+                0x0010f208                __start_from_thumb
+                0x0010f25c                ____muldf3_change_to_arm
+                0x0010f24c                ____divsf3_change_to_arm
+                0x0010f1e8                __enable_int_from_thumb
+                0x0010f1f1                __dispatch_from_thumb
+                0x0010f274                __interrupts_enable_change_to_arm
+                0x0010f26c                __interrupts_get_and_disable_change_to_arm
+                0x0010f1f4                __dispatch_change_to_arm
+                0x0010f22c                ____mulsf3_change_to_arm
+                0x0010f264                ____gtdf2_change_to_arm
+                0x0010f251                ____floatsidf_from_thumb
+                0x0010f21c                ____floatsisf_change_to_arm
+                0x0010f279                __display_bios_status_from_thumb
+                0x0010f240                ____subsf3_from_thumb
+                0x0010f1e4                __disable_int_change_to_arm
+                0x0010f224                ____ltsf2_change_to_arm
+                0x0010f228                ____mulsf3_from_thumb
+                0x0010f230                ____addsf3_from_thumb
+                0x0010f259                ____muldf3_from_thumb
+                0x0010f244                ____subsf3_change_to_arm
+                0x0010f1ec                __enable_int_change_to_arm
+                0x0010f254                ____floatsidf_change_to_arm
+                0x0010f270                __interrupts_enable_from_thumb
+                0x0010f27c                __display_bios_status_change_to_arm
+                0x0010f1fc                __start_dispatch_change_to_arm
+                0x0010f280                . = ALIGN (0x10)
  *(*.rodata *.rodata.*)
  .rodata.tinib_stksz
-                0x0010f200        0x2 build/./kernel_cfg.o
-                0x0010f200                tinib_stksz
- *fill*         0x0010f202        0x2 00
+                0x0010f280        0x2 build/./kernel_cfg.o
+                0x0010f280                tinib_stksz
+ *fill*         0x0010f282        0x2 00
  .rodata.tinib_stk
-                0x0010f204        0x4 build/./kernel_cfg.o
-                0x0010f204                tinib_stk
+                0x0010f284        0x4 build/./kernel_cfg.o
+                0x0010f284                tinib_stk
  .rodata.tinib_task
-                0x0010f208        0x4 build/./kernel_cfg.o
-                0x0010f208                tinib_task
+                0x0010f288        0x4 build/./kernel_cfg.o
+                0x0010f288                tinib_task
  .rodata.tinib_autoact
-                0x0010f20c        0x1 build/./kernel_cfg.o
-                0x0010f20c                tinib_autoact
+                0x0010f28c        0x1 build/./kernel_cfg.o
+                0x0010f28c                tinib_autoact
  .rodata.tinib_exepri
-                0x0010f20d        0x1 build/./kernel_cfg.o
-                0x0010f20d                tinib_exepri
+                0x0010f28d        0x1 build/./kernel_cfg.o
+                0x0010f28d                tinib_exepri
  .rodata.tinib_inipri
-                0x0010f20e        0x1 build/./kernel_cfg.o
-                0x0010f20e                tinib_inipri
+                0x0010f28e        0x1 build/./kernel_cfg.o
+                0x0010f28e                tinib_inipri
  .rodata.tnum_exttask
-                0x0010f20f        0x1 build/./kernel_cfg.o
-                0x0010f20f                tnum_exttask
+                0x0010f28f        0x1 build/./kernel_cfg.o
+                0x0010f28f                tnum_exttask
  .rodata.tnum_task
-                0x0010f210        0x1 build/./kernel_cfg.o
-                0x0010f210                tnum_task
- *fill*         0x0010f211        0x3 00
+                0x0010f290        0x1 build/./kernel_cfg.o
+                0x0010f290                tnum_task
+ *fill*         0x0010f291        0x3 00
  .rodata.exec_addr
-                0x0010f214        0x4 build/ecrobot_base.o
-                0x0010f214                exec_addr
+                0x0010f294        0x4 build/ecrobot_base.o
+                0x0010f294                exec_addr
  .rodata.str1.4
-                0x0010f218       0x80 build/ecrobot_base.o
+                0x0010f298       0x80 build/ecrobot_base.o
  .rodata.str1.4
-                0x0010f298        0xf build/src/main.o
+                0x0010f318        0xf build/src/main.o
                                  0x10 (size before relaxing)
- *fill*         0x0010f2a7        0x1 00
+ *fill*         0x0010f327        0x1 00
  .rodata.str1.4
-                0x0010f2a8        0x2 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(impure.o)
+                0x0010f328        0x2 /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/../../../../arm-elf/lib/thumb/interwork/libc.a(impure.o)
                                   0x4 (size before relaxing)
-                0x0010f2b0                . = ALIGN (0x10)
- *fill*         0x0010f2aa        0x6 00
+                0x0010f330                . = ALIGN (0x10)
+ *fill*         0x0010f32a        0x6 00
  *(*.gnu.linkonce.* .gcc_except_table)
-                0x0010f2b0                . = ALIGN (0x10)
+                0x0010f330                . = ALIGN (0x10)
 
-.tors           0x0010f2b0        0x0
-                0x0010f2b0                . = ALIGN (0x10)
-                0x0010f2b0                __ctor_begin = .
+.tors           0x0010f330        0x0
+                0x0010f330                . = ALIGN (0x10)
+                0x0010f330                __ctor_begin = .
  *(*.ctors*)
-                0x0010f2b0                __ctor_end = .
-                0x0010f2b0                . = ALIGN (0x10)
-                0x0010f2b0                __dtor_begin = .
+                0x0010f330                __ctor_end = .
+                0x0010f330                . = ALIGN (0x10)
+                0x0010f330                __dtor_begin = .
  *(*.dtors*)
-                0x0010f2b0                __dtor_end = .
-                0x0010f2b0                . = ALIGN (0x10)
-                0x0010f2b0                __rom_end__ = __dtor_end
+                0x0010f330                __dtor_end = .
+                0x0010f330                . = ALIGN (0x10)
+                0x0010f330                __rom_end__ = __dtor_end
 
-.bss            0x00203ba0     0x126c
+.bss            0x00203ba0     0x1268
  *(*.bss *.bss.*)
  .bss.ready_primap
                 0x00203ba0        0x2 build/kernel/task.o
@@ -1191,32 +1190,32 @@ LOAD /cygdrive/C/cygwin/GNUARM/bin/../lib/gcc/arm-elf/4.0.2/thumb/interwork/libg
                 0x00204878                tcxb_sp
                 0x0020487c                almcb_next
                 0x00204880                cntcb_curval
- COMMON         0x00204884      0x21c build/src/main.o
+ COMMON         0x00204884      0x218 build/src/main.o
                 0x00204884                global_instructions
                 0x00204888                orientation
                 0x0020488c                black
                 0x00204890                tokencount
                 0x00204894                ptrmap
                 0x00204a8c                current_position
-                0x00204a94                discovered_everything
-                0x00204a98                current_node
-                0x00204a9c                white
- COMMON         0x00204aa0       0x44 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(uart.oram)
-                0x00204aa0                uart
- COMMON         0x00204ae4        0x4 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(data_abort.oram)
-                0x00204ae4                data_abort_pc
- COMMON         0x00204ae8        0x8 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(display.oram)
-                0x00204ae8                display_x
-                0x00204aec                display_y
- COMMON         0x00204af0      0x31c /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(sound.oram)
-                0x00204af0                sample
+                0x00204a90                discovered_everything
+                0x00204a94                current_node
+                0x00204a98                white
+ COMMON         0x00204a9c       0x44 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(uart.oram)
+                0x00204a9c                uart
+ COMMON         0x00204ae0        0x4 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(data_abort.oram)
+                0x00204ae0                data_abort_pc
+ COMMON         0x00204ae4        0x8 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(display.oram)
+                0x00204ae4                display_x
+                0x00204ae8                display_y
+ COMMON         0x00204aec      0x31c /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(sound.oram)
+                0x00204aec                sample
                 0x00203ba0                __bss_start__ = ADDR (.bss)
-                0x00204e0c                __bss_end__ = (ADDR (.bss) + SIZEOF (.bss))
-                0x00204e0c                PROVIDE (end, .)
+                0x00204e08                __bss_end__ = (ADDR (.bss) + SIZEOF (.bss))
+                0x00204e08                PROVIDE (end, .)
 
-.heap_area      0x00204e0c     0xad6c
+.heap_area      0x00204e08     0xad70
                 0x0020fb78                . = (. + (0x20fb78 - end))
- *fill*         0x00204e0c     0xad6c 00
+ *fill*         0x00204e08     0xad70 00
 
 .stack          0x0020fb78      0x488
                 0x0020fbf8                . = (. + 0x80)
@@ -1548,8 +1547,6 @@ GetTaskID                                         build/kernel/task_manage.o
 GetTaskState                                      build/kernel/task_manage.o
 NXT_Entry_Point                                   build/nxt_entry_point.o
                                                   build/nxt_binary_header.o
-Node_center_case1                                 build/src/main.o
-Node_center_case2                                 build/src/main.o
 OSEK_Main_Task                                    build/./kernel_cfg.o
 PostTaskHook                                      /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(osek_hook.o)
                                                   build/config/at91sam7s-gnu/cpu_support.oram
@@ -2170,7 +2167,6 @@ get_OS_flag                                       build/ecrobot_base.o
 get_device_status                                 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)
 global_instructions                               build/src/main.o
 go_straight                                       build/src/main.o
-goto_Node_center                                  build/src/main.o
 has_flash_request                                 /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(flash_loader.oram)
 i2c_busy                                          /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(i2c.oram)
                                                   /cygdrive/C/cygwin/nxtOSEK/ecrobot/../ecrobot/libecrobot.a(ecrobot_interface.o)

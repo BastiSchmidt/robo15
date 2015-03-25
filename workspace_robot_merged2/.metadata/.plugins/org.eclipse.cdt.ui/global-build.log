@@ -94,3 +94,579 @@ cygwin warning:
   CYGWIN environment variable option "nodosfilewarning" turns off this warning.
   Consult the user's guide for more details about POSIX paths:
     http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+13:53:09 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Compiling src/main.c to main.o
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+13:55:05 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+13:56:49 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+14:28:32 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Compiling src/main.c to main.o
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+14:33:07 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+14:34:22 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+12:35:39 **** Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+12:35:45 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+12:35:51 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+12:40:26 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+Compiling src/main.c to main.o
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+12:42:19 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Compiling src/main.c to main.o
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+12:42:40 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+12:49:56 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+Compiling src/main.c to main.o
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+12:53:47 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Compiling src/main.c to main.o
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+12:56:46 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+13:32:07 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+13:39:57 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+13:44:15 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+13:49:22 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+Compiling src/main.c to main.o
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+14:26:32 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Compiling src/main.c to main.o
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+14:28:32 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+14:30:20 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+14:32:32 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+14:34:17 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+Compiling src/main.c to main.o
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+14:34:21 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+14:34:25 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+14:34:30 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+14:34:34 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+14:37:34 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+14:43:59 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+14:46:41 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+14:51:51 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Compiling src/main.c to main.o
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+14:54:50 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+Compiling src/main.c to main.o
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+15:00:59 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+15:03:19 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+Compiling src/main.c to main.o
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+15:06:12 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+Compiling src/main.c to main.o
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+15:09:49 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+15:14:27 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+15:20:00 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+Compiling src/main.c to main.o
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+15:23:50 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+15:27:19 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+Compiling src/main.c to main.o
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+15:37:26 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+15:50:44 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+Compiling src/main.c to main.o
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+15:53:28 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+Compiling src/main.c to main.o
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+src/main.c: In function ‘checkline’:
+src/main.c:347: error: implicit declaration of function ‘systick_wait’
+make: *** [build/src/main.o] Error 1
+15:55:25 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+15:57:53 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+Compiling src/main.c to main.o
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+16:00:50 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+16:13:48 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+Compiling src/main.c to main.o
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+16:22:04 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+Compiling src/main.c to main.o
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+16:23:55 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+Compiling src/main.c to main.o
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+16:27:50 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+Compiling src/main.c to main.o
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
+16:31:05 **** Incremental Build of configuration Default for project example ****
+make all 
+cygwin warning:
+  MS-DOS style path detected: C:\Users\toothstone\Documents\GitHub\robo15\workspace_robot_merged2\example\
+  Preferred POSIX equivalent is: /cygdrive/c/Users/toothstone/Documents/GitHub/robo15/workspace_robot_merged2/example/
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+Compiling src/main.c to main.o
+Generating binary image file: main_rom.bin
+Generating binary image file: main_ram.bin
+Generating binary image file: main.rxe
