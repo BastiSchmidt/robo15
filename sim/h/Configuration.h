@@ -31,7 +31,7 @@
 #define MAZE_WIDTH 7
 #define MAZE_HEIGHT 7
 
-#define TOKEN_AIM 9999
+#define TOKEN_AIM 3
 
 //Current orientation of bot
 int orientation;

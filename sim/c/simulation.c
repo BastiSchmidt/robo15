@@ -72,6 +72,10 @@ int turn_right(){
 
 //go forward in current orientation, regardless of edge or no edge present
 int go_straight(){
+    time_t cur_time;
+    time(&cur_time);
+    time_t next_time = cur_time + 1;
+    while(cur_time != next_time) time(&cur_time);
     int result = move_d(orientation);
     current_node = ptrmap[current_position.x + MAZE_WIDTH]
             [current_position.y + MAZE_HEIGHT];
